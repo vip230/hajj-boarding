@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تفويج الحجاج - المرحلة الأولى</title>
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 820px;
+      margin: 20px auto;
+      padding: 16px;
+      background: #f7f7f7;
+    }
+
+    .box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      margin-bottom: 16px;
+    }
+
+    h2, h3 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input, select, button, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      border: none;
+      background: #0b57d0;
+      color: white;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .stop-btn {
+      background: #5f6368;
+    }
+
+    .manifest-btn {
+      background: #0f9d58;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    #reader {
+      width: 100%;
+      margin-top: 12px;
+    }
+
+    #status {
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      background: #eef3fd;
+      white-space: pre-line;
+      line-height: 1.8;
+      word-break: break-word;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .info-item {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 10px;
+      border: 1px solid #e5e5e5;
+    }
+
+    .info-title {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 4px;
+    }
+
+    .info-value {
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .hint {
+      color: #666;
+      font-size: 14px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 700px) {
+      .row, .info-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>تفويج حجاج مشاعل النور - تسجيل الصعود</h2>
+
+    <div class="row">
+      <div>
+        <label for="busNumber">رقم الحافلة</label>
+        <select id="busNumber">
+          <option value="">اختر رقم الحافلة</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+          <option value="13">13</option>
+          <option value="14">14</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="proofType">نوع الإثبات</label>
+        <select id="proofType">
+          <option value="">اختر نوع الإثبات</option>
+          <option value="بطاقة الحملة">بطاقة الحملة</option>
+          <option value="تصريح الحاج">تصريح الحاج</option>
+          <option value="إدخال يدوي">إدخال يدوي</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="userName">اسم المستخدم</label>
+        <input type="text" id="userName" placeholder="اسم الموظف أو المشرف" />
+      </div>
+
+      <div>
+        <label for="manualId">إدخال يدوي لرقم الهوية</label>
+        <input type="text" id="manualId" placeholder="اكتب رقم الهوية عند الحاجة" />
+        <button onclick="submitManualId()">تسجيل يدوي</button>
+      </div>
+    </div>
+
+    <label for="notes">ملاحظات</label>
+    <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
+
+    <button onclick="startScanner()">تشغيل الكاميرا</button>
+    <button class="stop-btn" onclick="stopScanner()">إيقاف الكاميرا</button>
+    <button class="manifest-btn" onclick="generateManifest()">تجهيز المنفست</button>
+
+    <div class="hint">اختر الحافلة ونوع الإثبات واسم المستخدم، ثم ابدأ المسح.</div>
+
+    <div id="reader"></div>
+    <div id="status">الحالة: جاهز</div>
+  </div>
+
+  <div class="box">
+    <h3>آخر عملية</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-title">اسم الحاج</div>
+        <div class="info-value" id="lastName">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">رقم الهوية</div>
+        <div class="info-value" id="lastId">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">الجنسية</div>
+        <div class="info-value" id="lastNationality">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">رقم التصريح</div>
+        <div class="info-value" id="lastPermit">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">رقم الجوال</div>
+        <div class="info-value" id="lastMobile">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">المشرف</div>
+        <div class="info-value" id="lastSupervisor">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">رقم الحافلة</div>
+        <div class="info-value" id="lastBus">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">رقم اللوحة</div>
+        <div class="info-value" id="lastPlate">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">العدد الحالي</div>
+        <div class="info-value" id="lastCount">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">حالة الحافلة</div>
+        <div class="info-value" id="lastBusStatus">-</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwXu2ST5csMxoX0hZNB1vYp8NajcWEYAwoMzClbK2fbPssv3fSDf5j62CcqKtOZ5w9Kjw/exec';
+    const REQUIRED_ID_LENGTH = 10;
+
+    let html5QrCode = null;
+    let isSaving = false;
+    let lastScannedValue = '';
+    let lastScannedAt = 0;
+
+    function setStatus(msg) {
+      document.getElementById('status').innerText = 'الحالة: ' + msg;
+    }
+
+    function normalizeDigits(text) {
+      const arabicNums = '٠١٢٣٤٥٦٧٨٩';
+      return String(text).replace(/[٠-٩]/g, d => String(arabicNums.indexOf(d)));
+    }
+
+    function extractId(rawText) {
+      const text = normalizeDigits(String(rawText)).trim();
+
+      if (/^\d+$/.test(text)) return text;
+
+      const match = text.match(/\d{6,}/);
+      return match ? match[0] : text;
+    }
+
+    function playSuccessSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const audioContext = new AudioCtx();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(900, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + 0.15);
+      } catch (e) {
+        console.log('تعذر تشغيل الصوت', e);
+      }
+    }
+
+    function validateForm() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+      const proofType = document.getElementById('proofType').value.trim();
+      const userName = document.getElementById('userName').value.trim();
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة');
+        return false;
+      }
+
+      if (!proofType) {
+        setStatus('الرجاء اختيار نوع الإثبات');
+        return false;
+      }
+
+      if (!userName) {
+        setStatus('الرجاء إدخال اسم المستخدم');
+        return false;
+      }
+
+      return true;
+    }
+
+    async function startScanner() {
+      if (!validateForm()) return;
+      if (html5QrCode) return;
+
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          setStatus('المتصفح أو الصفحة الحالية لا تدعم تشغيل الكاميرا هنا.');
+          return;
+        }
+
+        html5QrCode = new Html5Qrcode("reader");
+
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          {
+            fps: 15,
+            qrbox: { width: 220, height: 220 },
+            aspectRatio: 1.0
+          },
+          onScanSuccess,
+          function () {}
+        );
+
+        setStatus('تم تشغيل الكاميرا. وجّهها نحو الباركود أو QR.');
+      } catch (err) {
+        console.error("Camera start error:", err);
+        const msg =
+          (err && err.message) ||
+          (err && err.name) ||
+          JSON.stringify(err) ||
+          'خطأ غير معروف';
+        setStatus('فشل تشغيل الكاميرا: ' + msg);
+      }
+    }
+
+    async function stopScanner() {
+      if (!html5QrCode) return;
+
+      try {
+        await html5QrCode.stop();
+        await html5QrCode.clear();
+      } catch (e) {}
+
+      html5QrCode = null;
+      setStatus('تم إيقاف الكاميرا.');
+    }
+
+    function fillLastOperation(result, sentId) {
+      document.getElementById('lastName').innerText = result.name || '-';
+      document.getElementById('lastId').innerText = result.id || sentId || '-';
+      document.getElementById('lastNationality').innerText = result.nationality || '-';
+      document.getElementById('lastPermit').innerText = result.permitNumber || '-';
+      document.getElementById('lastMobile').innerText = result.mobile || '-';
+      document.getElementById('lastSupervisor').innerText = result.supervisor || '-';
+      document.getElementById('lastBus').innerText = result.busNumber || '-';
+      document.getElementById('lastPlate').innerText = result.plateNumber || '-';
+      document.getElementById('lastCount').innerText =
+        (result.currentCount != null && result.capacity != null)
+          ? (result.currentCount + ' / ' + result.capacity)
+          : '-';
+      document.getElementById('lastBusStatus').innerText = result.busStatus || '-';
+    }
+
+    async function sendBoardingData(idValue) {
+      if (!validateForm()) return;
+
+      const normalizedId = normalizeDigits(idValue).trim();
+
+      if (!/^\d+$/.test(normalizedId)) {
+        setStatus('رقم الهوية غير صالح');
+        return;
+      }
+
+      if (normalizedId.length !== REQUIRED_ID_LENGTH) {
+        setStatus('رقم الهوية يجب أن يكون 10 أرقام');
+        return;
+      }
+
+      const now = Date.now();
+
+      if (normalizedId === lastScannedValue && (now - lastScannedAt) < 2000) {
+        return;
+      }
+
+      if (isSaving) return;
+
+      isSaving = true;
+      lastScannedValue = normalizedId;
+      lastScannedAt = now;
+
+      const busNumber = document.getElementById('busNumber').value.trim();
+      const proofType = document.getElementById('proofType').value.trim();
+      const userName = document.getElementById('userName').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+
+      try {
+        setStatus("تمت القراءة: " + normalizedId + "\nجارٍ تسجيل الصعود...");
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            id: normalizedId,
+            busNumber: busNumber,
+            proofType: proofType,
+            userName: userName,
+            notes: notes
+          })
+        });
+
+        const result = await response.json();
+
+        fillLastOperation(result, normalizedId);
+
+        if (result.success) {
+          playSuccessSound();
+
+          let extra = "";
+          if (result.manifestGenerated) {
+            extra = "\nتم تجهيز المنفست تلقائيًا.";
+          }
+
+          setStatus(
+            "تم تسجيل الصعود بنجاح.\n" +
+            "اسم الحاج: " + (result.name || '-') + "\n" +
+            "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
+            "العدد الحالي: " + (result.currentCount || 0) + " / " + (result.capacity || 0) + "\n" +
+            "حالة الحافلة: " + (result.busStatus || '-') +
+            extra
+          );
+        } else {
+          setStatus("فشل العملية: " + (result.message || 'حدث خطأ'));
+        }
+      } catch (error) {
+        setStatus("حدث خطأ أثناء الإرسال: " + error.message);
+      }
+
+      setTimeout(() => {
+        isSaving = false;
+      }, 1500);
+    }
+
+    async function onScanSuccess(decodedText, decodedResult) {
+      const extractedId = extractId(decodedText).trim();
+      await sendBoardingData(extractedId);
+    }
+
+    async function submitManualId() {
+      const manualId = document.getElementById('manualId').value.trim();
+      await sendBoardingData(manualId);
+    }
+
+    async function generateManifest() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ تجهيز المنفست للحافلة رقم ' + busNumber + ' ...');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'generateManifest',
+            busNumber: busNumber
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          setStatus(
+            "تم تجهيز المنفست بنجاح.\n" +
+            "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
+            "رقم اللوحة: " + (result.plateNumber || '-') + "\n" +
+            "عدد الركاب: " + (result.count || 0)
+          );
+        } else {
+          setStatus("فشل تجهيز المنفست: " + (result.message || 'حدث خطأ'));
+        }
+      } catch (error) {
+        setStatus("حدث خطأ أثناء تجهيز المنفست: " + error.message);
+      }
+    }
+  </script>
+</body>
+</html>
