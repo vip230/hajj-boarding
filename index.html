@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تفويج الحجاج - المرحلة الأولى</title>
+  <title>تفويج الحجاج - تسجيل الصعود</title>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   <style>
     body {
@@ -62,6 +62,10 @@
 
     .manifest-btn {
       background: #0f9d58;
+    }
+
+    .cancel-btn {
+      background: #d93025;
     }
 
     .row {
@@ -125,7 +129,7 @@
 </head>
 <body>
   <div class="box">
-    <h2>تفويج حجاج مشاعل النور - تسجيل الصعود</h2>
+    <h2>تفويج الحجاج - تسجيل الصعود</h2>
 
     <div class="row">
       <div>
@@ -152,12 +156,12 @@
       <div>
         <label for="proofType">نوع الإثبات</label>
         <select id="proofType">
-  <option value="">اختر نوع الإثبات</option>
-  <option value="بطاقة الحملة">بطاقة الحملة</option>
-  <option value="بطاقة نسك">بطاقة نسك</option>
-  <option value="تصريح الحاج">تصريح الحاج</option>
-  <option value="إدخال يدوي">إدخال يدوي</option>
-</select>
+          <option value="">اختر نوع الإثبات</option>
+          <option value="بطاقة الحملة">بطاقة الحملة</option>
+          <option value="بطاقة نسك">بطاقة نسك</option>
+          <option value="تصريح الحاج">تصريح الحاج</option>
+          <option value="إدخال يدوي">إدخال يدوي</option>
+        </select>
       </div>
     </div>
 
@@ -172,6 +176,15 @@
         <input type="text" id="manualId" placeholder="اكتب رقم الهوية عند الحاجة" />
         <button onclick="submitManualId()">تسجيل يدوي</button>
       </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="cancelId">رقم الهوية لإلغاء الصعود</label>
+        <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
+        <button class="cancel-btn" onclick="cancelBoarding()">إلغاء الصعود</button>
+      </div>
+      <div></div>
     </div>
 
     <label for="notes">ملاحظات</label>
@@ -456,6 +469,45 @@
     async function submitManualId() {
       const manualId = document.getElementById('manualId').value.trim();
       await sendBoardingData(manualId);
+    }
+
+    async function cancelBoarding() {
+      const cancelId = document.getElementById('cancelId').value.trim();
+
+      if (!cancelId) {
+        setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ إلغاء الصعود...');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'cancelBoarding',
+            id: cancelId
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          setStatus(
+            "تم إلغاء الصعود بنجاح.\n" +
+            "اسم الحاج: " + (result.name || '-') + "\n" +
+            "رقم الهوية: " + (result.id || '-') + "\n" +
+            "رقم الحافلة السابقة: " + (result.busNumber || '-')
+          );
+        } else {
+          setStatus("فشل إلغاء الصعود: " + (result.message || 'حدث خطأ'));
+        }
+      } catch (error) {
+        setStatus("حدث خطأ أثناء إلغاء الصعود: " + error.message);
+      }
     }
 
     async function generateManifest() {
