@@ -87,6 +87,35 @@
       white-space: pre-line;
       line-height: 1.8;
       word-break: break-word;
+      font-weight: bold;
+    }
+
+    .status-success {
+      background: #e6f4ea !important;
+      border: 2px solid #34a853;
+      color: #137333;
+      font-weight: bold;
+    }
+
+    .status-error {
+      background: #fce8e6 !important;
+      border: 2px solid #d93025;
+      color: #a50e0e;
+      font-weight: bold;
+    }
+
+    .status-warning {
+      background: #fef7e0 !important;
+      border: 2px solid #f9ab00;
+      color: #8d6500;
+      font-weight: bold;
+    }
+
+    .status-info {
+      background: #e8f0fe !important;
+      border: 2px solid #1a73e8;
+      color: #174ea6;
+      font-weight: bold;
     }
 
     .info-grid {
@@ -130,7 +159,9 @@
 <body>
   <div class="box">
     <h2>تفويج الحجاج - تسجيل الصعود</h2>
-    <div class="hint" style="margin-top:-8px;font-size:16px;font-weight:bold;">شركة مشاعل النور</div>
+    <div style="margin-top:-8px; font-size:28px; font-weight:bold; color:#0b57d0;">
+      شركة مشاعل النور لخدمات حجاج الداخل
+    </div>
 
     <div class="row">
       <div>
@@ -198,7 +229,7 @@
     <div class="hint">اختر الحافلة ونوع الإثبات واسم المستخدم، ثم ابدأ المسح.</div>
 
     <div id="reader"></div>
-    <div id="status">الحالة: جاهز</div>
+    <div id="status" class="status-info">الحالة: جاهز</div>
   </div>
 
   <div class="box">
@@ -299,8 +330,16 @@
     let lastScannedValue = '';
     let lastScannedAt = 0;
 
-    function setStatus(msg) {
-      document.getElementById('status').innerText = 'الحالة: ' + msg;
+    function setStatus(msg, type = 'info') {
+      const box = document.getElementById('status');
+      box.innerText = 'الحالة: ' + msg;
+
+      box.classList.remove('status-success', 'status-error', 'status-warning', 'status-info');
+
+      if (type === 'success') box.classList.add('status-success');
+      else if (type === 'error') box.classList.add('status-error');
+      else if (type === 'warning') box.classList.add('status-warning');
+      else box.classList.add('status-info');
     }
 
     function normalizeDigits(text) {
@@ -317,7 +356,7 @@
       return match ? match[0] : text;
     }
 
-    function playSuccessSound() {
+    function playTone(freq, duration = 0.18) {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const audioContext = new AudioCtx();
@@ -328,14 +367,26 @@
         gainNode.connect(audioContext.destination);
 
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(900, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
 
         oscillator.start();
-        oscillator.stop(audioContext.currentTime + 0.15);
+        oscillator.stop(audioContext.currentTime + duration);
       } catch (e) {
         console.log('تعذر تشغيل الصوت', e);
       }
+    }
+
+    function playSuccessSound() {
+      playTone(950, 0.18);
+    }
+
+    function playErrorSound() {
+      playTone(300, 0.22);
+    }
+
+    function playWarningSound() {
+      playTone(550, 0.20);
     }
 
     function validateForm() {
@@ -344,17 +395,17 @@
       const userName = document.getElementById('userName').value.trim();
 
       if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة');
+        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
         return false;
       }
 
       if (!proofType) {
-        setStatus('الرجاء اختيار نوع الإثبات');
+        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
         return false;
       }
 
       if (!userName) {
-        setStatus('الرجاء إدخال اسم المستخدم');
+        setStatus('الرجاء إدخال اسم المستخدم', 'warning');
         return false;
       }
 
@@ -367,7 +418,8 @@
 
       try {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          setStatus('المتصفح أو الصفحة الحالية لا تدعم تشغيل الكاميرا هنا.');
+          setStatus('المتصفح أو الصفحة الحالية لا تدعم تشغيل الكاميرا هنا.', 'error');
+          playErrorSound();
           return;
         }
 
@@ -384,7 +436,7 @@
           function () {}
         );
 
-        setStatus('تم تشغيل الكاميرا. وجّهها نحو الباركود أو QR.');
+        setStatus('تم تشغيل الكاميرا. وجّهها نحو الباركود أو QR.', 'info');
       } catch (err) {
         console.error("Camera start error:", err);
         const msg =
@@ -392,7 +444,8 @@
           (err && err.name) ||
           JSON.stringify(err) ||
           'خطأ غير معروف';
-        setStatus('فشل تشغيل الكاميرا: ' + msg);
+        playErrorSound();
+        setStatus('فشل تشغيل الكاميرا: ' + msg, 'error');
       }
     }
 
@@ -405,7 +458,7 @@
       } catch (e) {}
 
       html5QrCode = null;
-      setStatus('تم إيقاف الكاميرا.');
+      setStatus('تم إيقاف الكاميرا.', 'info');
     }
 
     function fillLastOperation(result, sentId) {
@@ -497,12 +550,14 @@
       const normalizedId = normalizeDigits(idValue).trim();
 
       if (!/^\d+$/.test(normalizedId)) {
-        setStatus('رقم الهوية غير صالح');
+        playErrorSound();
+        setStatus('رقم الهوية غير صالح', 'error');
         return;
       }
 
       if (normalizedId.length !== REQUIRED_ID_LENGTH) {
-        setStatus('رقم الهوية يجب أن يكون 10 أرقام');
+        playErrorSound();
+        setStatus('رقم الهوية يجب أن يكون 10 أرقام', 'error');
         return;
       }
 
@@ -524,7 +579,7 @@
       const notes = document.getElementById('notes').value.trim();
 
       try {
-        setStatus("تمت القراءة: " + normalizedId + "\nجارٍ تسجيل الصعود...");
+        setStatus("تمت القراءة: " + normalizedId + "\nجارٍ تسجيل الصعود...", 'info');
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
@@ -558,13 +613,16 @@
             "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
             "العدد الحالي: " + (result.currentCount || 0) + " / " + (result.capacity || 0) + "\n" +
             "حالة الحافلة: " + (result.busStatus || '-') +
-            extra
+            extra,
+            'success'
           );
         } else {
-          setStatus("فشل العملية: " + (result.message || 'حدث خطأ'));
+          playErrorSound();
+          setStatus("فشل العملية: " + (result.message || 'حدث خطأ'), 'error');
         }
       } catch (error) {
-        setStatus("حدث خطأ أثناء الإرسال: " + error.message);
+        playErrorSound();
+        setStatus("حدث خطأ أثناء الإرسال: " + error.message, 'error');
       }
 
       await loadBusLiveInfo();
@@ -588,12 +646,12 @@
       const cancelId = document.getElementById('cancelId').value.trim();
 
       if (!cancelId) {
-        setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود');
+        setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود', 'warning');
         return;
       }
 
       try {
-        setStatus('جارٍ إلغاء الصعود...');
+        setStatus('جارٍ إلغاء الصعود...', 'info');
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
@@ -609,17 +667,21 @@
         const result = await response.json();
 
         if (result.success) {
+          playWarningSound();
           setStatus(
             "تم إلغاء الصعود بنجاح.\n" +
             "اسم الحاج: " + (result.name || '-') + "\n" +
             "رقم الهوية: " + (result.id || '-') + "\n" +
-            "رقم الحافلة السابقة: " + (result.busNumber || '-')
+            "رقم الحافلة السابقة: " + (result.busNumber || '-'),
+            'warning'
           );
         } else {
-          setStatus("فشل إلغاء الصعود: " + (result.message || 'حدث خطأ'));
+          playErrorSound();
+          setStatus("فشل إلغاء الصعود: " + (result.message || 'حدث خطأ'), 'error');
         }
       } catch (error) {
-        setStatus("حدث خطأ أثناء إلغاء الصعود: " + error.message);
+        playErrorSound();
+        setStatus("حدث خطأ أثناء إلغاء الصعود: " + error.message, 'error');
       }
 
       await loadBusLiveInfo();
@@ -629,12 +691,12 @@
       const busNumber = document.getElementById('busNumber').value.trim();
 
       if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة أولًا');
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
         return;
       }
 
       try {
-        setStatus('جارٍ تجهيز المنفست للحافلة رقم ' + busNumber + ' ...');
+        setStatus('جارٍ تجهيز المنفست للحافلة رقم ' + busNumber + ' ...', 'info');
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
@@ -650,17 +712,21 @@
         const result = await response.json();
 
         if (result.success) {
+          playSuccessSound();
           setStatus(
             "تم تجهيز المنفست بنجاح.\n" +
             "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
             "رقم اللوحة: " + (result.plateNumber || '-') + "\n" +
-            "عدد الركاب: " + (result.count || 0)
+            "عدد الركاب: " + (result.count || 0),
+            'success'
           );
         } else {
-          setStatus("فشل تجهيز المنفست: " + (result.message || 'حدث خطأ'));
+          playErrorSound();
+          setStatus("فشل تجهيز المنفست: " + (result.message || 'حدث خطأ'), 'error');
         }
       } catch (error) {
-        setStatus("حدث خطأ أثناء تجهيز المنفست: " + error.message);
+        playErrorSound();
+        setStatus("حدث خطأ أثناء تجهيز المنفست: " + error.message, 'error');
       }
 
       await loadBusLiveInfo();
