@@ -312,6 +312,10 @@
         <div class="info-value" id="statsOpenBuses">-</div>
       </div>
       <div class="info-item">
+        <div class="info-title">الحافلات التي انطلقت</div>
+        <div class="info-value" id="statsDepartedBuses">-</div>
+      </div>
+      <div class="info-item">
         <div class="info-title">الحافلات الباقية</div>
         <div class="info-value" id="statsRemainingBuses">-</div>
       </div>
@@ -346,7 +350,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyuzqU63Dby3hj5clnHTJlVw4ijTK2up8USRmfGEUddC8jQ_8JyQpj-25c50c136IBj2w/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYWhp58n2rLlpW2IeiT__TTn6kO3ggpveznWJqeMazsjeyci0np470RAxY-IrXQkWSAg/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -569,6 +573,7 @@
         if (!result.success) return;
 
         document.getElementById('statsOpenBuses').innerText = result.openBusesCount ?? '-';
+        document.getElementById('statsDepartedBuses').innerText = result.departedBusesCount ?? '-';
         document.getElementById('statsRemainingBuses').innerText = result.remainingBusesCount ?? '-';
         document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
         document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
