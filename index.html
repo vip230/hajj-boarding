@@ -234,6 +234,27 @@
     <div id="status" class="status-info">الحالة: جاهز</div>
   </div>
 
+  <!-- العمليات الثانوية -->
+  <div class="box">
+    <h3>العمليات الثانوية</h3>
+
+    <div class="row">
+      <div>
+        <label for="manualId">إدخال يدوي لرقم الهوية</label>
+        <input type="text" id="manualId" placeholder="اكتب رقم الهوية عند الحاجة" />
+        <button onclick="submitManualId()">تسجيل يدوي</button>
+      </div>
+
+      <div>
+        <label for="cancelId">رقم الهوية لإلغاء الصعود</label>
+        <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
+        <button class="cancel-btn" onclick="cancelBoarding()">إلغاء الصعود</button>
+      </div>
+    </div>
+
+    <button class="manifest-btn" onclick="generateManifest()">تجهيز المنفست</button>
+  </div>
+
   <!-- معلومات الحافلة الحالية -->
   <div class="box">
     <h3>معلومات الحافلة الحالية</h3>
@@ -273,78 +294,10 @@
     </div>
   </div>
 
-  <!-- آخر العمليات -->
+  <!-- سجل العمليات الأخيرة -->
   <div class="box">
-    <h3>آخر العمليات</h3>
+    <h3>سجل العمليات الأخيرة</h3>
     <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
-  </div>
-
-  <!-- آخر عملية -->
-  <div class="box">
-    <h3>آخر عملية</h3>
-    <div class="info-grid">
-      <div class="info-item">
-        <div class="info-title">اسم الحاج</div>
-        <div class="info-value" id="lastName">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">رقم الهوية</div>
-        <div class="info-value" id="lastId">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">الجنسية</div>
-        <div class="info-value" id="lastNationality">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">رقم التصريح</div>
-        <div class="info-value" id="lastPermit">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">رقم الجوال</div>
-        <div class="info-value" id="lastMobile">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">المشرف</div>
-        <div class="info-value" id="lastSupervisor">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">رقم الحافلة</div>
-        <div class="info-value" id="lastBus">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">رقم اللوحة</div>
-        <div class="info-value" id="lastPlate">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">العدد الحالي</div>
-        <div class="info-value" id="lastCount">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">حالة الحافلة</div>
-        <div class="info-value" id="lastBusStatus">-</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- العمليات الثانوية -->
-  <div class="box">
-    <h3>العمليات الثانوية</h3>
-
-    <div class="row">
-      <div>
-        <label for="manualId">إدخال يدوي لرقم الهوية</label>
-        <input type="text" id="manualId" placeholder="اكتب رقم الهوية عند الحاجة" />
-        <button onclick="submitManualId()">تسجيل يدوي</button>
-      </div>
-
-      <div>
-        <label for="cancelId">رقم الهوية لإلغاء الصعود</label>
-        <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
-        <button class="cancel-btn" onclick="cancelBoarding()">إلغاء الصعود</button>
-      </div>
-    </div>
-
-    <button class="manifest-btn" onclick="generateManifest()">تجهيز المنفست</button>
   </div>
 
   <script>
@@ -487,22 +440,6 @@
       setStatus('تم إيقاف الكاميرا.', 'info');
     }
 
-    function fillLastOperation(result, sentId) {
-      document.getElementById('lastName').innerText = result.name || '-';
-      document.getElementById('lastId').innerText = result.id || sentId || '-';
-      document.getElementById('lastNationality').innerText = result.nationality || '-';
-      document.getElementById('lastPermit').innerText = result.permitNumber || '-';
-      document.getElementById('lastMobile').innerText = result.mobile || '-';
-      document.getElementById('lastSupervisor').innerText = result.supervisor || '-';
-      document.getElementById('lastBus').innerText = result.busNumber || '-';
-      document.getElementById('lastPlate').innerText = result.plateNumber || '-';
-      document.getElementById('lastCount').innerText =
-        (result.currentCount != null && result.capacity != null)
-          ? (result.currentCount + ' / ' + result.capacity)
-          : '-';
-      document.getElementById('lastBusStatus').innerText = result.busStatus || '-';
-    }
-
     async function loadBusLiveInfo() {
       const busNumber = document.getElementById('busNumber').value.trim();
 
@@ -622,8 +559,6 @@
         });
 
         const result = await response.json();
-
-        fillLastOperation(result, normalizedId);
 
         if (result.success) {
           playSuccessSound();
