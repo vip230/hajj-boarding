@@ -68,6 +68,14 @@
       background: #d93025;
     }
 
+    .depart-btn {
+      background: #7b1fa2;
+    }
+
+    .search-btn {
+      background: #1565c0;
+    }
+
     .row {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -164,13 +172,11 @@
   </style>
 </head>
 <body>
-  <!-- العنوان -->
   <div class="box">
     <h2>تفويج الحجاج - تسجيل الصعود</h2>
     <div class="section-subtitle">شركة مشاعل النور</div>
   </div>
 
-  <!-- بيانات التشغيل -->
   <div class="box">
     <h3>بيانات التشغيل</h3>
 
@@ -221,7 +227,6 @@
     </div>
   </div>
 
-  <!-- المسح -->
   <div class="box">
     <h3>المسح</h3>
 
@@ -234,7 +239,6 @@
     <div id="status" class="status-info">الحالة: جاهز</div>
   </div>
 
-  <!-- العمليات الثانوية -->
   <div class="box">
     <h3>العمليات الثانوية</h3>
 
@@ -252,10 +256,16 @@
       </div>
     </div>
 
-    <button class="manifest-btn" onclick="generateManifest()">تجهيز المنفست</button>
+    <div class="row">
+      <div>
+        <button class="manifest-btn" onclick="generateManifest()">تجهيز المنفست</button>
+      </div>
+      <div>
+        <button class="depart-btn" onclick="departBus()">إعلان انطلاق الحافلة</button>
+      </div>
+    </div>
   </div>
 
-  <!-- معلومات الحافلة الحالية -->
   <div class="box">
     <h3>معلومات الحافلة الحالية</h3>
     <div class="info-grid">
@@ -294,14 +304,27 @@
     </div>
   </div>
 
-  <!-- سجل العمليات الأخيرة -->
   <div class="box">
     <h3>سجل العمليات الأخيرة</h3>
     <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
   </div>
 
+  <div class="box">
+    <h3>بحث سريع برقم الهوية</h3>
+    <div class="row">
+      <div>
+        <label for="searchId">رقم الهوية</label>
+        <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
+        <button class="search-btn" onclick="searchPilgrim()">بحث</button>
+      </div>
+      <div>
+        <div class="info-item" id="searchResult" style="margin-top:34px;">لا توجد نتيجة بعد</div>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzmx9wJiJoSmWFJ3BRbQXboEf2Hy0t8BSaT70_GWFPCtl-9wkwFyGCvsjMxdGpTynbWXg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyiPy1vgVxUjcLPcw0mzZ3VK5iEzjo0GojUENBOds9HH6M9Jh5x_D-lQ-kUp0oNRa2M2g/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -691,6 +714,98 @@
       }
 
       await loadBusLiveInfo();
+    }
+
+    async function departBus() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ إعلان انطلاق الحافلة...', 'info');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'departBus',
+            busNumber: busNumber
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus(
+            "تم إعلان انطلاق الحافلة بنجاح.\n" +
+            "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
+            "رقم اللوحة: " + (result.plateNumber || '-') + "\n" +
+            "السائق: " + (result.driverName || '-'),
+            'success'
+          );
+        } else {
+          playErrorSound();
+          setStatus("فشل إعلان انطلاق الحافلة: " + (result.message || 'حدث خطأ'), 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus("حدث خطأ أثناء إعلان انطلاق الحافلة: " + error.message, 'error');
+      }
+
+      await loadBusLiveInfo();
+    }
+
+    async function searchPilgrim() {
+      const searchId = document.getElementById('searchId').value.trim();
+      const resultBox = document.getElementById('searchResult');
+
+      if (!searchId) {
+        setStatus('الرجاء إدخال رقم الهوية للبحث', 'warning');
+        return;
+      }
+
+      try {
+        resultBox.innerHTML = 'جارٍ البحث...';
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'searchPilgrimStatus',
+            id: searchId
+          })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          playErrorSound();
+          resultBox.innerHTML = result.message || 'لا توجد نتيجة';
+          return;
+        }
+
+        playSuccessSound();
+        resultBox.innerHTML = `
+          <div><strong>الاسم:</strong> ${result.name || '-'}</div>
+          <div><strong>رقم الهوية:</strong> ${result.id || '-'}</div>
+          <div><strong>الحالة الحالية:</strong> ${result.pilgrimStatus || '-'}</div>
+          <div><strong>آخر حالة عملية:</strong> ${result.latestOperationStatus || '-'}</div>
+          <div><strong>رقم الحافلة:</strong> ${result.busNumber || '-'}</div>
+          <div><strong>رقم اللوحة:</strong> ${result.plateNumber || '-'}</div>
+          <div><strong>وقت آخر عملية:</strong> ${result.timestamp || '-'}</div>
+        `;
+      } catch (error) {
+        playErrorSound();
+        resultBox.innerHTML = 'حدث خطأ أثناء البحث: ' + error.message;
+      }
     }
   </script>
 </body>
