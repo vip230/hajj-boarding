@@ -8,7 +8,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      max-width: 820px;
+      max-width: 900px;
       margin: 20px auto;
       padding: 16px;
       background: #f7f7f7;
@@ -130,11 +130,12 @@
 <body>
   <div class="box">
     <h2>تفويج الحجاج - تسجيل الصعود</h2>
+    <div class="hint" style="margin-top:-8px;font-size:16px;font-weight:bold;">شركة مشاعل النور</div>
 
     <div class="row">
       <div>
         <label for="busNumber">رقم الحافلة</label>
-        <select id="busNumber">
+        <select id="busNumber" onchange="loadBusLiveInfo()">
           <option value="">اختر رقم الحافلة</option>
           <option value="1">1</option>
           <option value="2">2</option>
@@ -201,6 +202,49 @@
   </div>
 
   <div class="box">
+    <h3>معلومات الحافلة الحالية</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-title">رقم الحافلة</div>
+        <div class="info-value" id="liveBusNumber">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">رقم اللوحة</div>
+        <div class="info-value" id="livePlateNumber">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">اسم السائق</div>
+        <div class="info-value" id="liveDriverName">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">موديل الحافلة</div>
+        <div class="info-value" id="liveModel">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">العدد الحالي</div>
+        <div class="info-value" id="liveCurrentCount">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">السعة</div>
+        <div class="info-value" id="liveCapacity">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">المقاعد المتبقية</div>
+        <div class="info-value" id="liveRemainingSeats">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">حالة الحافلة</div>
+        <div class="info-value" id="liveBusStatus">-</div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;">
+      <div class="info-title" style="margin-bottom:8px;">آخر العمليات</div>
+      <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
+    </div>
+  </div>
+
+  <div class="box">
     <h3>آخر عملية</h3>
     <div class="info-grid">
       <div class="info-item">
@@ -247,7 +291,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzPpWW8kRq_RWaSU7RCEvrza-JfcAYVgfjpiviIo9gqRppfTWpqNtDIKr4QNcd0-b1w2w/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzmx9wJiJoSmWFJ3BRbQXboEf2Hy0t8BSaT70_GWFPCtl-9wkwFyGCvsjMxdGpTynbWXg/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -380,6 +424,73 @@
       document.getElementById('lastBusStatus').innerText = result.busStatus || '-';
     }
 
+    async function loadBusLiveInfo() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      if (!busNumber) {
+        clearBusLiveInfo();
+        return;
+      }
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'getBusLiveInfo',
+            busNumber: busNumber
+          })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          clearBusLiveInfo();
+          return;
+        }
+
+        document.getElementById('liveBusNumber').innerText = result.busNumber || '-';
+        document.getElementById('livePlateNumber').innerText = result.plateNumber || '-';
+        document.getElementById('liveDriverName').innerText = result.driverName || '-';
+        document.getElementById('liveModel').innerText = result.model || '-';
+        document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
+        document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
+        document.getElementById('liveRemainingSeats').innerText = result.remainingSeats ?? '-';
+        document.getElementById('liveBusStatus').innerText = result.busStatus || '-';
+
+        const recentBox = document.getElementById('recentOperations');
+        if (!result.recentOperations || result.recentOperations.length === 0) {
+          recentBox.innerHTML = 'لا توجد بيانات بعد';
+        } else {
+          recentBox.innerHTML = result.recentOperations.map(op => {
+            return `
+              <div style="padding:6px 0; border-bottom:1px solid #eee;">
+                <div><strong>${op.pilgrimName || '-'}</strong></div>
+                <div>رقم الهوية: ${op.idValue || '-'}</div>
+                <div>الحالة: ${op.status || '-'}</div>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (error) {
+        console.error('loadBusLiveInfo error', error);
+      }
+    }
+
+    function clearBusLiveInfo() {
+      document.getElementById('liveBusNumber').innerText = '-';
+      document.getElementById('livePlateNumber').innerText = '-';
+      document.getElementById('liveDriverName').innerText = '-';
+      document.getElementById('liveModel').innerText = '-';
+      document.getElementById('liveCurrentCount').innerText = '-';
+      document.getElementById('liveCapacity').innerText = '-';
+      document.getElementById('liveRemainingSeats').innerText = '-';
+      document.getElementById('liveBusStatus').innerText = '-';
+      document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
+    }
+
     async function sendBoardingData(idValue) {
       if (!validateForm()) return;
 
@@ -456,6 +567,8 @@
         setStatus("حدث خطأ أثناء الإرسال: " + error.message);
       }
 
+      await loadBusLiveInfo();
+
       setTimeout(() => {
         isSaving = false;
       }, 1500);
@@ -508,6 +621,8 @@
       } catch (error) {
         setStatus("حدث خطأ أثناء إلغاء الصعود: " + error.message);
       }
+
+      await loadBusLiveInfo();
     }
 
     async function generateManifest() {
@@ -547,6 +662,8 @@
       } catch (error) {
         setStatus("حدث خطأ أثناء تجهيز المنفست: " + error.message);
       }
+
+      await loadBusLiveInfo();
     }
   </script>
 </body>
