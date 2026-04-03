@@ -305,6 +305,28 @@
   </div>
 
   <div class="box">
+    <h3>لوحة التقارير المباشرة</h3>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="info-title">الحافلات التي انطلقت</div>
+        <div class="info-value" id="statsDepartedBuses">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">الحافلات الحالية</div>
+        <div class="info-value" id="statsActiveBuses">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">عدد من صعدوا</div>
+        <div class="info-value" id="statsBoardedCount">-</div>
+      </div>
+      <div class="info-item">
+        <div class="info-title">عدد المتبقين</div>
+        <div class="info-value" id="statsRemainingCount">-</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="box">
     <h3>سجل العمليات الأخيرة</h3>
     <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
   </div>
@@ -324,7 +346,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxkk8WMfcjI-2XbkSe1pMaH49NukEVHGJ-Qftv0LYqhEUfQROLQM93Rk1PjZx8mgiJfJA/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzImFVgI4LYcx30m95S9iJuSUDrjqjhb_9dfKuAnotV9AohKNTYt45UwUZLi4A2qXkMMQ/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -530,6 +552,31 @@
       document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
     }
 
+    async function loadDashboardStats() {
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'text/plain;charset=utf-8'
+          },
+          body: JSON.stringify({
+            action: 'getDashboardStats'
+          })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) return;
+
+        document.getElementById('statsDepartedBuses').innerText = result.departedBuses ?? '-';
+        document.getElementById('statsActiveBuses').innerText = result.activeBuses ?? '-';
+        document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
+        document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
+      } catch (error) {
+        console.error('loadDashboardStats error', error);
+      }
+    }
+
     async function sendBoardingData(idValue) {
       if (!validateForm()) return;
 
@@ -610,6 +657,7 @@
       }
 
       await loadBusLiveInfo();
+      await loadDashboardStats();
 
       setTimeout(() => {
         isSaving = false;
@@ -669,6 +717,7 @@
       }
 
       await loadBusLiveInfo();
+      await loadDashboardStats();
     }
 
     async function generateManifest() {
@@ -714,6 +763,7 @@
       }
 
       await loadBusLiveInfo();
+      await loadDashboardStats();
     }
 
     async function departBus() {
@@ -759,6 +809,7 @@
       }
 
       await loadBusLiveInfo();
+      await loadDashboardStats();
     }
 
     async function searchPilgrim() {
@@ -807,6 +858,11 @@
         resultBox.innerHTML = 'حدث خطأ أثناء البحث: ' + error.message;
       }
     }
+
+    window.addEventListener('load', async () => {
+      await loadDashboardStats();
+      await loadBusLiveInfo();
+    });
   </script>
 </body>
 </html>
