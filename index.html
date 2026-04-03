@@ -149,6 +149,13 @@
       margin-top: 8px;
     }
 
+    .section-subtitle {
+      margin-top: -8px;
+      font-size: 28px;
+      font-weight: bold;
+      color: #0b57d0;
+    }
+
     @media (max-width: 700px) {
       .row, .info-grid {
         grid-template-columns: 1fr;
@@ -157,11 +164,15 @@
   </style>
 </head>
 <body>
+  <!-- العنوان -->
   <div class="box">
     <h2>تفويج الحجاج - تسجيل الصعود</h2>
-    <div style="margin-top:-8px; font-size:28px; font-weight:bold; color:#0b57d0;">
-      شركة مشاعل النور لخدمات حجاج الداخل
-    </div>
+    <div class="section-subtitle">شركة مشاعل النور</div>
+  </div>
+
+  <!-- بيانات التشغيل -->
+  <div class="box">
+    <h3>بيانات التشغيل</h3>
 
     <div class="row">
       <div>
@@ -204,27 +215,18 @@
       </div>
 
       <div>
-        <label for="manualId">إدخال يدوي لرقم الهوية</label>
-        <input type="text" id="manualId" placeholder="اكتب رقم الهوية عند الحاجة" />
-        <button onclick="submitManualId()">تسجيل يدوي</button>
+        <label for="notes">ملاحظات</label>
+        <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
       </div>
     </div>
+  </div>
 
-    <div class="row">
-      <div>
-        <label for="cancelId">رقم الهوية لإلغاء الصعود</label>
-        <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
-        <button class="cancel-btn" onclick="cancelBoarding()">إلغاء الصعود</button>
-      </div>
-      <div></div>
-    </div>
-
-    <label for="notes">ملاحظات</label>
-    <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
+  <!-- المسح -->
+  <div class="box">
+    <h3>المسح</h3>
 
     <button onclick="startScanner()">تشغيل الكاميرا</button>
     <button class="stop-btn" onclick="stopScanner()">إيقاف الكاميرا</button>
-    <button class="manifest-btn" onclick="generateManifest()">تجهيز المنفست</button>
 
     <div class="hint">اختر الحافلة ونوع الإثبات واسم المستخدم، ثم ابدأ المسح.</div>
 
@@ -232,6 +234,7 @@
     <div id="status" class="status-info">الحالة: جاهز</div>
   </div>
 
+  <!-- معلومات الحافلة الحالية -->
   <div class="box">
     <h3>معلومات الحافلة الحالية</h3>
     <div class="info-grid">
@@ -268,13 +271,15 @@
         <div class="info-value" id="liveBusStatus">-</div>
       </div>
     </div>
-
-    <div style="margin-top:16px;">
-      <div class="info-title" style="margin-bottom:8px;">آخر العمليات</div>
-      <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
-    </div>
   </div>
 
+  <!-- آخر العمليات -->
+  <div class="box">
+    <h3>آخر العمليات</h3>
+    <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
+  </div>
+
+  <!-- آخر عملية -->
   <div class="box">
     <h3>آخر عملية</h3>
     <div class="info-grid">
@@ -319,6 +324,27 @@
         <div class="info-value" id="lastBusStatus">-</div>
       </div>
     </div>
+  </div>
+
+  <!-- العمليات الثانوية -->
+  <div class="box">
+    <h3>العمليات الثانوية</h3>
+
+    <div class="row">
+      <div>
+        <label for="manualId">إدخال يدوي لرقم الهوية</label>
+        <input type="text" id="manualId" placeholder="اكتب رقم الهوية عند الحاجة" />
+        <button onclick="submitManualId()">تسجيل يدوي</button>
+      </div>
+
+      <div>
+        <label for="cancelId">رقم الهوية لإلغاء الصعود</label>
+        <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
+        <button class="cancel-btn" onclick="cancelBoarding()">إلغاء الصعود</button>
+      </div>
+    </div>
+
+    <button class="manifest-btn" onclick="generateManifest()">تجهيز المنفست</button>
   </div>
 
   <script>
