@@ -30,6 +30,7 @@
       font-family: Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
+      padding-bottom: 90px;
     }
 
     .app-shell {
@@ -225,6 +226,11 @@
     }
 
     #status {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      z-index: 9999;
       margin-top: 0;
       padding: 12px;
       border-radius: 14px;
@@ -232,6 +238,7 @@
       line-height: 1.8;
       font-weight: bold;
       border: 2px solid transparent;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
     }
 
     .status-success {
@@ -324,7 +331,7 @@
         </div>
         <div>
           <label>الإشعارات</label>
-          <div id="status" class="status-info">الحالة: جاهز</div>
+          <div class="hint">الإشعارات ستظهر أسفل الشاشة مباشرة</div>
         </div>
       </div>
     </div>
@@ -396,7 +403,7 @@
         <h3>المسح بالكاميرا</h3>
         <button onclick="startScanner()">تشغيل الكاميرا</button>
         <button class="btn-secondary" onclick="stopScanner()">إيقاف الكاميرا</button>
-        <div class="hint">اختر الحافلة من الأعلى ثم نوع الإثبات واسم المستخدم، وبعدها ابدأ المسح.</div>
+        <div class="hint">اختر رقم الحافلة من الأعلى ثم نوع الإثبات واسم المستخدم، وبعدها ابدأ المسح.</div>
         <div id="reader"></div>
       </div>
     </section>
@@ -405,6 +412,32 @@
       <div class="sub-header">
         <div class="sub-header-title">شاشة العمليات</div>
         <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
+      </div>
+
+      <div class="card">
+        <h3>بيانات العمليات</h3>
+        <div class="row">
+          <div>
+            <label for="operationProofType">نوع الإثبات</label>
+            <select id="operationProofType">
+              <option value="">اختر نوع الإثبات</option>
+              <option value="بطاقة الحملة">بطاقة الحملة</option>
+              <option value="بطاقة نسك">بطاقة نسك</option>
+              <option value="تصريح الحاج">تصريح الحاج</option>
+              <option value="إدخال يدوي">إدخال يدوي</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="operationUserName">اسم المستخدم</label>
+            <input type="text" id="operationUserName" placeholder="اسم الموظف أو المشرف" />
+          </div>
+        </div>
+
+        <div>
+          <label for="operationNotes">ملاحظات</label>
+          <textarea id="operationNotes" placeholder="ملاحظات اختيارية"></textarea>
+        </div>
       </div>
 
       <div class="card">
@@ -521,8 +554,10 @@
     </section>
   </div>
 
+  <div id="status" class="status-info">الحالة: جاهز</div>
+
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJf_SkI0U8kGsPhmzxixq259dqfU5incQnN5XB4j6EBmpPTGpr3EeXZKivmQl-BVATqw/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw58lApmWqDGtA_qdw8y-TLKdrVDLCETcjjdMItPOX-_cD8KRb9GHW7ExbP3gDTx70SpQ/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -585,7 +620,7 @@
     function playErrorSound() { playTone(300, 0.22); }
     function playWarningSound() { playTone(550, 0.20); }
 
-    function validateForm() {
+    function validateRegisterForm() {
       const busNumber = document.getElementById('busNumber').value.trim();
       const proofType = document.getElementById('proofType').value.trim();
       const userName = document.getElementById('userName').value.trim();
@@ -606,7 +641,7 @@
     }
 
     async function startScanner() {
-      if (!validateForm()) return;
+      if (!validateRegisterForm()) return;
       if (html5QrCode) return;
 
       try {
@@ -718,10 +753,40 @@
       } catch (error) {}
     }
 
-    async function sendBoardingData(idValue) {
-      if (!validateForm()) return;
+    async function sendBoardingData(idValue, sourceScreen = 'register') {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      let proofType = '';
+      let userName = '';
+      let notes = '';
+
+      if (sourceScreen === 'operations') {
+        proofType = document.getElementById('operationProofType')?.value.trim() || '';
+        userName = document.getElementById('operationUserName')?.value.trim() || '';
+        notes = document.getElementById('operationNotes')?.value.trim() || '';
+      } else {
+        proofType = document.getElementById('proofType')?.value.trim() || '';
+        userName = document.getElementById('userName')?.value.trim() || '';
+        notes = document.getElementById('notes')?.value.trim() || '';
+      }
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
+        return;
+      }
+
+      if (!proofType) {
+        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
+        return;
+      }
+
+      if (!userName) {
+        setStatus('الرجاء إدخال اسم المستخدم', 'warning');
+        return;
+      }
 
       const normalizedId = normalizeDigits(idValue).trim();
+
       if (!/^\d+$/.test(normalizedId)) {
         playErrorSound();
         setStatus('رقم الهوية غير صالح', 'error');
@@ -741,11 +806,6 @@
       isSaving = true;
       lastScannedValue = normalizedId;
       lastScannedAt = now;
-
-      const busNumber = document.getElementById('busNumber').value.trim();
-      const proofType = document.getElementById('proofType').value.trim();
-      const userName = document.getElementById('userName').value.trim();
-      const notes = document.getElementById('notes').value.trim();
 
       try {
         setStatus("تمت القراءة: " + normalizedId + "\nجارٍ تسجيل الصعود...", 'info');
@@ -792,12 +852,12 @@
 
     async function onScanSuccess(decodedText) {
       const extractedId = extractId(decodedText).trim();
-      await sendBoardingData(extractedId);
+      await sendBoardingData(extractedId, 'register');
     }
 
     async function submitManualId() {
       const manualId = document.getElementById('manualId').value.trim();
-      await sendBoardingData(manualId);
+      await sendBoardingData(manualId, 'operations');
     }
 
     async function cancelBoarding() {
