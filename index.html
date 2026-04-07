@@ -3,78 +3,182 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>تفويج الحجاج - تسجيل الصعود</title>
+  <title>تفويج الحجاج - شركة مشاعل النور</title>
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
   <style>
+    :root {
+      --primary: #0b57d0;
+      --primary-dark: #0a4db8;
+      --green: #0f9d58;
+      --red: #d93025;
+      --purple: #7b1fa2;
+      --gray: #5f6368;
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --border: #dfe5ee;
+      --text: #18324a;
+      --muted: #6b7b8c;
+      --shadow: 0 8px 24px rgba(11, 87, 208, 0.08);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 20px auto;
-      padding: 16px;
-      background: #f7f7f7;
+      background: var(--bg);
+      color: var(--text);
     }
 
-    .box {
+    .app-shell {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 14px 24px;
+    }
+
+    .hero {
+      margin: 0 -14px 18px;
+      background: linear-gradient(135deg, #d6eefb 0%, #b7e0f7 100%);
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .hero img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .sub-header {
       background: #fff;
-      border-radius: 12px;
-      padding: 18px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-      margin-bottom: 16px;
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin: 16px 0;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
     }
 
-    h2, h3 {
-      margin-top: 0;
+    .sub-header-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary-dark);
+    }
+
+    .back-btn {
+      width: auto;
+      min-width: 100px;
+      padding: 10px 14px;
+      background: var(--primary);
+      border: none;
+      color: #fff;
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+    }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .home-tile {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .home-tile:hover {
+      transform: translateY(-2px);
+    }
+
+    .tile-icon {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    .tile-title {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin-bottom: 6px;
+    }
+
+    .tile-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    h3 {
+      margin: 0 0 12px;
+      color: var(--primary-dark);
+      font-size: 20px;
     }
 
     label {
       display: block;
-      margin-top: 10px;
-      margin-bottom: 6px;
+      margin: 10px 0 6px;
       font-weight: bold;
+      color: var(--text);
     }
 
-    input, select, button, textarea {
+    input, select, textarea, button {
       width: 100%;
-      padding: 12px;
-      border-radius: 8px;
+      border-radius: 12px;
+      border: 1px solid #cfd8e3;
+      padding: 12px 14px;
       font-size: 16px;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
       background: #fff;
     }
 
     textarea {
       resize: vertical;
-      min-height: 80px;
+      min-height: 88px;
     }
 
     button {
       border: none;
-      background: #0b57d0;
-      color: white;
+      color: #fff;
+      background: var(--primary);
       cursor: pointer;
+      font-weight: bold;
       margin-top: 10px;
     }
 
-    .stop-btn {
-      background: #5f6368;
-    }
-
-    .manifest-btn {
-      background: #0f9d58;
-    }
-
-    .cancel-btn {
-      background: #d93025;
-    }
-
-    .depart-btn {
-      background: #7b1fa2;
-    }
-
-    .search-btn {
-      background: #1565c0;
-    }
+    .btn-secondary { background: var(--gray); }
+    .btn-green { background: var(--green); }
+    .btn-red { background: var(--red); }
+    .btn-purple { background: var(--purple); }
 
     .row {
       display: grid;
@@ -82,275 +186,335 @@
       gap: 12px;
     }
 
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .info-item {
+      background: #f8fbff;
+      border: 1px solid #e3ebf5;
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .info-title {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .info-value {
+      font-size: 18px;
+      font-weight: bold;
+      color: var(--text);
+      word-break: break-word;
+    }
+
     #reader {
       width: 100%;
-      margin-top: 12px;
+      margin-top: 10px;
+      overflow: hidden;
+      border-radius: 14px;
     }
 
     #status {
       margin-top: 12px;
       padding: 12px;
-      border-radius: 8px;
-      background: #eef3fd;
+      border-radius: 14px;
       white-space: pre-line;
       line-height: 1.8;
-      word-break: break-word;
       font-weight: bold;
+      border: 2px solid transparent;
     }
 
     .status-success {
-      background: #e6f4ea !important;
-      border: 2px solid #34a853;
+      background: #e6f4ea;
+      border-color: #34a853;
       color: #137333;
-      font-weight: bold;
     }
 
     .status-error {
-      background: #fce8e6 !important;
-      border: 2px solid #d93025;
+      background: #fce8e6;
+      border-color: #d93025;
       color: #a50e0e;
-      font-weight: bold;
     }
 
     .status-warning {
-      background: #fef7e0 !important;
-      border: 2px solid #f9ab00;
+      background: #fef7e0;
+      border-color: #f9ab00;
       color: #8d6500;
-      font-weight: bold;
     }
 
     .status-info {
-      background: #e8f0fe !important;
-      border: 2px solid #1a73e8;
+      background: #e8f0fe;
+      border-color: #1a73e8;
       color: #174ea6;
-      font-weight: bold;
-    }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .info-item {
-      background: #f8f9fa;
-      border-radius: 8px;
-      padding: 10px;
-      border: 1px solid #e5e5e5;
-    }
-
-    .info-title {
-      font-size: 13px;
-      color: #666;
-      margin-bottom: 4px;
-    }
-
-    .info-value {
-      font-size: 17px;
-      font-weight: bold;
     }
 
     .hint {
-      color: #666;
+      color: var(--muted);
       font-size: 14px;
-      margin-top: 8px;
+      margin-top: 6px;
+      line-height: 1.7;
     }
 
-    .section-subtitle {
-      margin-top: -8px;
-      font-size: 28px;
-      font-weight: bold;
-      color: #0b57d0;
+    .log-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #e8edf5;
     }
 
-    @media (max-width: 700px) {
-      .row, .info-grid {
+    .log-item:last-child {
+      border-bottom: none;
+    }
+
+    @media (max-width: 720px) {
+      .home-grid,
+      .row,
+      .info-grid {
         grid-template-columns: 1fr;
+      }
+
+      .sub-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .sub-header-title {
+        text-align: center;
       }
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h2>تفويج الحجاج - تسجيل الصعود</h2>
-    <div class="section-subtitle">شركة مشاعل النور</div>
-  </div>
-
-  <div class="box">
-    <h3>بيانات التشغيل</h3>
-
-    <div class="row">
-      <div>
-        <label for="busNumber">رقم الحافلة</label>
-        <select id="busNumber" onchange="loadBusLiveInfo()">
-          <option value="">اختر رقم الحافلة</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-          <option value="11">11</option>
-          <option value="12">12</option>
-          <option value="13">13</option>
-          <option value="14">14</option>
-        </select>
+  <div class="app-shell">
+    <!-- الشاشة الرئيسية -->
+    <section id="screen-home" class="screen active">
+      <div class="hero">
+        <img src="1447.png" alt="شركة مشاعل النور" />
       </div>
 
-      <div>
-        <label for="proofType">نوع الإثبات</label>
-        <select id="proofType">
-          <option value="">اختر نوع الإثبات</option>
-          <option value="بطاقة الحملة">بطاقة الحملة</option>
-          <option value="بطاقة نسك">بطاقة نسك</option>
-          <option value="تصريح الحاج">تصريح الحاج</option>
-          <option value="إدخال يدوي">إدخال يدوي</option>
-        </select>
+      <div class="card">
+        <h3>اختر الخدمة</h3>
+        <div class="home-grid">
+          <div class="home-tile" onclick="showScreen('register')">
+            <div class="tile-icon">📷</div>
+            <div class="tile-title">التسجيل</div>
+            <div class="tile-desc">بيانات التشغيل، تشغيل الكاميرا، وتسجيل صعود الحجاج.</div>
+          </div>
+
+          <div class="home-tile" onclick="showScreen('operations')">
+            <div class="tile-icon">⚙️</div>
+            <div class="tile-title">العمليات</div>
+            <div class="tile-desc">إدخال يدوي، إلغاء الصعود، والبحث السريع برقم الهوية.</div>
+          </div>
+
+          <div class="home-tile" onclick="showScreen('buses')">
+            <div class="tile-icon">🚌</div>
+            <div class="tile-title">الحافلات</div>
+            <div class="tile-desc">معلومات الحافلة الحالية، تجهيز المنفست، وإعلان الانطلاق.</div>
+          </div>
+
+          <div class="home-tile" onclick="showScreen('reports')">
+            <div class="tile-icon">📊</div>
+            <div class="tile-title">التقارير</div>
+            <div class="tile-desc">المؤشرات المباشرة وسجل العمليات الأخيرة.</div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="row">
-      <div>
-        <label for="userName">اسم المستخدم</label>
-        <input type="text" id="userName" placeholder="اسم الموظف أو المشرف" />
+    <!-- شاشة التسجيل -->
+    <section id="screen-register" class="screen">
+      <div class="sub-header">
+        <div class="sub-header-title">شاشة التسجيل</div>
+        <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
       </div>
 
-      <div>
-        <label for="notes">ملاحظات</label>
-        <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
+      <div class="card">
+        <h3>بيانات التشغيل</h3>
+        <div class="row">
+          <div>
+            <label for="busNumber">رقم الحافلة</label>
+            <select id="busNumber" onchange="loadBusLiveInfo()">
+              <option value="">اختر رقم الحافلة</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="proofType">نوع الإثبات</label>
+            <select id="proofType">
+              <option value="">اختر نوع الإثبات</option>
+              <option value="بطاقة الحملة">بطاقة الحملة</option>
+              <option value="بطاقة نسك">بطاقة نسك</option>
+              <option value="تصريح الحاج">تصريح الحاج</option>
+              <option value="إدخال يدوي">إدخال يدوي</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <label for="userName">اسم المستخدم</label>
+            <input type="text" id="userName" placeholder="اسم الموظف أو المشرف" />
+          </div>
+
+          <div>
+            <label for="notes">ملاحظات</label>
+            <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="box">
-    <h3>المسح</h3>
+      <div class="card">
+        <h3>المسح بالكاميرا</h3>
+        <button onclick="startScanner()">تشغيل الكاميرا</button>
+        <button class="btn-secondary" onclick="stopScanner()">إيقاف الكاميرا</button>
+        <div class="hint">اختر الحافلة ونوع الإثبات واسم المستخدم، ثم ابدأ المسح.</div>
+        <div id="reader"></div>
+        <div id="status" class="status-info">الحالة: جاهز</div>
+      </div>
+    </section>
 
-    <button onclick="startScanner()">تشغيل الكاميرا</button>
-    <button class="stop-btn" onclick="stopScanner()">إيقاف الكاميرا</button>
+    <!-- شاشة العمليات -->
+    <section id="screen-operations" class="screen">
+      <div class="sub-header">
+        <div class="sub-header-title">شاشة العمليات</div>
+        <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
+      </div>
 
-    <div class="hint">اختر الحافلة ونوع الإثبات واسم المستخدم، ثم ابدأ المسح.</div>
-
-    <div id="reader"></div>
-    <div id="status" class="status-info">الحالة: جاهز</div>
-  </div>
-
-  <div class="box">
-    <h3>العمليات الثانوية</h3>
-
-    <div class="row">
-      <div>
-        <label for="manualId">إدخال يدوي لرقم الهوية</label>
-        <input type="text" id="manualId" placeholder="اكتب رقم الهوية عند الحاجة" />
+      <div class="card">
+        <h3>إدخال يدوي</h3>
+        <label for="manualId">رقم الهوية</label>
+        <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
         <button onclick="submitManualId()">تسجيل يدوي</button>
       </div>
 
-      <div>
-        <label for="cancelId">رقم الهوية لإلغاء الصعود</label>
+      <div class="card">
+        <h3>إلغاء الصعود</h3>
+        <label for="cancelId">رقم الهوية</label>
         <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
-        <button class="cancel-btn" onclick="cancelBoarding()">إلغاء الصعود</button>
+        <button class="btn-red" onclick="cancelBoarding()">إلغاء الصعود</button>
       </div>
-    </div>
 
-    <div class="row">
-      <div>
-        <button class="manifest-btn" onclick="generateManifest()">تجهيز المنفست</button>
-      </div>
-      <div>
-        <button class="depart-btn" onclick="departBus()">إعلان انطلاق الحافلة</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="box">
-    <h3>معلومات الحافلة الحالية</h3>
-    <div class="info-grid">
-      <div class="info-item">
-        <div class="info-title">رقم الحافلة</div>
-        <div class="info-value" id="liveBusNumber">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">رقم اللوحة</div>
-        <div class="info-value" id="livePlateNumber">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">اسم السائق</div>
-        <div class="info-value" id="liveDriverName">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">موديل الحافلة</div>
-        <div class="info-value" id="liveModel">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">العدد الحالي</div>
-        <div class="info-value" id="liveCurrentCount">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">السعة</div>
-        <div class="info-value" id="liveCapacity">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">المقاعد المتبقية</div>
-        <div class="info-value" id="liveRemainingSeats">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">حالة الحافلة</div>
-        <div class="info-value" id="liveBusStatus">-</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="box">
-    <h3>لوحة التقارير المباشرة</h3>
-    <div class="info-grid">
-      <div class="info-item">
-        <div class="info-title">الحافلات المفتوحة للصعود</div>
-        <div class="info-value" id="statsOpenBuses">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">الحافلات التي انطلقت</div>
-        <div class="info-value" id="statsDepartedBuses">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">الحافلات الباقية</div>
-        <div class="info-value" id="statsRemainingBuses">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">الحجاج الذين صعدوا</div>
-        <div class="info-value" id="statsBoardedCount">-</div>
-      </div>
-      <div class="info-item">
-        <div class="info-title">الحجاج المتبقين</div>
-        <div class="info-value" id="statsRemainingCount">-</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="box">
-    <h3>سجل العمليات الأخيرة</h3>
-    <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
-  </div>
-
-  <div class="box">
-    <h3>بحث سريع برقم الهوية</h3>
-    <div class="row">
-      <div>
+      <div class="card">
+        <h3>البحث السريع</h3>
         <label for="searchId">رقم الهوية</label>
         <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
-        <button class="search-btn" onclick="searchPilgrim()">بحث</button>
+        <button onclick="searchPilgrim()">بحث</button>
+        <div id="searchResult" class="info-item" style="margin-top:12px;">لا توجد نتيجة بعد</div>
       </div>
-      <div>
-        <div class="info-item" id="searchResult" style="margin-top:34px;">لا توجد نتيجة بعد</div>
+    </section>
+
+    <!-- شاشة الحافلات -->
+    <section id="screen-buses" class="screen">
+      <div class="sub-header">
+        <div class="sub-header-title">شاشة الحافلات</div>
+        <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
       </div>
-    </div>
+
+      <div class="card">
+        <h3>معلومات الحافلة الحالية</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-title">رقم الحافلة</div>
+            <div class="info-value" id="liveBusNumber">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">رقم اللوحة</div>
+            <div class="info-value" id="livePlateNumber">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">اسم السائق</div>
+            <div class="info-value" id="liveDriverName">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">موديل الحافلة</div>
+            <div class="info-value" id="liveModel">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">العدد الحالي</div>
+            <div class="info-value" id="liveCurrentCount">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">السعة</div>
+            <div class="info-value" id="liveCapacity">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">المقاعد المتبقية</div>
+            <div class="info-value" id="liveRemainingSeats">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">حالة الحافلة</div>
+            <div class="info-value" id="liveBusStatus">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>إجراءات الحافلة</h3>
+        <button class="btn-green" onclick="generateManifest()">تجهيز المنفست</button>
+        <button class="btn-purple" onclick="departBus()">إعلان انطلاق الحافلة</button>
+      </div>
+    </section>
+
+    <!-- شاشة التقارير -->
+    <section id="screen-reports" class="screen">
+      <div class="sub-header">
+        <div class="sub-header-title">شاشة التقارير</div>
+        <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
+      </div>
+
+      <div class="card">
+        <h3>لوحة التقارير المباشرة</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <div class="info-title">الحافلات المفتوحة للصعود</div>
+            <div class="info-value" id="statsOpenBuses">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">الحافلات التي انطلقت</div>
+            <div class="info-value" id="statsDepartedBuses">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">الحافلات الباقية</div>
+            <div class="info-value" id="statsRemainingBuses">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">الحجاج الذين صعدوا</div>
+            <div class="info-value" id="statsBoardedCount">-</div>
+          </div>
+          <div class="info-item">
+            <div class="info-title">الحجاج المتبقين</div>
+            <div class="info-value" id="statsRemainingCount">-</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>سجل العمليات الأخيرة</h3>
+        <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
+      </div>
+    </section>
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyYWhp58n2rLlpW2IeiT__TTn6kO3ggpveznWJqeMazsjeyci0np470RAxY-IrXQkWSAg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw31UGSWxuEezlyiv0vWWvkbwi4O5o0X1_DGGwbRr0Xfyqk_9vwBt-A4Gby6cDydZV6/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -358,10 +522,19 @@
     let lastScannedValue = '';
     let lastScannedAt = 0;
 
+    function showScreen(name) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      document.getElementById(`screen-${name}`).classList.add('active');
+
+      if (name === 'buses' || name === 'reports') {
+        loadBusLiveInfo();
+        loadDashboardStats();
+      }
+    }
+
     function setStatus(msg, type = 'info') {
       const box = document.getElementById('status');
       box.innerText = 'الحالة: ' + msg;
-
       box.classList.remove('status-success', 'status-error', 'status-warning', 'status-info');
 
       if (type === 'success') box.classList.add('status-success');
@@ -377,9 +550,7 @@
 
     function extractId(rawText) {
       const text = normalizeDigits(String(rawText)).trim();
-
       if (/^\d+$/.test(text)) return text;
-
       const match = text.match(/\d{6,}/);
       return match ? match[0] : text;
     }
@@ -393,29 +564,18 @@
 
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
-
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
         gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
 
         oscillator.start();
         oscillator.stop(audioContext.currentTime + duration);
-      } catch (e) {
-        console.log('تعذر تشغيل الصوت', e);
-      }
+      } catch (e) {}
     }
 
-    function playSuccessSound() {
-      playTone(950, 0.18);
-    }
-
-    function playErrorSound() {
-      playTone(300, 0.22);
-    }
-
-    function playWarningSound() {
-      playTone(550, 0.20);
-    }
+    function playSuccessSound() { playTone(950, 0.18); }
+    function playErrorSound() { playTone(300, 0.22); }
+    function playWarningSound() { playTone(550, 0.20); }
 
     function validateForm() {
       const busNumber = document.getElementById('busNumber').value.trim();
@@ -426,17 +586,14 @@
         setStatus('الرجاء اختيار رقم الحافلة', 'warning');
         return false;
       }
-
       if (!proofType) {
         setStatus('الرجاء اختيار نوع الإثبات', 'warning');
         return false;
       }
-
       if (!userName) {
         setStatus('الرجاء إدخال اسم المستخدم', 'warning');
         return false;
       }
-
       return true;
     }
 
@@ -452,39 +609,26 @@
         }
 
         html5QrCode = new Html5Qrcode("reader");
-
         await html5QrCode.start(
           { facingMode: "environment" },
-          {
-            fps: 15,
-            qrbox: { width: 220, height: 220 },
-            aspectRatio: 1.0
-          },
+          { fps: 15, qrbox: { width: 220, height: 220 }, aspectRatio: 1.0 },
           onScanSuccess,
           function () {}
         );
 
         setStatus('تم تشغيل الكاميرا. وجّهها نحو الباركود أو QR.', 'info');
       } catch (err) {
-        console.error("Camera start error:", err);
-        const msg =
-          (err && err.message) ||
-          (err && err.name) ||
-          JSON.stringify(err) ||
-          'خطأ غير معروف';
         playErrorSound();
-        setStatus('فشل تشغيل الكاميرا: ' + msg, 'error');
+        setStatus('فشل تشغيل الكاميرا: ' + ((err && err.message) || 'خطأ غير معروف'), 'error');
       }
     }
 
     async function stopScanner() {
       if (!html5QrCode) return;
-
       try {
         await html5QrCode.stop();
         await html5QrCode.clear();
       } catch (e) {}
-
       html5QrCode = null;
       setStatus('تم إيقاف الكاميرا.', 'info');
     }
@@ -500,17 +644,11 @@
       try {
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify({
-            action: 'getBusLiveInfo',
-            busNumber: busNumber
-          })
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getBusLiveInfo', busNumber })
         });
 
         const result = await response.json();
-
         if (!result.success) {
           clearBusLiveInfo();
           return;
@@ -529,19 +667,15 @@
         if (!result.recentOperations || result.recentOperations.length === 0) {
           recentBox.innerHTML = 'لا توجد بيانات بعد';
         } else {
-          recentBox.innerHTML = result.recentOperations.map(op => {
-            return `
-              <div style="padding:6px 0; border-bottom:1px solid #eee;">
-                <div><strong>${op.pilgrimName || '-'}</strong></div>
-                <div>رقم الهوية: ${op.idValue || '-'}</div>
-                <div>الحالة: ${op.status || '-'}</div>
-              </div>
-            `;
-          }).join('');
+          recentBox.innerHTML = result.recentOperations.map(op => `
+            <div class="log-item">
+              <div><strong>${op.pilgrimName || '-'}</strong></div>
+              <div>رقم الهوية: ${op.idValue || '-'}</div>
+              <div>الحالة: ${op.status || '-'}</div>
+            </div>
+          `).join('');
         }
-      } catch (error) {
-        console.error('loadBusLiveInfo error', error);
-      }
+      } catch (error) {}
     }
 
     function clearBusLiveInfo() {
@@ -560,16 +694,11 @@
       try {
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify({
-            action: 'getDashboardStats'
-          })
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getDashboardStats' })
         });
 
         const result = await response.json();
-
         if (!result.success) return;
 
         document.getElementById('statsOpenBuses').innerText = result.openBusesCount ?? '-';
@@ -577,16 +706,13 @@
         document.getElementById('statsRemainingBuses').innerText = result.remainingBusesCount ?? '-';
         document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
         document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
-      } catch (error) {
-        console.error('loadDashboardStats error', error);
-      }
+      } catch (error) {}
     }
 
     async function sendBoardingData(idValue) {
       if (!validateForm()) return;
 
       const normalizedId = normalizeDigits(idValue).trim();
-
       if (!/^\d+$/.test(normalizedId)) {
         playErrorSound();
         setStatus('رقم الهوية غير صالح', 'error');
@@ -600,11 +726,7 @@
       }
 
       const now = Date.now();
-
-      if (normalizedId === lastScannedValue && (now - lastScannedAt) < 2000) {
-        return;
-      }
-
+      if (normalizedId === lastScannedValue && (now - lastScannedAt) < 2000) return;
       if (isSaving) return;
 
       isSaving = true;
@@ -621,15 +743,13 @@
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
             id: normalizedId,
-            busNumber: busNumber,
-            proofType: proofType,
-            userName: userName,
-            notes: notes
+            busNumber,
+            proofType,
+            userName,
+            notes
           })
         });
 
@@ -637,19 +757,13 @@
 
         if (result.success) {
           playSuccessSound();
-
-          let extra = "";
-          if (result.manifestGenerated) {
-            extra = "\nتم تجهيز المنفست تلقائيًا.";
-          }
-
+          let extra = result.manifestGenerated ? "\nتم تجهيز المنفست تلقائيًا." : "";
           setStatus(
             "تم تسجيل الصعود بنجاح.\n" +
             "اسم الحاج: " + (result.name || '-') + "\n" +
             "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
             "العدد الحالي: " + (result.currentCount || 0) + " / " + (result.capacity || 0) + "\n" +
-            "حالة الحافلة: " + (result.busStatus || '-') +
-            extra,
+            "حالة الحافلة: " + (result.busStatus || '-') + extra,
             'success'
           );
         } else {
@@ -664,12 +778,10 @@
       await loadBusLiveInfo();
       await loadDashboardStats();
 
-      setTimeout(() => {
-        isSaving = false;
-      }, 1500);
+      setTimeout(() => { isSaving = false; }, 1500);
     }
 
-    async function onScanSuccess(decodedText, decodedResult) {
+    async function onScanSuccess(decodedText) {
       const extractedId = extractId(decodedText).trim();
       await sendBoardingData(extractedId);
     }
@@ -681,7 +793,6 @@
 
     async function cancelBoarding() {
       const cancelId = document.getElementById('cancelId').value.trim();
-
       if (!cancelId) {
         setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود', 'warning');
         return;
@@ -689,16 +800,10 @@
 
       try {
         setStatus('جارٍ إلغاء الصعود...', 'info');
-
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify({
-            action: 'cancelBoarding',
-            id: cancelId
-          })
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'cancelBoarding', id: cancelId })
         });
 
         const result = await response.json();
@@ -727,7 +832,6 @@
 
     async function generateManifest() {
       const busNumber = document.getElementById('busNumber').value.trim();
-
       if (!busNumber) {
         setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
         return;
@@ -735,20 +839,13 @@
 
       try {
         setStatus('جارٍ تجهيز المنفست للحافلة رقم ' + busNumber + ' ...', 'info');
-
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify({
-            action: 'generateManifest',
-            busNumber: busNumber
-          })
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'generateManifest', busNumber })
         });
 
         const result = await response.json();
-
         if (result.success) {
           playSuccessSound();
           setStatus(
@@ -773,7 +870,6 @@
 
     async function departBus() {
       const busNumber = document.getElementById('busNumber').value.trim();
-
       if (!busNumber) {
         setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
         return;
@@ -781,20 +877,13 @@
 
       try {
         setStatus('جارٍ إعلان انطلاق الحافلة...', 'info');
-
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify({
-            action: 'departBus',
-            busNumber: busNumber
-          })
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'departBus', busNumber })
         });
 
         const result = await response.json();
-
         if (result.success) {
           playSuccessSound();
           setStatus(
@@ -831,17 +920,11 @@
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'text/plain;charset=utf-8'
-          },
-          body: JSON.stringify({
-            action: 'searchPilgrimStatus',
-            id: searchId
-          })
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'searchPilgrimStatus', id: searchId })
         });
 
         const result = await response.json();
-
         if (!result.success) {
           playErrorSound();
           resultBox.innerHTML = result.message || 'لا توجد نتيجة';
