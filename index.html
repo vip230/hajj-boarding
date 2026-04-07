@@ -13,6 +13,7 @@
       --red: #d93025;
       --purple: #7b1fa2;
       --gray: #5f6368;
+      --orange: #ef6c00;
       --bg: #f4f7fb;
       --card: #ffffff;
       --border: #dfe5ee;
@@ -22,9 +23,7 @@
       --radius: 16px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -54,6 +53,18 @@
       object-fit: cover;
     }
 
+    .global-bar {
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+    }
+
     .sub-header {
       background: #fff;
       border-radius: 14px;
@@ -74,7 +85,7 @@
 
     .back-btn {
       width: auto;
-      min-width: 100px;
+      min-width: 120px;
       padding: 10px 14px;
       background: var(--primary);
       border: none;
@@ -84,13 +95,8 @@
       cursor: pointer;
     }
 
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-    }
+    .screen { display: none; }
+    .screen.active { display: block; }
 
     .card {
       background: var(--card);
@@ -117,9 +123,7 @@
       transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
-    .home-tile:hover {
-      transform: translateY(-2px);
-    }
+    .home-tile:hover { transform: translateY(-2px); }
 
     .tile-icon {
       font-size: 26px;
@@ -179,6 +183,7 @@
     .btn-green { background: var(--green); }
     .btn-red { background: var(--red); }
     .btn-purple { background: var(--purple); }
+    .btn-orange { background: var(--orange); }
 
     .row {
       display: grid;
@@ -220,7 +225,7 @@
     }
 
     #status {
-      margin-top: 12px;
+      margin-top: 0;
       padding: 12px;
       border-radius: 14px;
       white-space: pre-line;
@@ -265,9 +270,7 @@
       border-bottom: 1px solid #e8edf5;
     }
 
-    .log-item:last-child {
-      border-bottom: none;
-    }
+    .log-item:last-child { border-bottom: none; }
 
     @media (max-width: 720px) {
       .home-grid,
@@ -284,17 +287,49 @@
       .sub-header-title {
         text-align: center;
       }
+
+      .global-bar {
+        position: static;
+      }
     }
   </style>
 </head>
 <body>
   <div class="app-shell">
-    <!-- الشاشة الرئيسية -->
-    <section id="screen-home" class="screen active">
-      <div class="hero">
-        <img src="1447.png" alt="شركة مشاعل النور" />
-      </div>
+    <div class="hero">
+      <img src="1447.png" alt="شركة مشاعل النور" />
+    </div>
 
+    <div class="global-bar">
+      <div class="row">
+        <div>
+          <label for="busNumber">رقم الحافلة</label>
+          <select id="busNumber" onchange="loadBusLiveInfo()">
+            <option value="">اختر رقم الحافلة</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+          </select>
+        </div>
+        <div>
+          <label>الإشعارات</label>
+          <div id="status" class="status-info">الحالة: جاهز</div>
+        </div>
+      </div>
+    </div>
+
+    <section id="screen-home" class="screen active">
       <div class="card">
         <h3>اختر الخدمة</h3>
         <div class="home-grid">
@@ -313,7 +348,7 @@
           <div class="home-tile" onclick="showScreen('buses')">
             <div class="tile-icon">🚌</div>
             <div class="tile-title">الحافلات</div>
-            <div class="tile-desc">معلومات الحافلة الحالية، تجهيز المنفست، وإعلان الانطلاق.</div>
+            <div class="tile-desc">معلومات الحافلة الحالية، المنفست، الانطلاق، والوصول.</div>
           </div>
 
           <div class="home-tile" onclick="showScreen('reports')">
@@ -325,7 +360,6 @@
       </div>
     </section>
 
-    <!-- شاشة التسجيل -->
     <section id="screen-register" class="screen">
       <div class="sub-header">
         <div class="sub-header-title">شاشة التسجيل</div>
@@ -336,27 +370,6 @@
         <h3>بيانات التشغيل</h3>
         <div class="row">
           <div>
-            <label for="busNumber">رقم الحافلة</label>
-            <select id="busNumber" onchange="loadBusLiveInfo()">
-              <option value="">اختر رقم الحافلة</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
-            </select>
-          </div>
-
-          <div>
             <label for="proofType">نوع الإثبات</label>
             <select id="proofType">
               <option value="">اختر نوع الإثبات</option>
@@ -366,18 +379,16 @@
               <option value="إدخال يدوي">إدخال يدوي</option>
             </select>
           </div>
-        </div>
 
-        <div class="row">
           <div>
             <label for="userName">اسم المستخدم</label>
             <input type="text" id="userName" placeholder="اسم الموظف أو المشرف" />
           </div>
+        </div>
 
-          <div>
-            <label for="notes">ملاحظات</label>
-            <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
-          </div>
+        <div>
+          <label for="notes">ملاحظات</label>
+          <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
         </div>
       </div>
 
@@ -385,13 +396,11 @@
         <h3>المسح بالكاميرا</h3>
         <button onclick="startScanner()">تشغيل الكاميرا</button>
         <button class="btn-secondary" onclick="stopScanner()">إيقاف الكاميرا</button>
-        <div class="hint">اختر الحافلة ونوع الإثبات واسم المستخدم، ثم ابدأ المسح.</div>
+        <div class="hint">اختر الحافلة من الأعلى ثم نوع الإثبات واسم المستخدم، وبعدها ابدأ المسح.</div>
         <div id="reader"></div>
-        <div id="status" class="status-info">الحالة: جاهز</div>
       </div>
     </section>
 
-    <!-- شاشة العمليات -->
     <section id="screen-operations" class="screen">
       <div class="sub-header">
         <div class="sub-header-title">شاشة العمليات</div>
@@ -421,7 +430,6 @@
       </div>
     </section>
 
-    <!-- شاشة الحافلات -->
     <section id="screen-buses" class="screen">
       <div class="sub-header">
         <div class="sub-header-title">شاشة الحافلات</div>
@@ -470,10 +478,10 @@
         <h3>إجراءات الحافلة</h3>
         <button class="btn-green" onclick="generateManifest()">تجهيز المنفست</button>
         <button class="btn-purple" onclick="departBus()">إعلان انطلاق الحافلة</button>
+        <button class="btn-orange" onclick="arriveBus()">الحافلة وصلت</button>
       </div>
     </section>
 
-    <!-- شاشة التقارير -->
     <section id="screen-reports" class="screen">
       <div class="sub-header">
         <div class="sub-header-title">شاشة التقارير</div>
@@ -514,7 +522,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw31UGSWxuEezlyiv0vWWvkbwi4O5o0X1_DGGwbRr0Xfyqk_9vwBt-A4Gby6cDydZV6/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwJf_SkI0U8kGsPhmzxixq259dqfU5incQnN5XB4j6EBmpPTGpr3EeXZKivmQl-BVATqw/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -649,6 +657,7 @@
         });
 
         const result = await response.json();
+
         if (!result.success) {
           clearBusLiveInfo();
           return;
@@ -900,6 +909,44 @@
       } catch (error) {
         playErrorSound();
         setStatus("حدث خطأ أثناء إعلان انطلاق الحافلة: " + error.message, 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+    }
+
+    async function arriveBus() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ إعلان وصول الحافلة...', 'info');
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'arriveBus', busNumber })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          playSuccessSound();
+          setStatus(
+            "تم إعلان وصول الحافلة بنجاح.\n" +
+            "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
+            "رقم اللوحة: " + (result.plateNumber || '-') + "\n" +
+            "السائق: " + (result.driverName || '-'),
+            'success'
+          );
+        } else {
+          playErrorSound();
+          setStatus("فشل إعلان وصول الحافلة: " + (result.message || 'حدث خطأ'), 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus("حدث خطأ أثناء إعلان وصول الحافلة: " + error.message, 'error');
       }
 
       await loadBusLiveInfo();
