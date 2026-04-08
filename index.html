@@ -554,16 +554,17 @@
     </section>
   </div>
 
-  <div id="status" class="status-info">الحالة: جاهز</div>
+  <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw58lApmWqDGtA_qdw8y-TLKdrVDLCETcjjdMItPOX-_cD8KRb9GHW7ExbP3gDTx70SpQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw637Jey7loFqofqaK6CVPW3EGtvt4yoZwZOsk7puyHS0iu0HKeYBt-t1prfj8Mh4ImGw/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
     let isSaving = false;
     let lastScannedValue = '';
     let lastScannedAt = 0;
+    let statusHideTimer = null;
 
     function showScreen(name) {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
@@ -577,6 +578,13 @@
 
     function setStatus(msg, type = 'info') {
       const box = document.getElementById('status');
+
+      if (statusHideTimer) {
+        clearTimeout(statusHideTimer);
+        statusHideTimer = null;
+      }
+
+      box.style.display = 'block';
       box.innerText = 'الحالة: ' + msg;
       box.classList.remove('status-success', 'status-error', 'status-warning', 'status-info');
 
@@ -584,6 +592,10 @@
       else if (type === 'error') box.classList.add('status-error');
       else if (type === 'warning') box.classList.add('status-warning');
       else box.classList.add('status-info');
+
+      statusHideTimer = setTimeout(() => {
+        box.style.display = 'none';
+      }, 4000);
     }
 
     function normalizeDigits(text) {
