@@ -40,7 +40,7 @@
     }
 
     .hero {
-      margin: 0 -12px 14px;
+      margin: 0 -12px 12px;
       border-bottom-left-radius: 22px;
       border-bottom-right-radius: 22px;
       overflow: hidden;
@@ -52,50 +52,23 @@
       width: 100%;
       display: block;
       object-fit: cover;
-      max-height: 220px;
-    }
-
-    .mini-intro {
-      background: #ffffff;
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow);
-      border-radius: 16px;
-      padding: 12px 14px;
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
-    .mini-intro-title {
-      font-size: 20px;
-      font-weight: bold;
-      color: var(--primary-dark);
-      margin-bottom: 4px;
-    }
-
-    .mini-intro-sub {
-      font-size: 14px;
-      color: var(--muted);
+      max-height: 170px;
     }
 
     .global-bar {
       background: #fff;
-      border-radius: 16px;
-      padding: 14px;
-      margin-bottom: 14px;
+      border-radius: 18px;
+      padding: 12px;
+      margin-bottom: 12px;
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
       position: sticky;
-      top: 10px;
+      top: 8px;
       z-index: 100;
     }
 
-    .screen {
-      display: none;
-    }
-
-    .screen.active {
-      display: block;
-    }
+    .screen { display: none; }
+    .screen.active { display: block; }
 
     .card {
       background: var(--card);
@@ -137,66 +110,86 @@
       cursor: pointer;
     }
 
+    .home-top-panel {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px 14px;
+      box-shadow: var(--shadow);
+      margin-bottom: 12px;
+    }
+
+    .home-title {
+      font-size: 28px;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin: 0 0 6px;
+      text-align: center;
+    }
+
+    .home-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+      margin: 0;
+    }
+
     .home-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
     }
 
-    .home-tile {
-      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+    .home-app {
+      background: #fff;
       border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 16px 14px;
+      border-radius: 22px;
+      min-height: 150px;
+      padding: 16px 12px;
       box-shadow: var(--shadow);
       cursor: pointer;
-      min-height: 150px;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       transition: transform 0.15s ease, box-shadow 0.15s ease;
+      text-align: center;
     }
 
-    .home-tile:hover {
+    .home-app:hover {
       transform: translateY(-2px);
     }
 
-    .tile-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
-
-    .tile-icon-wrap {
-      width: 46px;
-      height: 46px;
-      border-radius: 14px;
+    .home-app-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      flex-shrink: 0;
+      font-size: 28px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
     }
 
-    .tile-blue { background: #e8f0fe; }
-    .tile-orange { background: #fff0e5; }
-    .tile-green { background: #e7f6ee; }
-    .tile-purple { background: #f3e8fb; }
+    .app-blue { background: linear-gradient(180deg, #e8f0fe, #dbe8ff); }
+    .app-orange { background: linear-gradient(180deg, #fff0e5, #ffe3cf); }
+    .app-green { background: linear-gradient(180deg, #e7f6ee, #d7f0e2); }
+    .app-purple { background: linear-gradient(180deg, #f3e8fb, #ead8fb); }
 
-    .tile-title {
-      font-size: 18px;
+    .home-app-title {
+      font-size: 20px;
       font-weight: bold;
       color: var(--primary-dark);
       margin: 0;
+      line-height: 1.3;
     }
 
-    .tile-desc {
-      font-size: 14px;
+    .home-app-desc {
+      font-size: 13px;
       color: var(--muted);
-      line-height: 1.7;
       margin: 0;
+      line-height: 1.6;
     }
 
     h3 {
@@ -360,11 +353,20 @@
       }
 
       .hero img {
-        max-height: 170px;
+        max-height: 145px;
       }
 
-      .home-tile {
+      .home-title {
+        font-size: 22px;
+      }
+
+      .home-app {
         min-height: 132px;
+        padding: 14px 10px;
+      }
+
+      .home-app-title {
+        font-size: 19px;
       }
     }
   </style>
@@ -373,11 +375,6 @@
   <div class="app-shell">
     <div class="hero">
       <img src="1447.png" alt="شركة مشاعل النور" />
-    </div>
-
-    <div class="mini-intro">
-      <div class="mini-intro-title">نظام تفويج الحجاج</div>
-      <div class="mini-intro-sub">اختر الخدمة المطلوبة من القائمة التالية</div>
     </div>
 
     <div class="global-bar">
@@ -404,46 +401,40 @@
         </div>
         <div>
           <label>الإشعارات</label>
-          <div class="hint">الإشعارات ستظهر أسفل الشاشة مباشرة ثم تختفي تلقائيًا</div>
+          <div class="hint">الإشعارات ستظهر أسفل الشاشة ثم تختفي تلقائيًا</div>
         </div>
       </div>
     </div>
 
     <section id="screen-home" class="screen active">
-      <div class="card">
-        <h3>اختر الخدمة</h3>
-        <div class="home-grid">
-          <div class="home-tile" onclick="showScreen('register')">
-            <div class="tile-top">
-              <div class="tile-title">التسجيل</div>
-              <div class="tile-icon-wrap tile-blue">📷</div>
-            </div>
-            <p class="tile-desc">تشغيل الكاميرا وتسجيل صعود الحجاج.</p>
-          </div>
+      <div class="home-top-panel">
+        <h1 class="home-title">نظام تفويج الحجاج</h1>
+        <p class="home-subtitle">اختر الخدمة المطلوبة للدخول السريع</p>
+      </div>
 
-          <div class="home-tile" onclick="showScreen('operations')">
-            <div class="tile-top">
-              <div class="tile-title">العمليات</div>
-              <div class="tile-icon-wrap tile-orange">⚙️</div>
-            </div>
-            <p class="tile-desc">إدخال يدوي وإلغاء الصعود والبحث السريع.</p>
-          </div>
+      <div class="home-grid">
+        <div class="home-app" onclick="showScreen('register')">
+          <div class="home-app-icon app-blue">📷</div>
+          <h2 class="home-app-title">التسجيل</h2>
+          <p class="home-app-desc">الكاميرا وتسجيل الصعود</p>
+        </div>
 
-          <div class="home-tile" onclick="showScreen('buses')">
-            <div class="tile-top">
-              <div class="tile-title">الحافلات</div>
-              <div class="tile-icon-wrap tile-green">🚌</div>
-            </div>
-            <p class="tile-desc">معلومات الحافلة والمنفست والانطلاق والوصول.</p>
-          </div>
+        <div class="home-app" onclick="showScreen('operations')">
+          <div class="home-app-icon app-orange">⚙️</div>
+          <h2 class="home-app-title">العمليات</h2>
+          <p class="home-app-desc">إدخال يدوي وإلغاء وبحث</p>
+        </div>
 
-          <div class="home-tile" onclick="showScreen('reports')">
-            <div class="tile-top">
-              <div class="tile-title">التقارير</div>
-              <div class="tile-icon-wrap tile-purple">📊</div>
-            </div>
-            <p class="tile-desc">المؤشرات المباشرة وآخر العمليات.</p>
-          </div>
+        <div class="home-app" onclick="showScreen('buses')">
+          <div class="home-app-icon app-green">🚌</div>
+          <h2 class="home-app-title">الحافلات</h2>
+          <p class="home-app-desc">المنفست والانطلاق والوصول</p>
+        </div>
+
+        <div class="home-app" onclick="showScreen('reports')">
+          <div class="home-app-icon app-purple">📊</div>
+          <h2 class="home-app-title">التقارير</h2>
+          <p class="home-app-desc">المؤشرات وآخر العمليات</p>
         </div>
       </div>
     </section>
@@ -638,7 +629,7 @@
   <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoRIXGwoD4K6x7pABfosn2RqnDu5sWA3pTGu74ANDixbSqDaKb9c_0a5pcQabbCQ4yhA/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxt7Rr99D5-ks_mquFug-gGej8RvUpp_XPQzXPnhcR-HwXay3W6GR_Ye18kaMfuWiI_IQ/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
