@@ -27,6 +27,7 @@
       --muted: #6b7b8c;
       --shadow: 0 8px 24px rgba(10, 77, 184, 0.08);
       --radius: 18px;
+      --nav-height: 78px;
     }
 
     * {
@@ -38,7 +39,7 @@
       font-family: "Cairo", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding-bottom: 95px;
+      padding-bottom: calc(var(--nav-height) + 28px);
     }
 
     .app-shell {
@@ -93,118 +94,22 @@
       border: 1px solid var(--border);
     }
 
-    .sub-header {
-      background: #fff;
-      border-radius: 16px;
-      padding: 10px 12px;
-      margin: 14px 0;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
+    .section-header {
+      margin-bottom: 10px;
     }
 
-    .sub-header-title {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--primary-dark);
-    }
-
-    .back-btn {
-      width: auto;
-      min-width: 118px;
-      padding: 10px 14px;
-      background: var(--primary);
-      border: none;
-      color: #fff;
-      border-radius: 12px;
-      font-size: 15px;
-      font-family: inherit;
-      cursor: pointer;
-    }
-
-    .home-top-panel {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px 14px;
-      box-shadow: var(--shadow);
-      margin-bottom: 12px;
-      text-align: center;
-    }
-
-    .home-title {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--primary-dark);
-      margin: 0 0 6px;
-      line-height: 1.3;
-    }
-
-    .home-subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .home-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .home-app {
-      background: #fff;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      min-height: 145px;
-      padding: 16px 12px;
-      box-shadow: var(--shadow);
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      text-align: center;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .home-app:hover {
-      transform: translateY(-2px);
-    }
-
-    .home-app-icon {
-      width: 62px;
-      height: 62px;
-      border-radius: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.35);
-    }
-
-    .app-blue { background: linear-gradient(180deg, #e8f0fe, #dbe8ff); }
-    .app-orange { background: linear-gradient(180deg, #fff0e5, #ffe3cf); }
-    .app-green { background: linear-gradient(180deg, #e7f6ee, #d7f0e2); }
-    .app-purple { background: linear-gradient(180deg, #f3e8fb, #ead8fb); }
-
-    .home-app-title {
+    .section-title {
       font-size: 20px;
       font-weight: 800;
       color: var(--primary-dark);
-      margin: 0;
-      line-height: 1.3;
+      margin: 0 0 4px;
     }
 
-    .home-app-desc {
+    .section-subtitle {
       font-size: 13px;
       color: var(--muted);
       margin: 0;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     h3 {
@@ -333,12 +238,56 @@
       border-bottom: none;
     }
 
+    .bottom-nav {
+      position: fixed;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      height: var(--nav-height);
+      background: rgba(255,255,255,0.98);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      border-radius: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      z-index: 1500;
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0;
+      border-radius: 0;
+      padding: 8px 4px;
+    }
+
+    .nav-btn .nav-icon {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .nav-btn.active {
+      color: var(--primary-dark);
+      background: linear-gradient(180deg, #eef4ff 0%, #e7f0ff 100%);
+    }
+
     #status {
       position: fixed;
       left: 12px;
       right: 12px;
-      bottom: 12px;
-      z-index: 9999;
+      bottom: calc(var(--nav-height) + 18px);
+      z-index: 2000;
       padding: 12px;
       border-radius: 14px;
       white-space: pre-line;
@@ -373,20 +322,10 @@
     }
 
     @media (max-width: 720px) {
-      .home-grid,
       .row,
       .info-grid,
       .screen-action-grid {
         grid-template-columns: 1fr;
-      }
-
-      .sub-header {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .sub-header-title {
-        text-align: center;
       }
 
       .global-bar {
@@ -397,17 +336,18 @@
         max-height: 145px;
       }
 
-      .home-title {
-        font-size: 22px;
+      .bottom-nav {
+        left: 8px;
+        right: 8px;
+        bottom: 8px;
       }
 
-      .home-app {
-        min-height: 130px;
-        padding: 14px 10px;
+      .nav-btn {
+        font-size: 11px;
       }
 
-      .home-app-title {
-        font-size: 19px;
+      .nav-btn .nav-icon {
+        font-size: 21px;
       }
     }
   </style>
@@ -447,43 +387,12 @@
       </div>
     </div>
 
-    <section id="screen-home" class="screen active">
-      <div class="home-top-panel">
-        <h1 class="home-title">نظام تفويج الحجاج</h1>
-        <p class="home-subtitle">اختر الخدمة المطلوبة للدخول السريع</p>
-      </div>
-
-      <div class="home-grid">
-        <div class="home-app" onclick="showScreen('register')">
-          <div class="home-app-icon app-blue">📷</div>
-          <h2 class="home-app-title">التسجيل</h2>
-          <p class="home-app-desc">الكاميرا وتسجيل الصعود</p>
+    <section id="screen-register" class="screen active">
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">التسجيل</h2>
+          <p class="section-subtitle">بيانات التشغيل وتشغيل الكاميرا وتسجيل صعود الحجاج</p>
         </div>
-
-        <div class="home-app" onclick="showScreen('operations')">
-          <div class="home-app-icon app-orange">⚙️</div>
-          <h2 class="home-app-title">العمليات</h2>
-          <p class="home-app-desc">إدخال يدوي وإلغاء وبحث</p>
-        </div>
-
-        <div class="home-app" onclick="showScreen('buses')">
-          <div class="home-app-icon app-green">🚌</div>
-          <h2 class="home-app-title">الحافلات</h2>
-          <p class="home-app-desc">المنفست والانطلاق والوصول</p>
-        </div>
-
-        <div class="home-app" onclick="showScreen('reports')">
-          <div class="home-app-icon app-purple">📊</div>
-          <h2 class="home-app-title">التقارير</h2>
-          <p class="home-app-desc">المؤشرات وآخر العمليات</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="screen-register" class="screen">
-      <div class="sub-header">
-        <div class="sub-header-title">شاشة التسجيل</div>
-        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
       </div>
 
       <div class="card">
@@ -529,9 +438,11 @@
     </section>
 
     <section id="screen-operations" class="screen">
-      <div class="sub-header">
-        <div class="sub-header-title">شاشة العمليات</div>
-        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">العمليات</h2>
+          <p class="section-subtitle">إدخال يدوي وإلغاء الصعود والبحث السريع</p>
+        </div>
       </div>
 
       <div class="card">
@@ -585,9 +496,11 @@
     </section>
 
     <section id="screen-buses" class="screen">
-      <div class="sub-header">
-        <div class="sub-header-title">شاشة الحافلات</div>
-        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">الحافلات</h2>
+          <p class="section-subtitle">معلومات الحافلة الحالية والمنفست والانطلاق والوصول</p>
+        </div>
       </div>
 
       <div class="card">
@@ -645,9 +558,11 @@
     </section>
 
     <section id="screen-reports" class="screen">
-      <div class="sub-header">
-        <div class="sub-header-title">شاشة التقارير</div>
-        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
+      <div class="card">
+        <div class="section-header">
+          <h2 class="section-title">التقارير</h2>
+          <p class="section-subtitle">المؤشرات المباشرة وسجل العمليات الأخيرة</p>
+        </div>
       </div>
 
       <div class="card">
@@ -683,10 +598,29 @@
     </section>
   </div>
 
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-screen="register" onclick="showScreen('register')">
+      <span class="nav-icon">📷</span>
+      <span>التسجيل</span>
+    </button>
+    <button class="nav-btn" data-screen="operations" onclick="showScreen('operations')">
+      <span class="nav-icon">⚙️</span>
+      <span>العمليات</span>
+    </button>
+    <button class="nav-btn" data-screen="buses" onclick="showScreen('buses')">
+      <span class="nav-icon">🚌</span>
+      <span>الحافلات</span>
+    </button>
+    <button class="nav-btn" data-screen="reports" onclick="showScreen('reports')">
+      <span class="nav-icon">📊</span>
+      <span>التقارير</span>
+    </button>
+  </nav>
+
   <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6asH9TJx7G3frE5W8sRT49atqKxLPkQwJ0C0JVMPUaynqhU2zEiqOTwY1WTy7DhZe6Q/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzpTo8e4pEcA4nY_1ZZ-bM3nlSXmyPzlX5999BpfKDRGkOie1oNdJEW-TeEzqOy_areaQ/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -694,16 +628,23 @@
     let lastScannedValue = '';
     let lastScannedAt = 0;
     let statusHideTimer = null;
-    let currentScreen = 'home';
+    let currentScreen = 'register';
 
     function hideAllScreens() {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    }
+
+    function updateBottomNav(name) {
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.screen === name);
+      });
     }
 
     function activateScreen(name) {
       hideAllScreens();
       document.getElementById(`screen-${name}`).classList.add('active');
       currentScreen = name;
+      updateBottomNav(name);
 
       if (name === 'buses' || name === 'reports') {
         loadBusLiveInfo();
@@ -715,30 +656,20 @@
       activateScreen(name);
 
       if (pushHistory) {
-        const state = { screen: name };
-        history.pushState(state, '', '#'+name);
-      }
-    }
-
-    function goHome(pushHistory = true) {
-      activateScreen('home');
-
-      if (pushHistory) {
-        const state = { screen: 'home' };
-        history.pushState(state, '', '#home');
+        history.pushState({ screen: name }, '', '#' + name);
       }
     }
 
     function initializeNavigation() {
       const initialHash = (location.hash || '').replace('#', '').trim();
-      const validScreens = ['home', 'register', 'operations', 'buses', 'reports'];
-      const startScreen = validScreens.includes(initialHash) ? initialHash : 'home';
+      const validScreens = ['register', 'operations', 'buses', 'reports'];
+      const startScreen = validScreens.includes(initialHash) ? initialHash : 'register';
 
-      history.replaceState({ screen: startScreen }, '', '#'+startScreen);
+      history.replaceState({ screen: startScreen }, '', '#' + startScreen);
       activateScreen(startScreen);
 
       window.addEventListener('popstate', (event) => {
-        const stateScreen = event.state && event.state.screen ? event.state.screen : 'home';
+        const stateScreen = event.state && event.state.screen ? event.state.screen : 'register';
         activateScreen(stateScreen);
       });
     }
