@@ -77,6 +77,29 @@
       backdrop-filter: blur(6px);
     }
 
+    .top-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .top-actions .hint {
+      margin: 0;
+      flex: 1;
+    }
+
+    .end-btn {
+      width: auto;
+      min-width: 110px;
+      margin-top: 0;
+      background: var(--red);
+      border-radius: 12px;
+      padding: 10px 14px;
+      flex-shrink: 0;
+    }
+
     .screen {
       display: none;
     }
@@ -270,6 +293,7 @@
       margin: 0;
       border-radius: 0;
       padding: 8px 4px;
+      position: relative;
     }
 
     .nav-btn .nav-icon {
@@ -280,6 +304,32 @@
     .nav-btn.active {
       color: var(--primary-dark);
       background: linear-gradient(180deg, #eef4ff 0%, #e7f0ff 100%);
+    }
+
+    .nav-badge {
+      position: absolute;
+      top: 7px;
+      left: 18px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .nav-badge.show {
+      display: inline-flex;
+    }
+
+    .nav-badge.reports {
+      background: var(--orange);
     }
 
     #status {
@@ -349,6 +399,15 @@
       .nav-btn .nav-icon {
         font-size: 21px;
       }
+
+      .top-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .nav-badge {
+        left: 10px;
+      }
     }
   </style>
 </head>
@@ -384,6 +443,11 @@
           <label>الإشعارات</label>
           <div class="hint">الإشعارات ستظهر أسفل الشاشة ثم تختفي تلقائيًا</div>
         </div>
+      </div>
+
+      <div class="top-actions">
+        <div class="hint">يمكنك استخدام زر "إنهاء" للعودة السريعة لبداية التطبيق وإيقاف الكاميرا.</div>
+        <button class="end-btn" onclick="endSession()">إنهاء</button>
       </div>
     </div>
 
@@ -603,15 +667,20 @@
       <span class="nav-icon">📷</span>
       <span>التسجيل</span>
     </button>
+
     <button class="nav-btn" data-screen="operations" onclick="showScreen('operations')">
       <span class="nav-icon">⚙️</span>
       <span>العمليات</span>
     </button>
+
     <button class="nav-btn" data-screen="buses" onclick="showScreen('buses')">
+      <span class="nav-badge" id="busesBadge">0</span>
       <span class="nav-icon">🚌</span>
       <span>الحافلات</span>
     </button>
+
     <button class="nav-btn" data-screen="reports" onclick="showScreen('reports')">
+      <span class="nav-badge reports" id="reportsBadge">0</span>
       <span class="nav-icon">📊</span>
       <span>التقارير</span>
     </button>
@@ -620,7 +689,7 @@
   <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzpTo8e4pEcA4nY_1ZZ-bM3nlSXmyPzlX5999BpfKDRGkOie1oNdJEW-TeEzqOy_areaQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyey4H3dk-1E3oTl5Kmlpl3Zn6ZwY8M6kcozGB7KAs499LjdoF2lb7sLrOi45H8i9E2BQ/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -638,6 +707,20 @@
       document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.screen === name);
       });
+    }
+
+    function updateNavBadgesFromStats(result) {
+      const busesBadge = document.getElementById('busesBadge');
+      const reportsBadge = document.getElementById('reportsBadge');
+
+      const openBuses = Number(result.openBusesCount || 0);
+      const departedBuses = Number(result.departedBusesCount || 0);
+
+      busesBadge.textContent = openBuses;
+      reportsBadge.textContent = departedBuses;
+
+      busesBadge.classList.toggle('show', openBuses > 0);
+      reportsBadge.classList.toggle('show', departedBuses > 0);
     }
 
     function activateScreen(name) {
@@ -694,6 +777,15 @@
       statusHideTimer = setTimeout(() => {
         box.style.display = 'none';
       }, 4000);
+    }
+
+    function hideStatusNow() {
+      const box = document.getElementById('status');
+      if (statusHideTimer) {
+        clearTimeout(statusHideTimer);
+        statusHideTimer = null;
+      }
+      box.style.display = 'none';
     }
 
     function normalizeDigits(text) {
@@ -786,6 +878,36 @@
       setStatus('تم إيقاف الكاميرا.', 'info');
     }
 
+    async function stopScannerSilently() {
+      if (!html5QrCode) return;
+      try {
+        await html5QrCode.stop();
+        await html5QrCode.clear();
+      } catch (e) {}
+      html5QrCode = null;
+    }
+
+    async function endSession() {
+      await stopScannerSilently();
+
+      document.getElementById('proofType').value = '';
+      document.getElementById('userName').value = '';
+      document.getElementById('notes').value = '';
+
+      document.getElementById('operationProofType').value = '';
+      document.getElementById('operationUserName').value = '';
+      document.getElementById('operationNotes').value = '';
+
+      document.getElementById('manualId').value = '';
+      document.getElementById('cancelId').value = '';
+      document.getElementById('searchId').value = '';
+      document.getElementById('searchResult').innerHTML = 'لا توجد نتيجة بعد';
+
+      hideStatusNow();
+      showScreen('register');
+      setStatus('تم إنهاء الجلسة والعودة إلى بداية التطبيق', 'info');
+    }
+
     async function loadBusLiveInfo() {
       const busNumber = document.getElementById('busNumber').value.trim();
 
@@ -860,6 +982,8 @@
         document.getElementById('statsRemainingBuses').innerText = result.remainingBusesCount ?? '-';
         document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
         document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
+
+        updateNavBadgesFromStats(result);
       } catch (error) {}
     }
 
