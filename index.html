@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>تفويج الحجاج - شركة مشاعل النور</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+
   <style>
     :root {
       --primary: #0b57d0;
@@ -16,21 +22,23 @@
       --orange: #ef6c00;
       --bg: #eef4fa;
       --card: #ffffff;
-      --border: #dde7f1;
+      --border: #dbe6f2;
       --text: #17324b;
       --muted: #6b7b8c;
-      --shadow: 0 6px 18px rgba(10, 77, 184, 0.08);
+      --shadow: 0 8px 24px rgba(10, 77, 184, 0.08);
       --radius: 18px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: "Cairo", Arial, sans-serif;
       background: var(--bg);
       color: var(--text);
-      padding-bottom: 90px;
+      padding-bottom: 95px;
     }
 
     .app-shell {
@@ -52,11 +60,11 @@
       width: 100%;
       display: block;
       object-fit: cover;
-      max-height: 170px;
+      max-height: 150px;
     }
 
     .global-bar {
-      background: #fff;
+      background: rgba(255,255,255,0.96);
       border-radius: 18px;
       padding: 12px;
       margin-bottom: 12px;
@@ -65,10 +73,16 @@
       position: sticky;
       top: 8px;
       z-index: 100;
+      backdrop-filter: blur(6px);
     }
 
-    .screen { display: none; }
-    .screen.active { display: block; }
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
 
     .card {
       background: var(--card);
@@ -81,7 +95,7 @@
 
     .sub-header {
       background: #fff;
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 10px 12px;
       margin: 14px 0;
       box-shadow: var(--shadow);
@@ -94,19 +108,20 @@
 
     .sub-header-title {
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 800;
       color: var(--primary-dark);
     }
 
     .back-btn {
       width: auto;
-      min-width: 110px;
+      min-width: 118px;
       padding: 10px 14px;
       background: var(--primary);
       border: none;
       color: #fff;
       border-radius: 12px;
       font-size: 15px;
+      font-family: inherit;
       cursor: pointer;
     }
 
@@ -117,20 +132,20 @@
       padding: 16px 14px;
       box-shadow: var(--shadow);
       margin-bottom: 12px;
+      text-align: center;
     }
 
     .home-title {
       font-size: 28px;
-      font-weight: bold;
+      font-weight: 800;
       color: var(--primary-dark);
       margin: 0 0 6px;
-      text-align: center;
+      line-height: 1.3;
     }
 
     .home-subtitle {
       font-size: 14px;
       color: var(--muted);
-      text-align: center;
       margin: 0;
     }
 
@@ -144,7 +159,7 @@
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 22px;
-      min-height: 150px;
+      min-height: 145px;
       padding: 16px 12px;
       box-shadow: var(--shadow);
       cursor: pointer;
@@ -153,8 +168,8 @@
       align-items: center;
       justify-content: center;
       gap: 10px;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
       text-align: center;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
     }
 
     .home-app:hover {
@@ -162,8 +177,8 @@
     }
 
     .home-app-icon {
-      width: 60px;
-      height: 60px;
+      width: 62px;
+      height: 62px;
       border-radius: 18px;
       display: flex;
       align-items: center;
@@ -179,7 +194,7 @@
 
     .home-app-title {
       font-size: 20px;
-      font-weight: bold;
+      font-weight: 800;
       color: var(--primary-dark);
       margin: 0;
       line-height: 1.3;
@@ -196,12 +211,21 @@
       margin: 0 0 10px;
       color: var(--primary-dark);
       font-size: 19px;
+      font-weight: 800;
+    }
+
+    .section-note {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: -2px;
+      margin-bottom: 10px;
+      line-height: 1.7;
     }
 
     label {
       display: block;
       margin: 8px 0 6px;
-      font-weight: bold;
+      font-weight: 700;
       color: var(--text);
       font-size: 15px;
     }
@@ -213,6 +237,7 @@
       padding: 12px 14px;
       font-size: 16px;
       background: #fff;
+      font-family: inherit;
     }
 
     textarea {
@@ -225,7 +250,7 @@
       color: #fff;
       background: var(--primary);
       cursor: pointer;
-      font-weight: bold;
+      font-weight: 700;
       margin-top: 10px;
     }
 
@@ -251,20 +276,22 @@
       background: #f8fbff;
       border: 1px solid #e3ebf5;
       border-radius: 14px;
-      padding: 11px;
+      padding: 12px;
     }
 
     .info-title {
       font-size: 13px;
       color: var(--muted);
       margin-bottom: 4px;
+      font-weight: 600;
     }
 
     .info-value {
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 800;
       color: var(--text);
       word-break: break-word;
+      line-height: 1.5;
     }
 
     .hint {
@@ -272,6 +299,19 @@
       font-size: 13px;
       margin-top: 6px;
       line-height: 1.7;
+    }
+
+    .screen-action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .screen-action-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
     }
 
     #reader {
@@ -303,7 +343,7 @@
       border-radius: 14px;
       white-space: pre-line;
       line-height: 1.8;
-      font-weight: bold;
+      font-weight: 700;
       border: 2px solid transparent;
       box-shadow: 0 10px 24px rgba(0,0,0,0.18);
     }
@@ -335,7 +375,8 @@
     @media (max-width: 720px) {
       .home-grid,
       .row,
-      .info-grid {
+      .info-grid,
+      .screen-action-grid {
         grid-template-columns: 1fr;
       }
 
@@ -361,7 +402,7 @@
       }
 
       .home-app {
-        min-height: 132px;
+        min-height: 130px;
         padding: 14px 10px;
       }
 
@@ -442,11 +483,12 @@
     <section id="screen-register" class="screen">
       <div class="sub-header">
         <div class="sub-header-title">شاشة التسجيل</div>
-        <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
+        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
       </div>
 
       <div class="card">
         <h3>بيانات التشغيل</h3>
+        <div class="section-note">حدد نوع الإثبات واسم المستخدم قبل بدء المسح.</div>
         <div class="row">
           <div>
             <label for="proofType">نوع الإثبات</label>
@@ -473,9 +515,15 @@
 
       <div class="card">
         <h3>المسح بالكاميرا</h3>
-        <button onclick="startScanner()">تشغيل الكاميرا</button>
-        <button class="btn-secondary" onclick="stopScanner()">إيقاف الكاميرا</button>
-        <div class="hint">اختر رقم الحافلة من الأعلى ثم نوع الإثبات واسم المستخدم، وبعدها ابدأ المسح.</div>
+        <div class="screen-action-grid">
+          <div class="screen-action-card">
+            <button onclick="startScanner()">تشغيل الكاميرا</button>
+          </div>
+          <div class="screen-action-card">
+            <button class="btn-secondary" onclick="stopScanner()">إيقاف الكاميرا</button>
+          </div>
+        </div>
+        <div class="hint">اختر رقم الحافلة من الأعلى ثم ابدأ توجيه الكاميرا نحو الباركود.</div>
         <div id="reader"></div>
       </div>
     </section>
@@ -483,11 +531,12 @@
     <section id="screen-operations" class="screen">
       <div class="sub-header">
         <div class="sub-header-title">شاشة العمليات</div>
-        <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
+        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
       </div>
 
       <div class="card">
         <h3>بيانات العمليات</h3>
+        <div class="section-note">هذه البيانات تستخدم في الإدخال اليدوي فقط.</div>
         <div class="row">
           <div>
             <label for="operationProofType">نوع الإثبات</label>
@@ -538,7 +587,7 @@
     <section id="screen-buses" class="screen">
       <div class="sub-header">
         <div class="sub-header-title">شاشة الحافلات</div>
-        <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
+        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
       </div>
 
       <div class="card">
@@ -581,16 +630,24 @@
 
       <div class="card">
         <h3>إجراءات الحافلة</h3>
-        <button class="btn-green" onclick="generateManifest()">تجهيز المنفست</button>
-        <button class="btn-purple" onclick="departBus()">إعلان انطلاق الحافلة</button>
-        <button class="btn-orange" onclick="arriveBus()">الحافلة وصلت</button>
+        <div class="screen-action-grid">
+          <div class="screen-action-card">
+            <button class="btn-green" onclick="generateManifest()">تجهيز المنفست</button>
+          </div>
+          <div class="screen-action-card">
+            <button class="btn-purple" onclick="departBus()">إعلان انطلاق الحافلة</button>
+          </div>
+          <div class="screen-action-card" style="grid-column: 1 / -1;">
+            <button class="btn-orange" onclick="arriveBus()">الحافلة وصلت</button>
+          </div>
+        </div>
       </div>
     </section>
 
     <section id="screen-reports" class="screen">
       <div class="sub-header">
         <div class="sub-header-title">شاشة التقارير</div>
-        <button class="back-btn" onclick="showScreen('home')">العودة للرئيسية</button>
+        <button class="back-btn" onclick="goHome()">العودة للرئيسية</button>
       </div>
 
       <div class="card">
@@ -629,7 +686,7 @@
   <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxt7Rr99D5-ks_mquFug-gGej8RvUpp_XPQzXPnhcR-HwXay3W6GR_Ye18kaMfuWiI_IQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx6asH9TJx7G3frE5W8sRT49atqKxLPkQwJ0C0JVMPUaynqhU2zEiqOTwY1WTy7DhZe6Q/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -637,15 +694,53 @@
     let lastScannedValue = '';
     let lastScannedAt = 0;
     let statusHideTimer = null;
+    let currentScreen = 'home';
 
-    function showScreen(name) {
+    function hideAllScreens() {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+    }
+
+    function activateScreen(name) {
+      hideAllScreens();
       document.getElementById(`screen-${name}`).classList.add('active');
+      currentScreen = name;
 
       if (name === 'buses' || name === 'reports') {
         loadBusLiveInfo();
         loadDashboardStats();
       }
+    }
+
+    function showScreen(name, pushHistory = true) {
+      activateScreen(name);
+
+      if (pushHistory) {
+        const state = { screen: name };
+        history.pushState(state, '', '#'+name);
+      }
+    }
+
+    function goHome(pushHistory = true) {
+      activateScreen('home');
+
+      if (pushHistory) {
+        const state = { screen: 'home' };
+        history.pushState(state, '', '#home');
+      }
+    }
+
+    function initializeNavigation() {
+      const initialHash = (location.hash || '').replace('#', '').trim();
+      const validScreens = ['home', 'register', 'operations', 'buses', 'reports'];
+      const startScreen = validScreens.includes(initialHash) ? initialHash : 'home';
+
+      history.replaceState({ screen: startScreen }, '', '#'+startScreen);
+      activateScreen(startScreen);
+
+      window.addEventListener('popstate', (event) => {
+        const stateScreen = event.state && event.state.screen ? event.state.screen : 'home';
+        activateScreen(stateScreen);
+      });
     }
 
     function setStatus(msg, type = 'info') {
@@ -1139,6 +1234,7 @@
     }
 
     window.addEventListener('load', async () => {
+      initializeNavigation();
       await loadDashboardStats();
       await loadBusLiveInfo();
     });
