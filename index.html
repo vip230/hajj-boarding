@@ -20,6 +20,7 @@
       --purple: #7b1fa2;
       --gray: #5f6368;
       --orange: #ef6c00;
+      --yellow: #f9ab00;
       --bg: #eef4fa;
       --card: #ffffff;
       --border: #dbe6f2;
@@ -77,29 +78,6 @@
       backdrop-filter: blur(6px);
     }
 
-    .top-actions {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .top-actions .hint {
-      margin: 0;
-      flex: 1;
-    }
-
-    .end-btn {
-      width: auto;
-      min-width: 110px;
-      margin-top: 0;
-      background: var(--red);
-      border-radius: 12px;
-      padding: 10px 14px;
-      flex-shrink: 0;
-    }
-
     .screen {
       display: none;
     }
@@ -115,6 +93,11 @@
       box-shadow: var(--shadow);
       margin-bottom: 14px;
       border: 1px solid var(--border);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .quick-bus-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
     }
 
     .section-header {
@@ -220,6 +203,11 @@
       color: var(--text);
       word-break: break-word;
       line-height: 1.5;
+    }
+
+    .big-number {
+      font-size: 28px;
+      line-height: 1.2;
     }
 
     .hint {
@@ -332,6 +320,115 @@
       background: var(--orange);
     }
 
+    .operation-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .op-tab-btn {
+      background: #f3f7fd;
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+      margin-top: 0;
+      padding: 10px 8px;
+      font-size: 14px;
+      border-radius: 12px;
+      font-weight: 800;
+    }
+
+    .op-tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .op-panel {
+      display: none;
+    }
+
+    .op-panel.active {
+      display: block;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .chip-open {
+      background: #e6f4ea;
+      color: #137333;
+      border: 1px solid #b7dfc2;
+    }
+
+    .chip-full {
+      background: #fce8e6;
+      color: #a50e0e;
+      border: 1px solid #efc4c1;
+    }
+
+    .chip-departed {
+      background: #f3e8fb;
+      color: #6a1b9a;
+      border: 1px solid #dec8f2;
+    }
+
+    .chip-arrived {
+      background: #fff3e0;
+      color: #b25a00;
+      border: 1px solid #ffd7a6;
+    }
+
+    .chip-closed {
+      background: #eceff1;
+      color: #455a64;
+      border: 1px solid #d7dfe4;
+    }
+
+    .chip-unknown {
+      background: #eef3fd;
+      color: #355070;
+      border: 1px solid #dbe6f2;
+    }
+
+    .flash-success {
+      animation: flashSuccess 0.7s ease;
+    }
+
+    .flash-error {
+      animation: flashError 0.7s ease;
+    }
+
+    .flash-warning {
+      animation: flashWarning 0.7s ease;
+    }
+
+    @keyframes flashSuccess {
+      0% { box-shadow: 0 0 0 rgba(15,157,88,0); }
+      50% { box-shadow: 0 0 0 6px rgba(15,157,88,0.18); border-color: #8fd2ae; }
+      100% { box-shadow: var(--shadow); }
+    }
+
+    @keyframes flashError {
+      0% { box-shadow: 0 0 0 rgba(217,48,37,0); }
+      50% { box-shadow: 0 0 0 6px rgba(217,48,37,0.18); border-color: #efb5b0; }
+      100% { box-shadow: var(--shadow); }
+    }
+
+    @keyframes flashWarning {
+      0% { box-shadow: 0 0 0 rgba(249,171,0,0); }
+      50% { box-shadow: 0 0 0 6px rgba(249,171,0,0.18); border-color: #f0d48a; }
+      100% { box-shadow: var(--shadow); }
+    }
+
     #status {
       position: fixed;
       left: 12px;
@@ -374,7 +471,8 @@
     @media (max-width: 720px) {
       .row,
       .info-grid,
-      .screen-action-grid {
+      .screen-action-grid,
+      .operation-tabs {
         grid-template-columns: 1fr;
       }
 
@@ -398,11 +496,6 @@
 
       .nav-btn .nav-icon {
         font-size: 21px;
-      }
-
-      .top-actions {
-        flex-direction: column;
-        align-items: stretch;
       }
 
       .nav-badge {
@@ -444,22 +537,41 @@
           <div class="hint">الإشعارات ستظهر أسفل الشاشة ثم تختفي تلقائيًا</div>
         </div>
       </div>
+    </div>
 
-      <div class="top-actions">
-        <div class="hint">يمكنك استخدام زر "إنهاء" للعودة السريعة لبداية التطبيق وإيقاف الكاميرا.</div>
-        <button class="end-btn" onclick="endSession()">إنهاء</button>
+    <div class="card quick-bus-card" id="quickBusSummary">
+      <h3>الحالة السريعة</h3>
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-title">الحافلة الحالية</div>
+          <div class="info-value big-number" id="quickBusNumber">-</div>
+        </div>
+        <div class="info-item">
+          <div class="info-title">حالة الحافلة</div>
+          <div class="info-value" id="quickBusStatus">
+            <span class="status-chip chip-unknown">غير محددة</span>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-title">المقاعد المتبقية</div>
+          <div class="info-value big-number" id="quickRemainingSeats">-</div>
+        </div>
+        <div class="info-item">
+          <div class="info-title">رقم اللوحة</div>
+          <div class="info-value" id="quickPlateNumber">-</div>
+        </div>
       </div>
     </div>
 
     <section id="screen-register" class="screen active">
-      <div class="card">
+      <div class="card" id="registerHeaderCard">
         <div class="section-header">
           <h2 class="section-title">التسجيل</h2>
           <p class="section-subtitle">بيانات التشغيل وتشغيل الكاميرا وتسجيل صعود الحجاج</p>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="registerFormCard">
         <h3>بيانات التشغيل</h3>
         <div class="section-note">حدد نوع الإثبات واسم المستخدم قبل بدء المسح.</div>
         <div class="row">
@@ -486,7 +598,7 @@
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="scannerCard">
         <h3>المسح بالكاميرا</h3>
         <div class="screen-action-grid">
           <div class="screen-action-card">
@@ -502,14 +614,14 @@
     </section>
 
     <section id="screen-operations" class="screen">
-      <div class="card">
+      <div class="card" id="operationsHeaderCard">
         <div class="section-header">
           <h2 class="section-title">العمليات</h2>
           <p class="section-subtitle">إدخال يدوي وإلغاء الصعود والبحث السريع</p>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="operationsDataCard">
         <h3>بيانات العمليات</h3>
         <div class="section-note">هذه البيانات تستخدم في الإدخال اليدوي فقط.</div>
         <div class="row">
@@ -536,38 +648,46 @@
         </div>
       </div>
 
-      <div class="card">
-        <h3>إدخال يدوي</h3>
-        <label for="manualId">رقم الهوية</label>
-        <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
-        <button onclick="submitManualId()">تسجيل يدوي</button>
-      </div>
+      <div class="card" id="operationsTabsCard">
+        <div class="operation-tabs">
+          <button class="op-tab-btn active" data-op-tab="manual" onclick="showOperationTab('manual')">إدخال يدوي</button>
+          <button class="op-tab-btn" data-op-tab="cancel" onclick="showOperationTab('cancel')">إلغاء الصعود</button>
+          <button class="op-tab-btn" data-op-tab="search" onclick="showOperationTab('search')">البحث السريع</button>
+        </div>
 
-      <div class="card">
-        <h3>إلغاء الصعود</h3>
-        <label for="cancelId">رقم الهوية</label>
-        <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
-        <button class="btn-red" onclick="cancelBoarding()">إلغاء الصعود</button>
-      </div>
+        <div class="op-panel active" id="op-panel-manual">
+          <h3>إدخال يدوي</h3>
+          <label for="manualId">رقم الهوية</label>
+          <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
+          <button onclick="submitManualId()">تسجيل يدوي</button>
+        </div>
 
-      <div class="card">
-        <h3>البحث السريع</h3>
-        <label for="searchId">رقم الهوية</label>
-        <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
-        <button onclick="searchPilgrim()">بحث</button>
-        <div id="searchResult" class="info-item" style="margin-top:12px;">لا توجد نتيجة بعد</div>
+        <div class="op-panel" id="op-panel-cancel">
+          <h3>إلغاء الصعود</h3>
+          <label for="cancelId">رقم الهوية</label>
+          <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
+          <button class="btn-red" onclick="cancelBoarding()">إلغاء الصعود</button>
+        </div>
+
+        <div class="op-panel" id="op-panel-search">
+          <h3>البحث السريع</h3>
+          <label for="searchId">رقم الهوية</label>
+          <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
+          <button onclick="searchPilgrim()">بحث</button>
+          <div id="searchResult" class="info-item" style="margin-top:12px;">لا توجد نتيجة بعد</div>
+        </div>
       </div>
     </section>
 
     <section id="screen-buses" class="screen">
-      <div class="card">
+      <div class="card" id="busesHeaderCard">
         <div class="section-header">
           <h2 class="section-title">الحافلات</h2>
           <p class="section-subtitle">معلومات الحافلة الحالية والمنفست والانطلاق والوصول</p>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="busInfoCard">
         <h3>معلومات الحافلة الحالية</h3>
         <div class="info-grid">
           <div class="info-item">
@@ -600,12 +720,14 @@
           </div>
           <div class="info-item">
             <div class="info-title">حالة الحافلة</div>
-            <div class="info-value" id="liveBusStatus">-</div>
+            <div class="info-value" id="liveBusStatusColored">
+              <span class="status-chip chip-unknown">غير محددة</span>
+            </div>
           </div>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="busActionsCard">
         <h3>إجراءات الحافلة</h3>
         <div class="screen-action-grid">
           <div class="screen-action-card">
@@ -622,40 +744,40 @@
     </section>
 
     <section id="screen-reports" class="screen">
-      <div class="card">
+      <div class="card" id="reportsHeaderCard">
         <div class="section-header">
           <h2 class="section-title">التقارير</h2>
           <p class="section-subtitle">المؤشرات المباشرة وسجل العمليات الأخيرة</p>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="reportsStatsCard">
         <h3>لوحة التقارير المباشرة</h3>
         <div class="info-grid">
           <div class="info-item">
             <div class="info-title">الحافلات المفتوحة للصعود</div>
-            <div class="info-value" id="statsOpenBuses">-</div>
+            <div class="info-value big-number" id="statsOpenBuses">-</div>
           </div>
           <div class="info-item">
             <div class="info-title">الحافلات التي انطلقت</div>
-            <div class="info-value" id="statsDepartedBuses">-</div>
+            <div class="info-value big-number" id="statsDepartedBuses">-</div>
           </div>
           <div class="info-item">
             <div class="info-title">الحافلات الباقية</div>
-            <div class="info-value" id="statsRemainingBuses">-</div>
+            <div class="info-value big-number" id="statsRemainingBuses">-</div>
           </div>
           <div class="info-item">
             <div class="info-title">الحجاج الذين صعدوا</div>
-            <div class="info-value" id="statsBoardedCount">-</div>
+            <div class="info-value big-number" id="statsBoardedCount">-</div>
           </div>
           <div class="info-item">
             <div class="info-title">الحجاج المتبقين</div>
-            <div class="info-value" id="statsRemainingCount">-</div>
+            <div class="info-value big-number" id="statsRemainingCount">-</div>
           </div>
         </div>
       </div>
 
-      <div class="card">
+      <div class="card" id="reportsLogCard">
         <h3>سجل العمليات الأخيرة</h3>
         <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
       </div>
@@ -689,7 +811,7 @@
   <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyey4H3dk-1E3oTl5Kmlpl3Zn6ZwY8M6kcozGB7KAs499LjdoF2lb7sLrOi45H8i9E2BQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwu2hh2WIeeMnbSZaaIB6JmXCcgYXAnM0JkaYt4adHs6DCuDrQgR6pqVQASl1Y9ZjUH-w/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -707,6 +829,50 @@
       document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.screen === name);
       });
+    }
+
+    function getStatusChipHtml(status) {
+      const text = String(status || '').trim();
+
+      if (text === 'مفتوحة') return '<span class="status-chip chip-open">مفتوحة</span>';
+      if (text === 'ممتلئة') return '<span class="status-chip chip-full">ممتلئة</span>';
+      if (text === 'انطلقت') return '<span class="status-chip chip-departed">انطلقت</span>';
+      if (text === 'وصلت') return '<span class="status-chip chip-arrived">وصلت</span>';
+      if (text === 'مغلقة') return '<span class="status-chip chip-closed">مغلقة</span>';
+
+      return '<span class="status-chip chip-unknown">' + (text || 'غير محددة') + '</span>';
+    }
+
+    function flashCard(cardId, type) {
+      const el = document.getElementById(cardId);
+      if (!el) return;
+
+      el.classList.remove('flash-success', 'flash-error', 'flash-warning');
+      void el.offsetWidth;
+
+      if (type === 'success') el.classList.add('flash-success');
+      else if (type === 'error') el.classList.add('flash-error');
+      else if (type === 'warning') el.classList.add('flash-warning');
+
+      setTimeout(() => {
+        el.classList.remove('flash-success', 'flash-error', 'flash-warning');
+      }, 900);
+    }
+
+    function flashByCurrentScreen(type) {
+      if (currentScreen === 'register') {
+        flashCard('registerFormCard', type);
+        flashCard('scannerCard', type);
+      } else if (currentScreen === 'operations') {
+        flashCard('operationsTabsCard', type);
+      } else if (currentScreen === 'buses') {
+        flashCard('busInfoCard', type);
+        flashCard('busActionsCard', type);
+      } else if (currentScreen === 'reports') {
+        flashCard('reportsStatsCard', type);
+      }
+
+      flashCard('quickBusSummary', type);
     }
 
     function updateNavBadgesFromStats(result) {
@@ -757,6 +923,15 @@
       });
     }
 
+    function showOperationTab(tabName) {
+      document.querySelectorAll('.op-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.opTab === tabName);
+      });
+
+      document.querySelectorAll('.op-panel').forEach(panel => panel.classList.remove('active'));
+      document.getElementById('op-panel-' + tabName).classList.add('active');
+    }
+
     function setStatus(msg, type = 'info') {
       const box = document.getElementById('status');
 
@@ -774,18 +949,13 @@
       else if (type === 'warning') box.classList.add('status-warning');
       else box.classList.add('status-info');
 
+      if (type === 'success' || type === 'error' || type === 'warning') {
+        flashByCurrentScreen(type);
+      }
+
       statusHideTimer = setTimeout(() => {
         box.style.display = 'none';
       }, 4000);
-    }
-
-    function hideStatusNow() {
-      const box = document.getElementById('status');
-      if (statusHideTimer) {
-        clearTimeout(statusHideTimer);
-        statusHideTimer = null;
-      }
-      box.style.display = 'none';
     }
 
     function normalizeDigits(text) {
@@ -878,36 +1048,6 @@
       setStatus('تم إيقاف الكاميرا.', 'info');
     }
 
-    async function stopScannerSilently() {
-      if (!html5QrCode) return;
-      try {
-        await html5QrCode.stop();
-        await html5QrCode.clear();
-      } catch (e) {}
-      html5QrCode = null;
-    }
-
-    async function endSession() {
-      await stopScannerSilently();
-
-      document.getElementById('proofType').value = '';
-      document.getElementById('userName').value = '';
-      document.getElementById('notes').value = '';
-
-      document.getElementById('operationProofType').value = '';
-      document.getElementById('operationUserName').value = '';
-      document.getElementById('operationNotes').value = '';
-
-      document.getElementById('manualId').value = '';
-      document.getElementById('cancelId').value = '';
-      document.getElementById('searchId').value = '';
-      document.getElementById('searchResult').innerHTML = 'لا توجد نتيجة بعد';
-
-      hideStatusNow();
-      showScreen('register');
-      setStatus('تم إنهاء الجلسة والعودة إلى بداية التطبيق', 'info');
-    }
-
     async function loadBusLiveInfo() {
       const busNumber = document.getElementById('busNumber').value.trim();
 
@@ -937,7 +1077,12 @@
         document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
         document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
         document.getElementById('liveRemainingSeats').innerText = result.remainingSeats ?? '-';
-        document.getElementById('liveBusStatus').innerText = result.busStatus || '-';
+        document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(result.busStatus);
+
+        document.getElementById('quickBusNumber').innerText = result.busNumber || '-';
+        document.getElementById('quickRemainingSeats').innerText = result.remainingSeats ?? '-';
+        document.getElementById('quickPlateNumber').innerText = result.plateNumber || '-';
+        document.getElementById('quickBusStatus').innerHTML = getStatusChipHtml(result.busStatus);
 
         const recentBox = document.getElementById('recentOperations');
         if (!result.recentOperations || result.recentOperations.length === 0) {
@@ -962,7 +1107,13 @@
       document.getElementById('liveCurrentCount').innerText = '-';
       document.getElementById('liveCapacity').innerText = '-';
       document.getElementById('liveRemainingSeats').innerText = '-';
-      document.getElementById('liveBusStatus').innerText = '-';
+      document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml('');
+
+      document.getElementById('quickBusNumber').innerText = '-';
+      document.getElementById('quickRemainingSeats').innerText = '-';
+      document.getElementById('quickPlateNumber').innerText = '-';
+      document.getElementById('quickBusStatus').innerHTML = getStatusChipHtml('');
+
       document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
     }
 
@@ -1268,11 +1419,13 @@
         const result = await response.json();
         if (!result.success) {
           playErrorSound();
+          setStatus(result.message || 'لا توجد نتيجة', 'error');
           resultBox.innerHTML = result.message || 'لا توجد نتيجة';
           return;
         }
 
         playSuccessSound();
+        setStatus('تم العثور على نتيجة البحث بنجاح', 'success');
         resultBox.innerHTML = `
           <div><strong>الاسم:</strong> ${result.name || '-'}</div>
           <div><strong>رقم الهوية:</strong> ${result.id || '-'}</div>
@@ -1284,12 +1437,14 @@
         `;
       } catch (error) {
         playErrorSound();
+        setStatus('حدث خطأ أثناء البحث: ' + error.message, 'error');
         resultBox.innerHTML = 'حدث خطأ أثناء البحث: ' + error.message;
       }
     }
 
     window.addEventListener('load', async () => {
       initializeNavigation();
+      showOperationTab('manual');
       await loadDashboardStats();
       await loadBusLiveInfo();
     });
