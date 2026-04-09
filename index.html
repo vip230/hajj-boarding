@@ -525,6 +525,13 @@
       padding: 12px;
     }
 
+    .status-action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
     .camera-status {
       margin-top: 8px;
       display: inline-flex;
@@ -885,6 +892,7 @@
       .row,
       .info-grid,
       .screen-action-grid,
+      .status-action-grid,
       .operation-tabs,
       .kpi-grid {
         grid-template-columns: 1fr;
@@ -1262,6 +1270,53 @@
         </div>
       </div>
 
+      <div class="card" id="busStatusCard">
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 20V10"></path>
+            <path d="M18 20V4"></path>
+            <path d="M6 20v-6"></path>
+          </svg>
+          <h3>تغيير حالة الحافلة</h3>
+        </div>
+
+        <div class="status-action-grid">
+          <button class="btn-green btn-with-icon" type="button" onclick="changeBusStatus('مفتوحة')">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+            <span>فتح الحافلة</span>
+          </button>
+
+          <button class="btn-red btn-with-icon" type="button" onclick="changeBusStatus('ممتلئة')">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6l12 12"></path>
+            </svg>
+            <span>تعيين ممتلئة</span>
+          </button>
+
+          <button class="btn-purple btn-with-icon" type="button" onclick="changeBusStatus('انطلقت')">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h12"></path>
+              <path d="M13 6l6 6-6 6"></path>
+            </svg>
+            <span>إعلان انطلقت</span>
+          </button>
+
+          <button class="btn-orange btn-with-icon" type="button" onclick="changeBusStatus('وصلت')">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+            <span>إعلان وصلت</span>
+          </button>
+        </div>
+
+        <div class="hint">
+          إذا كانت الحافلة مكتملة السعة، فلن يسمح التسجيل حتى بعد فتحها إلا بعد إلغاء حاج ووجود مقعد شاغر.
+        </div>
+      </div>
+
       <div class="card" id="busActionsCard">
         <div class="card-title-row">
           <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -1445,7 +1500,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx4FCB-5GWtPY2j4X_YfoCZcgKHDV0D240OVJuxl45nvUmtzb2yv2IEcrofFCvPT4SOWg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtb5tzmRtRXtcb-geIG4vRr1NDfcz9vdaLucvAM6M3NFF38VIgnQt4aB0uNn4YWA74BA/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1528,6 +1583,7 @@
         flashCard('operationsTabsCard', type);
       } else if (currentScreen === 'buses') {
         flashCard('busInfoCard', type);
+        flashCard('busStatusCard', type);
         flashCard('busActionsCard', type);
       } else if (currentScreen === 'reports') {
         flashCard('reportsStatsCard', type);
@@ -2039,6 +2095,45 @@
       } catch (error) {
         playErrorSound();
         setStatus("حدث خطأ أثناء إعلان الوصول", 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+    }
+
+    async function changeBusStatus(newStatus) {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ تغيير حالة الحافلة...', 'info');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'changeBusStatus',
+            busNumber: busNumber,
+            newStatus: newStatus
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus(result.message || ('تم تغيير حالة الحافلة إلى ' + newStatus), 'success');
+        } else {
+          playErrorSound();
+          setStatus(result.message || 'فشل تغيير حالة الحافلة', 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تغيير حالة الحافلة', 'error');
       }
 
       await loadBusLiveInfo();
