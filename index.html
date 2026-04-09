@@ -315,9 +315,15 @@
       position: relative;
     }
 
-    .nav-btn .nav-icon {
-      font-size: 22px;
-      line-height: 1;
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+      display: block;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
 
     .nav-btn.active {
@@ -540,12 +546,13 @@
         bottom: 8px;
       }
 
-      .nav-btn {
-        font-size: 11px;
+      .nav-icon {
+        width: 21px;
+        height: 21px;
       }
 
-      .nav-btn .nav-icon {
-        font-size: 21px;
+      .nav-btn {
+        font-size: 11px;
       }
 
       .nav-badge {
@@ -812,24 +819,41 @@
 
   <nav class="bottom-nav">
     <button class="nav-btn active" data-screen="register" onclick="showScreen('register')">
-      <span class="nav-icon">📷</span>
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
+        <rect x="3" y="6" width="12" height="12" rx="2"></rect>
+      </svg>
       <span>التسجيل</span>
     </button>
 
     <button class="nav-btn" data-screen="operations" onclick="showScreen('operations')">
-      <span class="nav-icon">⚙️</span>
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.36.62.95 1 1.67 1H21a2 2 0 1 1 0 4h-.09c-.72 0-1.31.38-1.51 1z"></path>
+      </svg>
       <span>العمليات</span>
     </button>
 
     <button class="nav-btn" data-screen="buses" onclick="showScreen('buses')">
       <span class="nav-badge" id="busesBadge">0</span>
-      <span class="nav-icon">🚌</span>
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M8 6V4h8v2"></path>
+        <rect x="4" y="6" width="16" height="11" rx="2"></rect>
+        <path d="M4 11h16"></path>
+        <circle cx="8" cy="18" r="1.5"></circle>
+        <circle cx="16" cy="18" r="1.5"></circle>
+      </svg>
       <span>الحافلات</span>
     </button>
 
     <button class="nav-btn" data-screen="reports" onclick="showScreen('reports')">
       <span class="nav-badge reports" id="reportsBadge">0</span>
-      <span class="nav-icon">📊</span>
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M4 20V10"></path>
+        <path d="M10 20V4"></path>
+        <path d="M16 20v-7"></path>
+        <path d="M22 20V8"></path>
+      </svg>
       <span>التقارير</span>
     </button>
   </nav>
@@ -837,7 +861,7 @@
   <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwwR0wVOgDLjs-pdvqh8Hl-Qgfoe1pEmDOSClhOkh9WrMbOxNEQQdKV6Tvhmc9B-k1VkA/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzOv-eFDISc0byJBNRR9gVwpWOyWeyFb_IWP4d7XTr0tsOEPQEyYxaUKsIBy7LNBsEVWw/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
