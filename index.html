@@ -42,7 +42,6 @@
 
       --shadow-xs: 0 2px 8px rgba(10, 77, 184, 0.05);
       --shadow-sm: 0 6px 18px rgba(10, 77, 184, 0.08);
-      --shadow-md: 0 10px 28px rgba(10, 77, 184, 0.10);
 
       --radius: 18px;
       --nav-height: 82px;
@@ -84,7 +83,7 @@
       width: 100%;
       display: block;
       object-fit: cover;
-      max-height: 105px;
+      max-height: 100px;
     }
 
     .topbar {
@@ -525,6 +524,13 @@
       padding: 12px;
     }
 
+    .status-action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+
     .camera-status {
       margin-top: 8px;
       display: inline-flex;
@@ -885,6 +891,7 @@
       .row,
       .info-grid,
       .screen-action-grid,
+      .status-action-grid,
       .operation-tabs,
       .kpi-grid {
         grid-template-columns: 1fr;
@@ -1208,7 +1215,7 @@
       <div class="card theme-buses">
         <div class="section-header">
           <h2 class="section-title">الحافلات</h2>
-          <p class="section-subtitle">معلومات الحافلة الحالية والمنفست والانطلاق والوصول</p>
+          <p class="section-subtitle">معلومات الحافلة الحالية والمنفست والانطلاق والوصول وتغيير الحالة</p>
         </div>
       </div>
 
@@ -1259,6 +1266,53 @@
               <span class="status-chip chip-unknown">غير محددة</span>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="card" id="busStatusCard">
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 20V10"></path>
+            <path d="M18 20V4"></path>
+            <path d="M6 20v-6"></path>
+          </svg>
+          <h3>تغيير حالة الحافلة</h3>
+        </div>
+
+        <div class="status-action-grid">
+          <button class="btn-green btn-with-icon" onclick="changeBusStatus('مفتوحة')">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+            <span>فتح الحافلة</span>
+          </button>
+
+          <button class="btn-red btn-with-icon" onclick="changeBusStatus('ممتلئة')">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6l12 12"></path>
+            </svg>
+            <span>تعيين ممتلئة</span>
+          </button>
+
+          <button class="btn-purple btn-with-icon" onclick="changeBusStatus('انطلقت')">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 12h12"></path>
+              <path d="M13 6l6 6-6 6"></path>
+            </svg>
+            <span>إعلان انطلقت</span>
+          </button>
+
+          <button class="btn-orange btn-with-icon" onclick="changeBusStatus('وصلت')">
+            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M20 6L9 17l-5-5"></path>
+            </svg>
+            <span>إعلان وصلت</span>
+          </button>
+        </div>
+
+        <div class="hint">
+          إذا كانت الحافلة مكتملة السعة، فحتى بعد تغييرها إلى "مفتوحة" لن يقبل التسجيل إلا بعد إلغاء حاج ووجود مقعد شاغر.
         </div>
       </div>
 
@@ -1445,7 +1499,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw36aJlCnhs13mYNp6N4ic0s9pMoyCM-17mfjcLq4AmCQ8dSfIS9FmLPeOUPSvAwrGSAg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby3mOg8shKQ3GTGPNoJxpvefS8PmjZW37ypXtVgUypN-VftEqtCOhWH3eAF5u2KPJiyjQ/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1528,6 +1582,7 @@
         flashCard('operationsTabsCard', type);
       } else if (currentScreen === 'buses') {
         flashCard('busInfoCard', type);
+        flashCard('busStatusCard', type);
         flashCard('busActionsCard', type);
       } else if (currentScreen === 'reports') {
         flashCard('reportsStatsCard', type);
@@ -1874,6 +1929,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
+            action: 'boardPilgrim',
             id: normalizedId,
             busNumber,
             proofType,
@@ -1887,13 +1943,12 @@
         if (result.success) {
           playSuccessSound();
           setStatus(
-            "تم التسجيل: " + (result.name || '-') +
-            " | الحافلة " + (result.busNumber || '-'),
+            "تم التسجيل: " + (result.name || '-') + " | الحافلة " + (result.busNumber || '-'),
             'success'
           );
         } else {
           playErrorSound();
-          setStatus("فشل العملية: " + (result.message || 'خطأ'), 'error');
+          setStatus(result.message || 'فشل العملية', 'error');
         }
       } catch (error) {
         playErrorSound();
@@ -1925,6 +1980,7 @@
 
       try {
         setStatus('جارٍ إلغاء الصعود...', 'info');
+
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1935,14 +1991,52 @@
 
         if (result.success) {
           playWarningSound();
-          setStatus("تم إلغاء الصعود بنجاح", 'warning');
+          setStatus(result.message || "تم إلغاء الصعود بنجاح", 'warning');
         } else {
           playErrorSound();
-          setStatus("فشل إلغاء الصعود", 'error');
+          setStatus(result.message || "فشل إلغاء الصعود", 'error');
         }
       } catch (error) {
         playErrorSound();
         setStatus("حدث خطأ أثناء الإلغاء", 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+    }
+
+    async function changeBusStatus(newStatus) {
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ تغيير حالة الحافلة...', 'info');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'changeBusStatus',
+            busNumber,
+            newStatus
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus(result.message || ('تم تغيير الحالة إلى ' + newStatus), 'success');
+        } else {
+          playErrorSound();
+          setStatus(result.message || 'فشل تغيير الحالة', 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تغيير الحالة', 'error');
       }
 
       await loadBusLiveInfo();
@@ -1967,10 +2061,10 @@
         const result = await response.json();
         if (result.success) {
           playSuccessSound();
-          setStatus("تم تجهيز المنفست بنجاح", 'success');
+          setStatus(result.message || "تم تجهيز المنفست بنجاح", 'success');
         } else {
           playErrorSound();
-          setStatus("فشل تجهيز المنفست", 'error');
+          setStatus(result.message || "فشل تجهيز المنفست", 'error');
         }
       } catch (error) {
         playErrorSound();
@@ -1982,67 +2076,11 @@
     }
 
     async function departBus() {
-      const busNumber = document.getElementById('busNumber').value.trim();
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
-        return;
-      }
-
-      try {
-        setStatus('جارٍ إعلان الانطلاق...', 'info');
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'departBus', busNumber })
-        });
-
-        const result = await response.json();
-        if (result.success) {
-          playSuccessSound();
-          setStatus("تم إعلان انطلاق الحافلة", 'success');
-        } else {
-          playErrorSound();
-          setStatus("فشل إعلان الانطلاق", 'error');
-        }
-      } catch (error) {
-        playErrorSound();
-        setStatus("حدث خطأ أثناء إعلان الانطلاق", 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
+      await changeBusStatus('انطلقت');
     }
 
     async function arriveBus() {
-      const busNumber = document.getElementById('busNumber').value.trim();
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
-        return;
-      }
-
-      try {
-        setStatus('جارٍ إعلان الوصول...', 'info');
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'arriveBus', busNumber })
-        });
-
-        const result = await response.json();
-        if (result.success) {
-          playSuccessSound();
-          setStatus("تم إعلان وصول الحافلة", 'success');
-        } else {
-          playErrorSound();
-          setStatus("فشل إعلان الوصول", 'error');
-        }
-      } catch (error) {
-        playErrorSound();
-        setStatus("حدث خطأ أثناء إعلان الوصول", 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
+      await changeBusStatus('وصلت');
     }
 
     async function searchPilgrim() {
