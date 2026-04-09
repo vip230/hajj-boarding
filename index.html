@@ -42,6 +42,7 @@
 
       --shadow-xs: 0 2px 8px rgba(10, 77, 184, 0.05);
       --shadow-sm: 0 6px 18px rgba(10, 77, 184, 0.08);
+      --shadow-md: 0 10px 28px rgba(10, 77, 184, 0.10);
 
       --radius: 18px;
       --nav-height: 82px;
@@ -83,7 +84,7 @@
       width: 100%;
       display: block;
       object-fit: cover;
-      max-height: 100px;
+      max-height: 105px;
     }
 
     .topbar {
@@ -524,13 +525,6 @@
       padding: 12px;
     }
 
-    .status-action-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 10px;
-    }
-
     .camera-status {
       margin-top: 8px;
       display: inline-flex;
@@ -891,7 +885,6 @@
       .row,
       .info-grid,
       .screen-action-grid,
-      .status-action-grid,
       .operation-tabs,
       .kpi-grid {
         grid-template-columns: 1fr;
@@ -1049,7 +1042,7 @@
 
         <div class="screen-action-grid">
           <div class="screen-action-card">
-            <button class="btn-with-icon" type="button" onclick="startScanner()">
+            <button class="btn-with-icon" onclick="startScanner()">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
                 <rect x="3" y="6" width="12" height="12" rx="2"></rect>
@@ -1059,7 +1052,7 @@
           </div>
 
           <div class="screen-action-card">
-            <button class="btn-secondary btn-with-icon" type="button" onclick="stopScanner()">
+            <button class="btn-secondary btn-with-icon" onclick="stopScanner()">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <rect x="6" y="6" width="12" height="12" rx="2"></rect>
               </svg>
@@ -1123,7 +1116,7 @@
 
       <div class="card" id="operationsTabsCard">
         <div class="operation-tabs">
-          <button class="op-tab-btn active" data-op-tab="manual" type="button" onclick="showOperationTab('manual')">
+          <button class="op-tab-btn active" data-op-tab="manual" onclick="showOperationTab('manual')">
             <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 5v14"></path>
               <path d="M5 12h14"></path>
@@ -1131,7 +1124,7 @@
             <span>إدخال يدوي</span>
           </button>
 
-          <button class="op-tab-btn" data-op-tab="cancel" type="button" onclick="showOperationTab('cancel')">
+          <button class="op-tab-btn" data-op-tab="cancel" onclick="showOperationTab('cancel')">
             <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18 6L6 18"></path>
               <path d="M6 6l12 12"></path>
@@ -1139,7 +1132,7 @@
             <span>إلغاء الصعود</span>
           </button>
 
-          <button class="op-tab-btn" data-op-tab="search" type="button" onclick="showOperationTab('search')">
+          <button class="op-tab-btn" data-op-tab="search" onclick="showOperationTab('search')">
             <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="11" cy="11" r="7"></circle>
               <path d="M21 21l-4.35-4.35"></path>
@@ -1159,7 +1152,7 @@
 
           <label for="manualId">رقم الهوية</label>
           <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
-          <button class="btn-with-icon" type="button" onclick="submitManualId()">
+          <button class="btn-with-icon" onclick="submitManualId()">
             <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 5v14"></path>
               <path d="M5 12h14"></path>
@@ -1179,7 +1172,7 @@
 
           <label for="cancelId">رقم الهوية</label>
           <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
-          <button class="btn-red btn-with-icon" type="button" onclick="cancelBoarding()">
+          <button class="btn-red btn-with-icon" onclick="cancelBoarding()">
             <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18 6L6 18"></path>
               <path d="M6 6l12 12"></path>
@@ -1199,7 +1192,7 @@
 
           <label for="searchId">رقم الهوية</label>
           <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
-          <button class="btn-with-icon" type="button" onclick="searchPilgrim()">
+          <button class="btn-with-icon" onclick="searchPilgrim()">
             <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="11" cy="11" r="7"></circle>
               <path d="M21 21l-4.35-4.35"></path>
@@ -1215,7 +1208,7 @@
       <div class="card theme-buses">
         <div class="section-header">
           <h2 class="section-title">الحافلات</h2>
-          <p class="section-subtitle">معلومات الحافلة الحالية وتغيير الحالة وتجهيز المنفست</p>
+          <p class="section-subtitle">معلومات الحافلة الحالية والمنفست والانطلاق والوصول</p>
         </div>
       </div>
 
@@ -1269,67 +1262,18 @@
         </div>
       </div>
 
-      <div class="card" id="busStatusCard">
-        <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 20V10"></path>
-            <path d="M18 20V4"></path>
-            <path d="M6 20v-6"></path>
-          </svg>
-          <h3>تغيير حالة الحافلة</h3>
-        </div>
-
-        <div class="status-action-grid">
-          <button class="btn-green btn-with-icon" type="button" onclick="changeBusStatus('مفتوحة')">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20 6L9 17l-5-5"></path>
-            </svg>
-            <span>فتح الحافلة</span>
-          </button>
-
-          <button class="btn-red btn-with-icon" type="button" onclick="changeBusStatus('ممتلئة')">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M18 6L6 18"></path>
-              <path d="M6 6l12 12"></path>
-            </svg>
-            <span>تعيين ممتلئة</span>
-          </button>
-
-          <button class="btn-purple btn-with-icon" type="button" onclick="changeBusStatus('انطلقت')">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 12h12"></path>
-              <path d="M13 6l6 6-6 6"></path>
-            </svg>
-            <span>إعلان انطلقت</span>
-          </button>
-
-          <button class="btn-orange btn-with-icon" type="button" onclick="changeBusStatus('وصلت')">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20 6L9 17l-5-5"></path>
-            </svg>
-            <span>إعلان وصلت</span>
-          </button>
-        </div>
-
-        <div class="hint">
-          إذا كانت الحافلة مكتملة السعة، فلن يسمح التسجيل حتى بعد فتحها إلا بعد إلغاء حاج ووجود مقعد شاغر.
-        </div>
-      </div>
-
       <div class="card" id="busActionsCard">
         <div class="card-title-row">
           <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M8 6h8"></path>
-            <path d="M8 10h8"></path>
-            <path d="M8 14h5"></path>
-            <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+            <path d="M5 12h12"></path>
+            <path d="M13 6l6 6-6 6"></path>
           </svg>
           <h3>إجراءات الحافلة</h3>
         </div>
 
         <div class="screen-action-grid">
-          <div class="screen-action-card" style="grid-column: 1 / -1;">
-            <button class="btn-green btn-with-icon" type="button" onclick="generateManifest()">
+          <div class="screen-action-card">
+            <button class="btn-green btn-with-icon" onclick="generateManifest()">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M8 6h8"></path>
                 <path d="M8 10h8"></path>
@@ -1337,6 +1281,25 @@
                 <rect x="5" y="3" width="14" height="18" rx="2"></rect>
               </svg>
               <span>تجهيز المنفست</span>
+            </button>
+          </div>
+
+          <div class="screen-action-card">
+            <button class="btn-purple btn-with-icon" onclick="departBus()">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h12"></path>
+                <path d="M13 6l6 6-6 6"></path>
+              </svg>
+              <span>إعلان انطلاق الحافلة</span>
+            </button>
+          </div>
+
+          <div class="screen-action-card" style="grid-column: 1 / -1;">
+            <button class="btn-orange btn-with-icon" onclick="arriveBus()">
+              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+              <span>الحافلة وصلت</span>
             </button>
           </div>
         </div>
@@ -1436,7 +1399,7 @@
   </div>
 
   <nav class="bottom-nav">
-    <button class="nav-btn active" data-screen="register" type="button" onclick="showScreen('register')">
+    <button class="nav-btn active" data-screen="register" onclick="showScreen('register')">
       <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
         <rect x="3" y="6" width="12" height="12" rx="2"></rect>
@@ -1444,7 +1407,7 @@
       <span>التسجيل</span>
     </button>
 
-    <button class="nav-btn" data-screen="operations" type="button" onclick="showScreen('operations')">
+    <button class="nav-btn" data-screen="operations" onclick="showScreen('operations')">
       <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
         <circle cx="12" cy="12" r="3"></circle>
         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.36.62.95 1 1.67 1H21a2 2 0 1 1 0 4h-.09c-.72 0-1.31.38-1.51 1z"></path>
@@ -1452,7 +1415,7 @@
       <span>العمليات</span>
     </button>
 
-    <button class="nav-btn" data-screen="buses" type="button" onclick="showScreen('buses')">
+    <button class="nav-btn" data-screen="buses" onclick="showScreen('buses')">
       <span class="nav-badge" id="busesBadge">0</span>
       <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M8 6V4h8v2"></path>
@@ -1464,7 +1427,7 @@
       <span>الحافلات</span>
     </button>
 
-    <button class="nav-btn" data-screen="reports" type="button" onclick="showScreen('reports')">
+    <button class="nav-btn" data-screen="reports" onclick="showScreen('reports')">
       <span class="nav-badge reports" id="reportsBadge">0</span>
       <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
         <path d="M4 20V10"></path>
@@ -1482,7 +1445,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXHNJiQbcGKzuylQIVT-DTsJmi0AGLZhRbY0iwhDuFblxfigTMekA9CZs-kxA8hiaXrA/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxOoNXcdhmC731JZGB219AAXh8sbLBWXyZKG51jRAPCUStodtH5vj4mhgJEOgmccrOI9A/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1565,7 +1528,6 @@
         flashCard('operationsTabsCard', type);
       } else if (currentScreen === 'buses') {
         flashCard('busInfoCard', type);
-        flashCard('busStatusCard', type);
         flashCard('busActionsCard', type);
       } else if (currentScreen === 'reports') {
         flashCard('reportsStatsCard', type);
@@ -1776,14 +1738,13 @@
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'getBusLiveInfo', busNumber: busNumber })
+          body: JSON.stringify({ action: 'getBusLiveInfo', busNumber })
         });
 
         const result = await response.json();
 
         if (!result.success) {
           clearBusLiveInfo();
-          setStatus(result.message || 'تعذر جلب معلومات الحافلة', 'error');
           return;
         }
 
@@ -1811,10 +1772,7 @@
             </div>
           `).join('');
         }
-      } catch (error) {
-        clearBusLiveInfo();
-        setStatus('حدث خطأ أثناء جلب معلومات الحافلة', 'error');
-      }
+      } catch (error) {}
     }
 
     function clearBusLiveInfo() {
@@ -1910,18 +1868,17 @@
       lastScannedAt = now;
 
       try {
-        setStatus('جارٍ تسجيل الصعود...', 'info');
+        setStatus("جارٍ تسجيل الصعود...", 'info');
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
-            action: 'boardPilgrim',
             id: normalizedId,
-            busNumber: busNumber,
-            proofType: proofType,
-            userName: userName,
-            notes: notes
+            busNumber,
+            proofType,
+            userName,
+            notes
           })
         });
 
@@ -1930,16 +1887,17 @@
         if (result.success) {
           playSuccessSound();
           setStatus(
-            'تم التسجيل: ' + (result.name || '-') + ' | الحافلة ' + (result.busNumber || '-'),
+            "تم التسجيل: " + (result.name || '-') +
+            " | الحافلة " + (result.busNumber || '-'),
             'success'
           );
         } else {
           playErrorSound();
-          setStatus(result.message || 'فشل العملية', 'error');
+          setStatus("فشل العملية: " + (result.message || 'خطأ'), 'error');
         }
       } catch (error) {
         playErrorSound();
-        setStatus('خطأ أثناء الإرسال', 'error');
+        setStatus("خطأ أثناء الإرسال", 'error');
       }
 
       await loadBusLiveInfo();
@@ -1967,7 +1925,6 @@
 
       try {
         setStatus('جارٍ إلغاء الصعود...', 'info');
-
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1978,53 +1935,14 @@
 
         if (result.success) {
           playWarningSound();
-          setStatus(result.message || 'تم إلغاء الصعود بنجاح', 'warning');
+          setStatus("تم إلغاء الصعود بنجاح", 'warning');
         } else {
           playErrorSound();
-          setStatus(result.message || 'فشل إلغاء الصعود', 'error');
+          setStatus("فشل إلغاء الصعود", 'error');
         }
       } catch (error) {
         playErrorSound();
-        setStatus('حدث خطأ أثناء الإلغاء', 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-    }
-
-    async function changeBusStatus(newStatus) {
-      const busNumber = document.getElementById('busNumber').value.trim();
-
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
-        return;
-      }
-
-      try {
-        setStatus('جارٍ تغيير حالة الحافلة...', 'info');
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'changeBusStatus',
-            busNumber: busNumber,
-            newStatus: newStatus
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          playSuccessSound();
-          setStatus(result.message || ('تم تغيير الحالة إلى ' + newStatus), 'success');
-        } else {
-          playErrorSound();
-          setStatus(result.message || 'فشل تغيير الحالة', 'error');
-        }
-      } catch (error) {
-        playErrorSound();
-        setStatus('حدث خطأ أثناء تغيير الحالة', 'error');
+        setStatus("حدث خطأ أثناء الإلغاء", 'error');
       }
 
       await loadBusLiveInfo();
@@ -2043,20 +1961,84 @@
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'generateManifest', busNumber: busNumber })
+          body: JSON.stringify({ action: 'generateManifest', busNumber })
         });
 
         const result = await response.json();
         if (result.success) {
           playSuccessSound();
-          setStatus(result.message || 'تم تجهيز المنفست بنجاح', 'success');
+          setStatus("تم تجهيز المنفست بنجاح", 'success');
         } else {
           playErrorSound();
-          setStatus(result.message || 'فشل تجهيز المنفست', 'error');
+          setStatus("فشل تجهيز المنفست", 'error');
         }
       } catch (error) {
         playErrorSound();
-        setStatus('حدث خطأ أثناء تجهيز المنفست', 'error');
+        setStatus("حدث خطأ أثناء تجهيز المنفست", 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+    }
+
+    async function departBus() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ إعلان الانطلاق...', 'info');
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'departBus', busNumber })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          playSuccessSound();
+          setStatus("تم إعلان انطلاق الحافلة", 'success');
+        } else {
+          playErrorSound();
+          setStatus("فشل إعلان الانطلاق", 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus("حدث خطأ أثناء إعلان الانطلاق", 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+    }
+
+    async function arriveBus() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ إعلان الوصول...', 'info');
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'arriveBus', busNumber })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          playSuccessSound();
+          setStatus("تم إعلان وصول الحافلة", 'success');
+        } else {
+          playErrorSound();
+          setStatus("فشل إعلان الوصول", 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus("حدث خطأ أثناء إعلان الوصول", 'error');
       }
 
       await loadBusLiveInfo();
