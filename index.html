@@ -149,8 +149,26 @@
       border-color: #e6d8f7;
     }
 
+    .card-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card-title-icon {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
     h3 {
-      margin: 0 0 10px;
+      margin: 0;
       color: var(--primary-dark);
       font-size: 19px;
       font-weight: 800;
@@ -410,11 +428,26 @@
       font-size: 14px;
       border-radius: 12px;
       font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .op-tab-btn.active {
       background: var(--primary);
       color: #fff;
+    }
+
+    .op-tab-icon {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
     }
 
     .op-panel {
@@ -623,7 +656,15 @@
       </div>
 
       <div class="card" id="registerFormCard">
-        <h3>بيانات التشغيل</h3>
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M19 21H8a2 2 0 0 1-2-2V5"></path>
+            <path d="M16 3H8a2 2 0 0 0-2 2v14"></path>
+            <path d="M9 7h6"></path>
+            <path d="M9 11h6"></path>
+          </svg>
+          <h3>بيانات التشغيل</h3>
+        </div>
         <div class="section-note">حدد نوع الإثبات واسم المستخدم قبل بدء المسح.</div>
         <div class="row">
           <div>
@@ -650,7 +691,13 @@
       </div>
 
       <div class="card" id="scannerCard">
-        <h3>المسح بالكاميرا</h3>
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
+            <rect x="3" y="6" width="12" height="12" rx="2"></rect>
+          </svg>
+          <h3>المسح بالكاميرا</h3>
+        </div>
         <div class="screen-action-grid">
           <div class="screen-action-card">
             <button class="btn-with-icon" onclick="startScanner()">
@@ -684,7 +731,13 @@
       </div>
 
       <div class="card" id="operationsDataCard">
-        <h3>بيانات العمليات</h3>
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.36.62.95 1 1.67 1H21a2 2 0 1 1 0 4h-.09c-.72 0-1.31.38-1.51 1z"></path>
+          </svg>
+          <h3>بيانات العمليات</h3>
+        </div>
         <div class="section-note">هذه البيانات تستخدم في الإدخال اليدوي فقط.</div>
         <div class="row">
           <div>
@@ -712,13 +765,37 @@
 
       <div class="card" id="operationsTabsCard">
         <div class="operation-tabs">
-          <button class="op-tab-btn active" data-op-tab="manual" onclick="showOperationTab('manual')">إدخال يدوي</button>
-          <button class="op-tab-btn" data-op-tab="cancel" onclick="showOperationTab('cancel')">إلغاء الصعود</button>
-          <button class="op-tab-btn" data-op-tab="search" onclick="showOperationTab('search')">البحث السريع</button>
+          <button class="op-tab-btn active" data-op-tab="manual" onclick="showOperationTab('manual')">
+            <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14"></path>
+              <path d="M5 12h14"></path>
+            </svg>
+            <span>إدخال يدوي</span>
+          </button>
+          <button class="op-tab-btn" data-op-tab="cancel" onclick="showOperationTab('cancel')">
+            <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6l12 12"></path>
+            </svg>
+            <span>إلغاء الصعود</span>
+          </button>
+          <button class="op-tab-btn" data-op-tab="search" onclick="showOperationTab('search')">
+            <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <span>البحث السريع</span>
+          </button>
         </div>
 
         <div class="op-panel active" id="op-panel-manual">
-          <h3>إدخال يدوي</h3>
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14"></path>
+              <path d="M5 12h14"></path>
+            </svg>
+            <h3>إدخال يدوي</h3>
+          </div>
           <label for="manualId">رقم الهوية</label>
           <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
           <button class="btn-with-icon" onclick="submitManualId()">
@@ -731,7 +808,13 @@
         </div>
 
         <div class="op-panel" id="op-panel-cancel">
-          <h3>إلغاء الصعود</h3>
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M18 6L6 18"></path>
+              <path d="M6 6l12 12"></path>
+            </svg>
+            <h3>إلغاء الصعود</h3>
+          </div>
           <label for="cancelId">رقم الهوية</label>
           <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
           <button class="btn-red btn-with-icon" onclick="cancelBoarding()">
@@ -744,7 +827,13 @@
         </div>
 
         <div class="op-panel" id="op-panel-search">
-          <h3>البحث السريع</h3>
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"></circle>
+              <path d="M21 21l-4.35-4.35"></path>
+            </svg>
+            <h3>البحث السريع</h3>
+          </div>
           <label for="searchId">رقم الهوية</label>
           <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
           <button class="btn-with-icon" onclick="searchPilgrim()">
@@ -768,7 +857,16 @@
       </div>
 
       <div class="card" id="busInfoCard">
-        <h3>معلومات الحافلة الحالية</h3>
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 6V4h8v2"></path>
+            <rect x="4" y="6" width="16" height="11" rx="2"></rect>
+            <path d="M4 11h16"></path>
+            <circle cx="8" cy="18" r="1.5"></circle>
+            <circle cx="16" cy="18" r="1.5"></circle>
+          </svg>
+          <h3>معلومات الحافلة الحالية</h3>
+        </div>
         <div class="info-grid">
           <div class="info-item">
             <div class="info-title">رقم الحافلة</div>
@@ -808,7 +906,13 @@
       </div>
 
       <div class="card" id="busActionsCard">
-        <h3>إجراءات الحافلة</h3>
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h12"></path>
+            <path d="M13 6l6 6-6 6"></path>
+          </svg>
+          <h3>إجراءات الحافلة</h3>
+        </div>
         <div class="screen-action-grid">
           <div class="screen-action-card">
             <button class="btn-green btn-with-icon" onclick="generateManifest()">
@@ -851,7 +955,15 @@
       </div>
 
       <div class="card" id="reportsStatsCard">
-        <h3>لوحة التقارير المباشرة</h3>
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 20V10"></path>
+            <path d="M10 20V4"></path>
+            <path d="M16 20v-7"></path>
+            <path d="M22 20V8"></path>
+          </svg>
+          <h3>لوحة التقارير المباشرة</h3>
+        </div>
         <div class="info-grid">
           <div class="info-item">
             <div class="info-title">الحافلات المفتوحة للصعود</div>
@@ -877,7 +989,15 @@
       </div>
 
       <div class="card" id="reportsLogCard">
-        <h3>سجل العمليات الأخيرة</h3>
+        <div class="card-title-row">
+          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8 6h8"></path>
+            <path d="M8 10h8"></path>
+            <path d="M8 14h5"></path>
+            <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+          </svg>
+          <h3>سجل العمليات الأخيرة</h3>
+        </div>
         <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
       </div>
     </section>
@@ -927,7 +1047,7 @@
   <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwrTEYDbjlptXpJ6d_s6xGh9qfbWobS_ZHam2AAwFvUVKgbqaJ0E7nFysh6LiDwD4EATA/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweoDSgP06g5c7UJHy8oxlLR31Aq2WYEQ0nFTZG-ijLCj4B6Ho5uUCYH5VzPWcKxlNvag/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
