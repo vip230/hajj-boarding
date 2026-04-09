@@ -45,9 +45,7 @@
       --shadow-md: 0 10px 28px rgba(10, 77, 184, 0.10);
 
       --radius: 18px;
-      --radius-sm: 14px;
       --nav-height: 82px;
-      --topbar-height: 86px;
     }
 
     * {
@@ -86,7 +84,7 @@
       width: 100%;
       display: block;
       object-fit: cover;
-      max-height: 120px;
+      max-height: 105px;
     }
 
     .topbar {
@@ -104,7 +102,7 @@
 
     .topbar-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.3fr 0.9fr;
       gap: 10px;
       align-items: stretch;
     }
@@ -114,7 +112,7 @@
       border: 1px solid var(--border);
       border-radius: 15px;
       padding: 10px 12px;
-      min-height: 64px;
+      min-height: 62px;
       box-shadow: var(--shadow-xs);
     }
 
@@ -213,27 +211,32 @@
 
     .topbar-meta {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: 1fr;
       gap: 8px;
     }
 
-    .mini-kpi {
+    .summary-hidden {
+      display: none;
+    }
+
+    .compact-meta .mini-kpi {
       background: #fff;
       border: 1px solid var(--border);
       border-radius: 13px;
-      padding: 8px;
+      padding: 8px 10px;
       text-align: center;
+      min-height: 44px;
     }
 
     .mini-kpi-label {
       font-size: 11px;
       color: var(--muted);
       font-weight: 700;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .mini-kpi-value {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 800;
       color: var(--text);
       line-height: 1.2;
@@ -812,15 +815,16 @@
       position: fixed;
       left: 12px;
       right: 12px;
-      bottom: calc(var(--nav-height) + 18px);
+      bottom: calc(var(--nav-height) + 14px);
       z-index: 2000;
-      padding: 12px 12px 10px;
-      border-radius: 14px;
+      padding: 9px 12px 8px;
+      border-radius: 12px;
       white-space: pre-line;
-      line-height: 1.8;
+      line-height: 1.5;
       font-weight: 700;
-      border: 2px solid transparent;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      font-size: 14px;
+      border: 1px solid transparent;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.14);
       overflow: hidden;
     }
 
@@ -829,8 +833,8 @@
       right: 0;
       left: 0;
       bottom: 0;
-      height: 4px;
-      background: rgba(255,255,255,0.35);
+      height: 2px;
+      background: rgba(255,255,255,0.22);
       overflow: hidden;
     }
 
@@ -838,9 +842,9 @@
       height: 100%;
       width: 100%;
       transform-origin: right center;
-      animation: statusCountdown 4s linear forwards;
+      animation: statusCountdown 2.2s linear forwards;
       background: currentColor;
-      opacity: 0.35;
+      opacity: 0.28;
     }
 
     @keyframes statusCountdown {
@@ -874,7 +878,7 @@
 
     @media (max-width: 720px) {
       .hero img {
-        max-height: 105px;
+        max-height: 100px;
       }
 
       .topbar-grid,
@@ -882,7 +886,6 @@
       .info-grid,
       .screen-action-grid,
       .operation-tabs,
-      .topbar-meta,
       .kpi-grid {
         grid-template-columns: 1fr;
       }
@@ -962,7 +965,7 @@
           <div class="hint-line">اختر الحافلة أولًا قبل التسجيل أو تنفيذ العمليات.</div>
         </div>
 
-        <div class="topbar-box">
+        <div class="topbar-box summary-hidden" id="topSummaryBox">
           <div class="topbar-title-row">
             <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 20V10"></path>
@@ -973,18 +976,10 @@
             <span>ملخص سريع</span>
           </div>
 
-          <div class="topbar-meta">
+          <div class="topbar-meta compact-meta">
             <div class="mini-kpi">
-              <div class="mini-kpi-label">المقاعد</div>
+              <div class="mini-kpi-label">المقاعد المتبقية</div>
               <div class="mini-kpi-value" id="topRemainingSeats">—</div>
-            </div>
-            <div class="mini-kpi">
-              <div class="mini-kpi-label">العدد</div>
-              <div class="mini-kpi-value" id="topCurrentCount">—</div>
-            </div>
-            <div class="mini-kpi">
-              <div class="mini-kpi-label">اللوحة</div>
-              <div class="mini-kpi-value" id="topPlateNumber">—</div>
             </div>
           </div>
         </div>
@@ -1450,7 +1445,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgyLwYjAf2si2sJZAECIXeaz_tZmha4FGe61JpEF24kJu5MEtAgcv-mxlIPt1di6n5fw/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw36aJlCnhs13mYNp6N4ic0s9pMoyCM-17mfjcLq4AmCQ8dSfIS9FmLPeOUPSvAwrGSAg/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1475,6 +1470,11 @@
       const text = document.getElementById('cameraStatusText');
       dot.classList.toggle('live', !!isLive);
       text.textContent = isLive ? 'الكاميرا تعمل الآن' : 'الكاميرا متوقفة';
+    }
+
+    function updateTopSummaryVisibility(hasBus) {
+      const box = document.getElementById('topSummaryBox');
+      box.classList.toggle('summary-hidden', !hasBus);
     }
 
     function setTopStatusPill(statusText) {
@@ -1624,7 +1624,7 @@
 
       statusHideTimer = setTimeout(() => {
         box.style.display = 'none';
-      }, 4000);
+      }, 2200);
     }
 
     function normalizeDigits(text) {
@@ -1634,12 +1634,12 @@
 
     function extractId(rawText) {
       const text = normalizeDigits(String(rawText)).trim();
-      if (/^\\d+$/.test(text)) return text;
-      const match = text.match(/\\d{6,}/);
+      if (/^\d+$/.test(text)) return text;
+      const match = text.match(/\d{6,}/);
       return match ? match[0] : text;
     }
 
-    function playTone(freq, duration = 0.18) {
+    function playTone(freq, duration = 0.16) {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
         const audioContext = new AudioCtx();
@@ -1650,16 +1650,16 @@
         gainNode.connect(audioContext.destination);
         oscillator.type = 'sine';
         oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.25, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.22, audioContext.currentTime);
 
         oscillator.start();
         oscillator.stop(audioContext.currentTime + duration);
       } catch (e) {}
     }
 
-    function playSuccessSound() { playTone(950, 0.18); }
-    function playErrorSound() { playTone(300, 0.22); }
-    function playWarningSound() { playTone(550, 0.20); }
+    function playSuccessSound() { playTone(950, 0.16); }
+    function playErrorSound() { playTone(300, 0.20); }
+    function playWarningSound() { playTone(550, 0.18); }
 
     function validateRegisterForm() {
       const busNumber = document.getElementById('busNumber').value.trim();
@@ -1701,11 +1701,11 @@
         );
 
         updateCameraUI(true);
-        setStatus('تم تشغيل الكاميرا. وجّهها نحو الباركود أو QR.', 'info');
+        setStatus('تم تشغيل الكاميرا.', 'info');
       } catch (err) {
         updateCameraUI(false);
         playErrorSound();
-        setStatus('فشل تشغيل الكاميرا: ' + ((err && err.message) || 'خطأ غير معروف'), 'error');
+        setStatus('فشل تشغيل الكاميرا', 'error');
       }
     }
 
@@ -1732,6 +1732,7 @@
       }
 
       document.getElementById('currentBusPill').textContent = busNumber;
+      updateTopSummaryVisibility(true);
 
       try {
         const response = await fetch(SCRIPT_URL, {
@@ -1757,8 +1758,6 @@
         document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(result.busStatus);
 
         document.getElementById('topRemainingSeats').innerText = result.remainingSeats ?? '-';
-        document.getElementById('topCurrentCount').innerText = result.currentCount ?? '-';
-        document.getElementById('topPlateNumber').innerText = result.plateNumber || '-';
         setTopStatusPill(result.busStatus || '');
 
         const recentBox = document.getElementById('recentOperations');
@@ -1788,10 +1787,9 @@
       document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
 
       document.getElementById('topRemainingSeats').innerText = '—';
-      document.getElementById('topCurrentCount').innerText = '—';
-      document.getElementById('topPlateNumber').innerText = '—';
       document.getElementById('currentBusPill').textContent = '—';
       setTopStatusPill('');
+      updateTopSummaryVisibility(false);
     }
 
     async function loadDashboardStats() {
@@ -1849,7 +1847,7 @@
 
       const normalizedId = normalizeDigits(idValue).trim();
 
-      if (!/^\\d+$/.test(normalizedId)) {
+      if (!/^\d+$/.test(normalizedId)) {
         playErrorSound();
         setStatus('رقم الهوية غير صالح', 'error');
         return;
@@ -1870,7 +1868,7 @@
       lastScannedAt = now;
 
       try {
-        setStatus("تمت القراءة: " + normalizedId + "\\nجارٍ تسجيل الصعود...", 'info');
+        setStatus("جارٍ تسجيل الصعود...", 'info');
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
@@ -1888,22 +1886,18 @@
 
         if (result.success) {
           playSuccessSound();
-          let extra = result.manifestGenerated ? "\\nتم تجهيز المنفست تلقائيًا." : "";
           setStatus(
-            "تم تسجيل الصعود بنجاح.\\n" +
-            "اسم الحاج: " + (result.name || '-') + "\\n" +
-            "رقم الحافلة: " + (result.busNumber || '-') + "\\n" +
-            "العدد الحالي: " + (result.currentCount || 0) + " / " + (result.capacity || 0) + "\\n" +
-            "حالة الحافلة: " + (result.busStatus || '-') + extra,
+            "تم التسجيل: " + (result.name || '-') +
+            " | الحافلة " + (result.busNumber || '-'),
             'success'
           );
         } else {
           playErrorSound();
-          setStatus("فشل العملية: " + (result.message || 'حدث خطأ'), 'error');
+          setStatus("فشل العملية: " + (result.message || 'خطأ'), 'error');
         }
       } catch (error) {
         playErrorSound();
-        setStatus("حدث خطأ أثناء الإرسال: " + error.message, 'error');
+        setStatus("خطأ أثناء الإرسال", 'error');
       }
 
       await loadBusLiveInfo();
@@ -1941,20 +1935,14 @@
 
         if (result.success) {
           playWarningSound();
-          setStatus(
-            "تم إلغاء الصعود بنجاح.\\n" +
-            "اسم الحاج: " + (result.name || '-') + "\\n" +
-            "رقم الهوية: " + (result.id || '-') + "\\n" +
-            "رقم الحافلة السابقة: " + (result.busNumber || '-'),
-            'warning'
-          );
+          setStatus("تم إلغاء الصعود بنجاح", 'warning');
         } else {
           playErrorSound();
-          setStatus("فشل إلغاء الصعود: " + (result.message || 'حدث خطأ'), 'error');
+          setStatus("فشل إلغاء الصعود", 'error');
         }
       } catch (error) {
         playErrorSound();
-        setStatus("حدث خطأ أثناء إلغاء الصعود: " + error.message, 'error');
+        setStatus("حدث خطأ أثناء الإلغاء", 'error');
       }
 
       await loadBusLiveInfo();
@@ -1969,7 +1957,7 @@
       }
 
       try {
-        setStatus('جارٍ تجهيز المنفست للحافلة رقم ' + busNumber + ' ...', 'info');
+        setStatus('جارٍ تجهيز المنفست...', 'info');
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -1979,20 +1967,14 @@
         const result = await response.json();
         if (result.success) {
           playSuccessSound();
-          setStatus(
-            "تم تجهيز المنفست بنجاح.\\n" +
-            "رقم الحافلة: " + (result.busNumber || '-') + "\\n" +
-            "رقم اللوحة: " + (result.plateNumber || '-') + "\\n" +
-            "عدد الركاب: " + (result.count || 0),
-            'success'
-          );
+          setStatus("تم تجهيز المنفست بنجاح", 'success');
         } else {
           playErrorSound();
-          setStatus("فشل تجهيز المنفست: " + (result.message || 'حدث خطأ'), 'error');
+          setStatus("فشل تجهيز المنفست", 'error');
         }
       } catch (error) {
         playErrorSound();
-        setStatus("حدث خطأ أثناء تجهيز المنفست: " + error.message, 'error');
+        setStatus("حدث خطأ أثناء تجهيز المنفست", 'error');
       }
 
       await loadBusLiveInfo();
@@ -2007,7 +1989,7 @@
       }
 
       try {
-        setStatus('جارٍ إعلان انطلاق الحافلة...', 'info');
+        setStatus('جارٍ إعلان الانطلاق...', 'info');
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -2017,20 +1999,14 @@
         const result = await response.json();
         if (result.success) {
           playSuccessSound();
-          setStatus(
-            "تم إعلان انطلاق الحافلة بنجاح.\\n" +
-            "رقم الحافلة: " + (result.busNumber || '-') + "\\n" +
-            "رقم اللوحة: " + (result.plateNumber || '-') + "\\n" +
-            "السائق: " + (result.driverName || '-'),
-            'success'
-          );
+          setStatus("تم إعلان انطلاق الحافلة", 'success');
         } else {
           playErrorSound();
-          setStatus("فشل إعلان انطلاق الحافلة: " + (result.message || 'حدث خطأ'), 'error');
+          setStatus("فشل إعلان الانطلاق", 'error');
         }
       } catch (error) {
         playErrorSound();
-        setStatus("حدث خطأ أثناء إعلان انطلاق الحافلة: " + error.message, 'error');
+        setStatus("حدث خطأ أثناء إعلان الانطلاق", 'error');
       }
 
       await loadBusLiveInfo();
@@ -2045,7 +2021,7 @@
       }
 
       try {
-        setStatus('جارٍ إعلان وصول الحافلة...', 'info');
+        setStatus('جارٍ إعلان الوصول...', 'info');
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
@@ -2055,20 +2031,14 @@
         const result = await response.json();
         if (result.success) {
           playSuccessSound();
-          setStatus(
-            "تم إعلان وصول الحافلة بنجاح.\\n" +
-            "رقم الحافلة: " + (result.busNumber || '-') + "\\n" +
-            "رقم اللوحة: " + (result.plateNumber || '-') + "\\n" +
-            "السائق: " + (result.driverName || '-'),
-            'success'
-          );
+          setStatus("تم إعلان وصول الحافلة", 'success');
         } else {
           playErrorSound();
-          setStatus("فشل إعلان وصول الحافلة: " + (result.message || 'حدث خطأ'), 'error');
+          setStatus("فشل إعلان الوصول", 'error');
         }
       } catch (error) {
         playErrorSound();
-        setStatus("حدث خطأ أثناء إعلان وصول الحافلة: " + error.message, 'error');
+        setStatus("حدث خطأ أثناء إعلان الوصول", 'error');
       }
 
       await loadBusLiveInfo();
@@ -2102,7 +2072,7 @@
         }
 
         playSuccessSound();
-        setStatus('تم العثور على نتيجة البحث بنجاح', 'success');
+        setStatus('تم العثور على نتيجة', 'success');
         resultBox.innerHTML = `
           <div><strong>الاسم:</strong> ${result.name || '-'}</div>
           <div><strong>رقم الهوية:</strong> ${result.id || '-'}</div>
@@ -2114,8 +2084,8 @@
         `;
       } catch (error) {
         playErrorSound();
-        setStatus('حدث خطأ أثناء البحث: ' + error.message, 'error');
-        resultBox.innerHTML = 'حدث خطأ أثناء البحث: ' + error.message;
+        setStatus('حدث خطأ أثناء البحث', 'error');
+        resultBox.innerHTML = 'حدث خطأ أثناء البحث';
       }
     }
 
@@ -2123,6 +2093,7 @@
       initializeNavigation();
       showOperationTab('manual');
       updateCameraUI(false);
+      updateTopSummaryVisibility(false);
       await loadDashboardStats();
       await loadBusLiveInfo();
     });
