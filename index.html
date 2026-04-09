@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>تفويج الحجاج - شركة مشاعل النور</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,32 +15,56 @@
     :root {
       --primary: #0b57d0;
       --primary-dark: #0a4db8;
+      --primary-soft: #eef4ff;
+
       --green: #0f9d58;
+      --green-soft: #e7f6ee;
+
       --red: #d93025;
+      --red-soft: #fce8e6;
+
       --purple: #7b1fa2;
-      --gray: #5f6368;
+      --purple-soft: #f4ebfb;
+
       --orange: #ef6c00;
+      --orange-soft: #fff1e6;
+
       --yellow: #f9ab00;
+      --yellow-soft: #fef7e0;
+
+      --gray: #5f6368;
       --bg: #eef4fa;
       --card: #ffffff;
+      --card-soft: #f8fbff;
       --border: #dbe6f2;
       --text: #17324b;
       --muted: #6b7b8c;
-      --shadow: 0 8px 24px rgba(10, 77, 184, 0.08);
+
+      --shadow-xs: 0 2px 8px rgba(10, 77, 184, 0.05);
+      --shadow-sm: 0 6px 18px rgba(10, 77, 184, 0.08);
+      --shadow-md: 0 10px 28px rgba(10, 77, 184, 0.10);
+
       --radius: 18px;
-      --nav-height: 78px;
+      --radius-sm: 14px;
+      --nav-height: 82px;
+      --topbar-height: 86px;
     }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Cairo", Arial, sans-serif;
     }
 
     body {
-      margin: 0;
-      font-family: "Cairo", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding-bottom: calc(var(--nav-height) + 28px);
+      padding-bottom: calc(var(--nav-height) + 26px);
     }
 
     .app-shell {
@@ -50,11 +74,11 @@
     }
 
     .hero {
-      margin: 0 -12px 12px;
+      margin: 0 -12px 10px;
       border-bottom-left-radius: 22px;
       border-bottom-right-radius: 22px;
       overflow: hidden;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-sm);
       background: #d7eefb;
     }
 
@@ -62,46 +86,200 @@
       width: 100%;
       display: block;
       object-fit: cover;
-      max-height: 150px;
+      max-height: 120px;
     }
 
-    .global-bar {
-      background: rgba(255,255,255,0.96);
-      border-radius: 18px;
-      padding: 12px;
-      margin-bottom: 12px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
+    .topbar {
       position: sticky;
       top: 8px;
       z-index: 100;
-      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,0.96);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+
+    .topbar-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .topbar-box {
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 10px 12px;
+      min-height: 64px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .topbar-title-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 6px;
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mini-icon {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .bus-toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .bus-select {
+      margin: 0;
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid #cfd8e3;
+      background: #fff;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--text);
+    }
+
+    .bus-pill {
+      min-width: 72px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+
+    .bus-number-pill {
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      border-color: #d6e4fb;
+    }
+
+    .status-pill {
+      background: #eef3fd;
+      color: #355070;
+      border-color: #dbe6f2;
+    }
+
+    .status-open {
+      background: var(--green-soft);
+      color: #137333;
+      border-color: #b7dfc2;
+    }
+
+    .status-full {
+      background: var(--red-soft);
+      color: #a50e0e;
+      border-color: #efc4c1;
+    }
+
+    .status-departed {
+      background: var(--purple-soft);
+      color: #6a1b9a;
+      border-color: #dec8f2;
+    }
+
+    .status-arrived {
+      background: var(--orange-soft);
+      color: #b25a00;
+      border-color: #ffd7a6;
+    }
+
+    .status-closed {
+      background: #eceff1;
+      color: #455a64;
+      border-color: #d7dfe4;
+    }
+
+    .topbar-meta {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .mini-kpi {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 8px;
+      text-align: center;
+    }
+
+    .mini-kpi-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .mini-kpi-value {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .hint-line {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
     }
 
     .screen {
       display: none;
+      animation: screenFade 0.18s ease;
     }
 
     .screen.active {
       display: block;
     }
 
+    @keyframes screenFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .card {
       background: var(--card);
       border-radius: var(--radius);
       padding: 14px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-sm);
       margin-bottom: 14px;
       border: 1px solid var(--border);
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
     }
 
+    .card.soft {
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+    }
+
     .section-header {
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .section-title {
-      font-size: 20px;
+      font-size: 21px;
       font-weight: 800;
       margin: 0 0 4px;
     }
@@ -113,21 +291,10 @@
       line-height: 1.7;
     }
 
-    .theme-register .section-title {
-      color: var(--primary-dark);
-    }
-
-    .theme-operations .section-title {
-      color: var(--orange);
-    }
-
-    .theme-buses .section-title {
-      color: var(--green);
-    }
-
-    .theme-reports .section-title {
-      color: var(--purple);
-    }
+    .theme-register .section-title { color: var(--primary-dark); }
+    .theme-operations .section-title { color: var(--orange); }
+    .theme-buses .section-title { color: var(--green); }
+    .theme-reports .section-title { color: var(--purple); }
 
     .theme-register {
       background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 100%);
@@ -165,13 +332,15 @@
       stroke-linecap: round;
       stroke-linejoin: round;
       flex-shrink: 0;
+      color: var(--primary-dark);
     }
 
     h3 {
       margin: 0;
       color: var(--primary-dark);
-      font-size: 19px;
+      font-size: 18px;
       font-weight: 800;
+      line-height: 1.3;
     }
 
     .section-note {
@@ -187,7 +356,7 @@
       margin: 8px 0 6px;
       font-weight: 700;
       color: var(--text);
-      font-size: 15px;
+      font-size: 14px;
     }
 
     input, select, textarea, button {
@@ -195,14 +364,15 @@
       border-radius: 12px;
       border: 1px solid #cfd8e3;
       padding: 12px 14px;
-      font-size: 16px;
+      font-size: 15px;
       background: #fff;
       font-family: inherit;
+      color: var(--text);
     }
 
     textarea {
       resize: vertical;
-      min-height: 84px;
+      min-height: 82px;
     }
 
     button {
@@ -212,6 +382,12 @@
       cursor: pointer;
       font-weight: 700;
       margin-top: 10px;
+      box-shadow: var(--shadow-xs);
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    button:active {
+      transform: scale(0.99);
     }
 
     .btn-secondary { background: var(--gray); }
@@ -251,17 +427,17 @@
     }
 
     .info-item {
-      background: #f8fbff;
+      background: var(--card-soft);
       border: 1px solid #e3ebf5;
       border-radius: 14px;
       padding: 12px;
     }
 
     .info-title {
-      font-size: 13px;
+      font-size: 12px;
       color: var(--muted);
-      margin-bottom: 4px;
-      font-weight: 600;
+      margin-bottom: 5px;
+      font-weight: 700;
     }
 
     .info-value {
@@ -269,12 +445,61 @@
       font-weight: 800;
       color: var(--text);
       word-break: break-word;
+      line-height: 1.4;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .kpi-card {
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-xs);
+      background: #fff;
+    }
+
+    .kpi-blue { background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%); border-color: #d6e4fb; }
+    .kpi-green { background: linear-gradient(180deg, #ffffff 0%, #f2fbf6 100%); border-color: #d5ebdd; }
+    .kpi-orange { background: linear-gradient(180deg, #ffffff 0%, #fff7f0 100%); border-color: #ffe0c2; }
+    .kpi-purple { background: linear-gradient(180deg, #ffffff 0%, #faf6ff 100%); border-color: #e6d8f7; }
+    .kpi-red { background: linear-gradient(180deg, #ffffff 0%, #fff5f4 100%); border-color: #efc4c1; }
+
+    .kpi-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .kpi-label {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
       line-height: 1.5;
     }
 
-    .big-number {
-      font-size: 28px;
-      line-height: 1.2;
+    .kpi-icon {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      color: currentColor;
+      flex-shrink: 0;
+    }
+
+    .kpi-number {
+      font-size: 30px;
+      line-height: 1.1;
+      font-weight: 800;
+      color: var(--text);
     }
 
     .hint {
@@ -297,12 +522,37 @@
       padding: 12px;
     }
 
+    .camera-status {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .camera-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #c9d4df;
+      box-shadow: 0 0 0 3px rgba(201,212,223,0.25);
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .camera-dot.live {
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(15,157,88,0.20);
+    }
+
     #reader {
       width: 100%;
-      margin-top: 10px;
+      margin-top: 12px;
       overflow: hidden;
-      border-radius: 14px;
+      border-radius: 16px;
       background: #fff;
+      min-height: 48px;
     }
 
     .log-item {
@@ -349,6 +599,20 @@
       border-radius: 0;
       padding: 8px 4px;
       position: relative;
+      box-shadow: none;
+    }
+
+    .nav-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 18%;
+      left: 18%;
+      height: 3px;
+      border-bottom-left-radius: 999px;
+      border-bottom-right-radius: 999px;
+      background: transparent;
+      transition: background 0.18s ease;
     }
 
     .nav-icon {
@@ -360,31 +624,36 @@
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
+      transition: transform 0.18s ease;
     }
 
-    .nav-btn.active {
-      color: var(--primary-dark);
+    .nav-btn.active .nav-icon {
+      transform: translateY(-1px) scale(1.06);
     }
 
     .nav-btn[data-screen="register"].active {
       background: linear-gradient(180deg, #eef4ff 0%, #e7f0ff 100%);
       color: var(--primary-dark);
     }
+    .nav-btn[data-screen="register"].active::before { background: var(--primary-dark); }
 
     .nav-btn[data-screen="operations"].active {
       background: linear-gradient(180deg, #fff4ea 0%, #ffe9d2 100%);
       color: #b85b00;
     }
+    .nav-btn[data-screen="operations"].active::before { background: #b85b00; }
 
     .nav-btn[data-screen="buses"].active {
       background: linear-gradient(180deg, #eefaf2 0%, #dff3e6 100%);
       color: #0d7e46;
     }
+    .nav-btn[data-screen="buses"].active::before { background: #0d7e46; }
 
     .nav-btn[data-screen="reports"].active {
       background: linear-gradient(180deg, #f5edff 0%, #ebdcff 100%);
       color: #6d28a8;
     }
+    .nav-btn[data-screen="reports"].active::before { background: #6d28a8; }
 
     .nav-badge {
       position: absolute;
@@ -432,11 +701,13 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
+      box-shadow: none;
     }
 
     .op-tab-btn.active {
       background: var(--primary);
       color: #fff;
+      box-shadow: var(--shadow-xs);
     }
 
     .op-tab-icon {
@@ -456,6 +727,7 @@
 
     .op-panel.active {
       display: block;
+      animation: screenFade 0.15s ease;
     }
 
     .status-chip {
@@ -471,25 +743,25 @@
     }
 
     .chip-open {
-      background: #e6f4ea;
+      background: var(--green-soft);
       color: #137333;
       border: 1px solid #b7dfc2;
     }
 
     .chip-full {
-      background: #fce8e6;
+      background: var(--red-soft);
       color: #a50e0e;
       border: 1px solid #efc4c1;
     }
 
     .chip-departed {
-      background: #f3e8fb;
+      background: var(--purple-soft);
       color: #6a1b9a;
       border: 1px solid #dec8f2;
     }
 
     .chip-arrived {
-      background: #fff3e0;
+      background: var(--orange-soft);
       color: #b25a00;
       border: 1px solid #ffd7a6;
     }
@@ -521,19 +793,19 @@
     @keyframes flashSuccess {
       0% { box-shadow: 0 0 0 rgba(15,157,88,0); }
       50% { box-shadow: 0 0 0 6px rgba(15,157,88,0.18); border-color: #8fd2ae; }
-      100% { box-shadow: var(--shadow); }
+      100% { box-shadow: var(--shadow-sm); }
     }
 
     @keyframes flashError {
       0% { box-shadow: 0 0 0 rgba(217,48,37,0); }
       50% { box-shadow: 0 0 0 6px rgba(217,48,37,0.18); border-color: #efb5b0; }
-      100% { box-shadow: var(--shadow); }
+      100% { box-shadow: var(--shadow-sm); }
     }
 
     @keyframes flashWarning {
       0% { box-shadow: 0 0 0 rgba(249,171,0,0); }
       50% { box-shadow: 0 0 0 6px rgba(249,171,0,0.18); border-color: #f0d48a; }
-      100% { box-shadow: var(--shadow); }
+      100% { box-shadow: var(--shadow-sm); }
     }
 
     #status {
@@ -542,13 +814,38 @@
       right: 12px;
       bottom: calc(var(--nav-height) + 18px);
       z-index: 2000;
-      padding: 12px;
+      padding: 12px 12px 10px;
       border-radius: 14px;
       white-space: pre-line;
       line-height: 1.8;
       font-weight: 700;
       border: 2px solid transparent;
       box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+
+    .status-progress {
+      position: absolute;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      height: 4px;
+      background: rgba(255,255,255,0.35);
+      overflow: hidden;
+    }
+
+    .status-progress-bar {
+      height: 100%;
+      width: 100%;
+      transform-origin: right center;
+      animation: statusCountdown 4s linear forwards;
+      background: currentColor;
+      opacity: 0.35;
+    }
+
+    @keyframes statusCountdown {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
     }
 
     .status-success {
@@ -576,19 +873,26 @@
     }
 
     @media (max-width: 720px) {
+      .hero img {
+        max-height: 105px;
+      }
+
+      .topbar-grid,
       .row,
       .info-grid,
       .screen-action-grid,
-      .operation-tabs {
+      .operation-tabs,
+      .topbar-meta,
+      .kpi-grid {
         grid-template-columns: 1fr;
       }
 
-      .global-bar {
+      .topbar {
         position: static;
       }
 
-      .hero img {
-        max-height: 145px;
+      .bus-toolbar {
+        grid-template-columns: 1fr;
       }
 
       .bottom-nav {
@@ -618,37 +922,77 @@
       <img src="1447.png" alt="شركة مشاعل النور" />
     </div>
 
-    <div class="global-bar">
-      <div class="row">
-        <div>
-          <label for="busNumber">رقم الحافلة</label>
-          <select id="busNumber" onchange="loadBusLiveInfo()">
-            <option value="">اختر رقم الحافلة</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-            <option value="13">13</option>
-            <option value="14">14</option>
-          </select>
+    <div class="topbar">
+      <div class="topbar-grid">
+        <div class="topbar-box">
+          <div class="topbar-title-row">
+            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 6V4h8v2"></path>
+              <rect x="4" y="6" width="16" height="11" rx="2"></rect>
+              <path d="M4 11h16"></path>
+              <circle cx="8" cy="18" r="1.5"></circle>
+              <circle cx="16" cy="18" r="1.5"></circle>
+            </svg>
+            <span>اختيار الحافلة الحالية</span>
+          </div>
+
+          <div class="bus-toolbar">
+            <select id="busNumber" class="bus-select" onchange="loadBusLiveInfo()">
+              <option value="">اختر رقم الحافلة</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="13">13</option>
+              <option value="14">14</option>
+            </select>
+
+            <div class="bus-pill bus-number-pill" id="currentBusPill">—</div>
+            <div class="bus-pill status-pill" id="currentStatusPill">غير محددة</div>
+          </div>
+
+          <div class="hint-line">اختر الحافلة أولًا قبل التسجيل أو تنفيذ العمليات.</div>
         </div>
-        <div>
-          <label>الإشعارات</label>
-          <div class="hint">الإشعارات ستظهر أسفل الشاشة ثم تختفي تلقائيًا</div>
+
+        <div class="topbar-box">
+          <div class="topbar-title-row">
+            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 20V10"></path>
+              <path d="M10 20V4"></path>
+              <path d="M16 20v-7"></path>
+              <path d="M22 20V8"></path>
+            </svg>
+            <span>ملخص سريع</span>
+          </div>
+
+          <div class="topbar-meta">
+            <div class="mini-kpi">
+              <div class="mini-kpi-label">المقاعد</div>
+              <div class="mini-kpi-value" id="topRemainingSeats">—</div>
+            </div>
+            <div class="mini-kpi">
+              <div class="mini-kpi-label">العدد</div>
+              <div class="mini-kpi-value" id="topCurrentCount">—</div>
+            </div>
+            <div class="mini-kpi">
+              <div class="mini-kpi-label">اللوحة</div>
+              <div class="mini-kpi-value" id="topPlateNumber">—</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <section id="screen-register" class="screen active">
-      <div class="card theme-register" id="registerHeaderCard">
+      <div class="card theme-register">
         <div class="section-header">
           <h2 class="section-title">التسجيل</h2>
           <p class="section-subtitle">بيانات التشغيل وتشغيل الكاميرا وتسجيل صعود الحجاج</p>
@@ -665,7 +1009,9 @@
           </svg>
           <h3>بيانات التشغيل</h3>
         </div>
+
         <div class="section-note">حدد نوع الإثبات واسم المستخدم قبل بدء المسح.</div>
+
         <div class="row">
           <div>
             <label for="proofType">نوع الإثبات</label>
@@ -690,7 +1036,7 @@
         </div>
       </div>
 
-      <div class="card" id="scannerCard">
+      <div class="card soft" id="scannerCard">
         <div class="card-title-row">
           <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
             <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
@@ -698,6 +1044,7 @@
           </svg>
           <h3>المسح بالكاميرا</h3>
         </div>
+
         <div class="screen-action-grid">
           <div class="screen-action-card">
             <button class="btn-with-icon" onclick="startScanner()">
@@ -708,6 +1055,7 @@
               <span>تشغيل الكاميرا</span>
             </button>
           </div>
+
           <div class="screen-action-card">
             <button class="btn-secondary btn-with-icon" onclick="stopScanner()">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -717,13 +1065,19 @@
             </button>
           </div>
         </div>
+
+        <div class="camera-status">
+          <span class="camera-dot" id="cameraDot"></span>
+          <span id="cameraStatusText">الكاميرا متوقفة</span>
+        </div>
+
         <div class="hint">اختر رقم الحافلة من الأعلى ثم ابدأ توجيه الكاميرا نحو الباركود.</div>
         <div id="reader"></div>
       </div>
     </section>
 
     <section id="screen-operations" class="screen">
-      <div class="card theme-operations" id="operationsHeaderCard">
+      <div class="card theme-operations">
         <div class="section-header">
           <h2 class="section-title">العمليات</h2>
           <p class="section-subtitle">إدخال يدوي وإلغاء الصعود والبحث السريع</p>
@@ -738,7 +1092,9 @@
           </svg>
           <h3>بيانات العمليات</h3>
         </div>
+
         <div class="section-note">هذه البيانات تستخدم في الإدخال اليدوي فقط.</div>
+
         <div class="row">
           <div>
             <label for="operationProofType">نوع الإثبات</label>
@@ -772,6 +1128,7 @@
             </svg>
             <span>إدخال يدوي</span>
           </button>
+
           <button class="op-tab-btn" data-op-tab="cancel" onclick="showOperationTab('cancel')">
             <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18 6L6 18"></path>
@@ -779,6 +1136,7 @@
             </svg>
             <span>إلغاء الصعود</span>
           </button>
+
           <button class="op-tab-btn" data-op-tab="search" onclick="showOperationTab('search')">
             <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
               <circle cx="11" cy="11" r="7"></circle>
@@ -796,6 +1154,7 @@
             </svg>
             <h3>إدخال يدوي</h3>
           </div>
+
           <label for="manualId">رقم الهوية</label>
           <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
           <button class="btn-with-icon" onclick="submitManualId()">
@@ -815,6 +1174,7 @@
             </svg>
             <h3>إلغاء الصعود</h3>
           </div>
+
           <label for="cancelId">رقم الهوية</label>
           <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
           <button class="btn-red btn-with-icon" onclick="cancelBoarding()">
@@ -834,6 +1194,7 @@
             </svg>
             <h3>البحث السريع</h3>
           </div>
+
           <label for="searchId">رقم الهوية</label>
           <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
           <button class="btn-with-icon" onclick="searchPilgrim()">
@@ -849,7 +1210,7 @@
     </section>
 
     <section id="screen-buses" class="screen">
-      <div class="card theme-buses" id="busesHeaderCard">
+      <div class="card theme-buses">
         <div class="section-header">
           <h2 class="section-title">الحافلات</h2>
           <p class="section-subtitle">معلومات الحافلة الحالية والمنفست والانطلاق والوصول</p>
@@ -867,6 +1228,7 @@
           </svg>
           <h3>معلومات الحافلة الحالية</h3>
         </div>
+
         <div class="info-grid">
           <div class="info-item">
             <div class="info-title">رقم الحافلة</div>
@@ -913,6 +1275,7 @@
           </svg>
           <h3>إجراءات الحافلة</h3>
         </div>
+
         <div class="screen-action-grid">
           <div class="screen-action-card">
             <button class="btn-green btn-with-icon" onclick="generateManifest()">
@@ -925,6 +1288,7 @@
               <span>تجهيز المنفست</span>
             </button>
           </div>
+
           <div class="screen-action-card">
             <button class="btn-purple btn-with-icon" onclick="departBus()">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -934,6 +1298,7 @@
               <span>إعلان انطلاق الحافلة</span>
             </button>
           </div>
+
           <div class="screen-action-card" style="grid-column: 1 / -1;">
             <button class="btn-orange btn-with-icon" onclick="arriveBus()">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -947,7 +1312,7 @@
     </section>
 
     <section id="screen-reports" class="screen">
-      <div class="card theme-reports" id="reportsHeaderCard">
+      <div class="card theme-reports">
         <div class="section-header">
           <h2 class="section-title">التقارير</h2>
           <p class="section-subtitle">المؤشرات المباشرة وسجل العمليات الأخيرة</p>
@@ -964,26 +1329,61 @@
           </svg>
           <h3>لوحة التقارير المباشرة</h3>
         </div>
-        <div class="info-grid">
-          <div class="info-item">
-            <div class="info-title">الحافلات المفتوحة للصعود</div>
-            <div class="info-value big-number" id="statsOpenBuses">-</div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card kpi-green">
+            <div class="kpi-top">
+              <div class="kpi-label">الحافلات المفتوحة للصعود</div>
+              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 6V4h8v2"></path>
+                <rect x="4" y="6" width="16" height="11" rx="2"></rect>
+              </svg>
+            </div>
+            <div class="kpi-number" id="statsOpenBuses">-</div>
           </div>
-          <div class="info-item">
-            <div class="info-title">الحافلات التي انطلقت</div>
-            <div class="info-value big-number" id="statsDepartedBuses">-</div>
+
+          <div class="kpi-card kpi-purple">
+            <div class="kpi-top">
+              <div class="kpi-label">الحافلات التي انطلقت</div>
+              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 12h12"></path>
+                <path d="M13 6l6 6-6 6"></path>
+              </svg>
+            </div>
+            <div class="kpi-number" id="statsDepartedBuses">-</div>
           </div>
-          <div class="info-item">
-            <div class="info-title">الحافلات الباقية</div>
-            <div class="info-value big-number" id="statsRemainingBuses">-</div>
+
+          <div class="kpi-card kpi-orange">
+            <div class="kpi-top">
+              <div class="kpi-label">الحافلات الباقية</div>
+              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="6" width="16" height="11" rx="2"></rect>
+                <path d="M4 11h16"></path>
+              </svg>
+            </div>
+            <div class="kpi-number" id="statsRemainingBuses">-</div>
           </div>
-          <div class="info-item">
-            <div class="info-title">الحجاج الذين صعدوا</div>
-            <div class="info-value big-number" id="statsBoardedCount">-</div>
+
+          <div class="kpi-card kpi-blue">
+            <div class="kpi-top">
+              <div class="kpi-label">الحجاج الذين صعدوا</div>
+              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </div>
+            <div class="kpi-number" id="statsBoardedCount">-</div>
           </div>
-          <div class="info-item">
-            <div class="info-title">الحجاج المتبقين</div>
-            <div class="info-value big-number" id="statsRemainingCount">-</div>
+
+          <div class="kpi-card kpi-red" style="grid-column: 1 / -1;">
+            <div class="kpi-top">
+              <div class="kpi-label">الحجاج المتبقين</div>
+              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M15 9l-6 6"></path>
+                <path d="M9 9l6 6"></path>
+              </svg>
+            </div>
+            <div class="kpi-number" id="statsRemainingCount">-</div>
           </div>
         </div>
       </div>
@@ -1044,10 +1444,13 @@
     </button>
   </nav>
 
-  <div id="status" class="status-info" style="display:none;">الحالة: جاهز</div>
+  <div id="status" class="status-info" style="display:none;">
+    <div id="statusText">الحالة: جاهز</div>
+    <div class="status-progress"><div class="status-progress-bar" id="statusProgressBar"></div></div>
+  </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbweoDSgP06g5c7UJHy8oxlLR31Aq2WYEQ0nFTZG-ijLCj4B6Ho5uUCYH5VzPWcKxlNvag/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgyLwYjAf2si2sJZAECIXeaz_tZmha4FGe61JpEF24kJu5MEtAgcv-mxlIPt1di6n5fw/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1065,6 +1468,28 @@
       document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.screen === name);
       });
+    }
+
+    function updateCameraUI(isLive) {
+      const dot = document.getElementById('cameraDot');
+      const text = document.getElementById('cameraStatusText');
+      dot.classList.toggle('live', !!isLive);
+      text.textContent = isLive ? 'الكاميرا تعمل الآن' : 'الكاميرا متوقفة';
+    }
+
+    function setTopStatusPill(statusText) {
+      const el = document.getElementById('currentStatusPill');
+      const text = String(statusText || '').trim() || 'غير محددة';
+
+      el.className = 'bus-pill status-pill';
+
+      if (text === 'مفتوحة') el.classList.add('status-open');
+      else if (text === 'ممتلئة') el.classList.add('status-full');
+      else if (text === 'انطلقت') el.classList.add('status-departed');
+      else if (text === 'وصلت') el.classList.add('status-arrived');
+      else if (text === 'مغلقة') el.classList.add('status-closed');
+
+      el.textContent = text;
     }
 
     function getStatusChipHtml(status) {
@@ -1166,8 +1591,16 @@
       document.getElementById('op-panel-' + tabName).classList.add('active');
     }
 
+    function resetStatusProgressBar() {
+      const oldBar = document.getElementById('statusProgressBar');
+      if (!oldBar) return;
+      const newBar = oldBar.cloneNode(true);
+      oldBar.parentNode.replaceChild(newBar, oldBar);
+    }
+
     function setStatus(msg, type = 'info') {
       const box = document.getElementById('status');
+      const text = document.getElementById('statusText');
 
       if (statusHideTimer) {
         clearTimeout(statusHideTimer);
@@ -1175,13 +1608,15 @@
       }
 
       box.style.display = 'block';
-      box.innerText = 'الحالة: ' + msg;
+      text.innerText = 'الحالة: ' + msg;
       box.classList.remove('status-success', 'status-error', 'status-warning', 'status-info');
 
       if (type === 'success') box.classList.add('status-success');
       else if (type === 'error') box.classList.add('status-error');
       else if (type === 'warning') box.classList.add('status-warning');
       else box.classList.add('status-info');
+
+      resetStatusProgressBar();
 
       if (type === 'success' || type === 'error' || type === 'warning') {
         flashByCurrentScreen(type);
@@ -1199,8 +1634,8 @@
 
     function extractId(rawText) {
       const text = normalizeDigits(String(rawText)).trim();
-      if (/^\d+$/.test(text)) return text;
-      const match = text.match(/\d{6,}/);
+      if (/^\\d+$/.test(text)) return text;
+      const match = text.match(/\\d{6,}/);
       return match ? match[0] : text;
     }
 
@@ -1260,25 +1695,31 @@
         html5QrCode = new Html5Qrcode("reader");
         await html5QrCode.start(
           { facingMode: "environment" },
-          { fps: 15, qrbox: { width: 220, height: 220 }, aspectRatio: 1.0 },
+          { fps: 15, qrbox: { width: 240, height: 240 }, aspectRatio: 1.0 },
           onScanSuccess,
           function () {}
         );
 
+        updateCameraUI(true);
         setStatus('تم تشغيل الكاميرا. وجّهها نحو الباركود أو QR.', 'info');
       } catch (err) {
+        updateCameraUI(false);
         playErrorSound();
         setStatus('فشل تشغيل الكاميرا: ' + ((err && err.message) || 'خطأ غير معروف'), 'error');
       }
     }
 
     async function stopScanner() {
-      if (!html5QrCode) return;
+      if (!html5QrCode) {
+        updateCameraUI(false);
+        return;
+      }
       try {
         await html5QrCode.stop();
         await html5QrCode.clear();
       } catch (e) {}
       html5QrCode = null;
+      updateCameraUI(false);
       setStatus('تم إيقاف الكاميرا.', 'info');
     }
 
@@ -1289,6 +1730,8 @@
         clearBusLiveInfo();
         return;
       }
+
+      document.getElementById('currentBusPill').textContent = busNumber;
 
       try {
         const response = await fetch(SCRIPT_URL, {
@@ -1312,6 +1755,11 @@
         document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
         document.getElementById('liveRemainingSeats').innerText = result.remainingSeats ?? '-';
         document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(result.busStatus);
+
+        document.getElementById('topRemainingSeats').innerText = result.remainingSeats ?? '-';
+        document.getElementById('topCurrentCount').innerText = result.currentCount ?? '-';
+        document.getElementById('topPlateNumber').innerText = result.plateNumber || '-';
+        setTopStatusPill(result.busStatus || '');
 
         const recentBox = document.getElementById('recentOperations');
         if (!result.recentOperations || result.recentOperations.length === 0) {
@@ -1338,6 +1786,12 @@
       document.getElementById('liveRemainingSeats').innerText = '-';
       document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml('');
       document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
+
+      document.getElementById('topRemainingSeats').innerText = '—';
+      document.getElementById('topCurrentCount').innerText = '—';
+      document.getElementById('topPlateNumber').innerText = '—';
+      document.getElementById('currentBusPill').textContent = '—';
+      setTopStatusPill('');
     }
 
     async function loadDashboardStats() {
@@ -1395,7 +1849,7 @@
 
       const normalizedId = normalizeDigits(idValue).trim();
 
-      if (!/^\d+$/.test(normalizedId)) {
+      if (!/^\\d+$/.test(normalizedId)) {
         playErrorSound();
         setStatus('رقم الهوية غير صالح', 'error');
         return;
@@ -1416,7 +1870,7 @@
       lastScannedAt = now;
 
       try {
-        setStatus("تمت القراءة: " + normalizedId + "\nجارٍ تسجيل الصعود...", 'info');
+        setStatus("تمت القراءة: " + normalizedId + "\\nجارٍ تسجيل الصعود...", 'info');
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
@@ -1434,12 +1888,12 @@
 
         if (result.success) {
           playSuccessSound();
-          let extra = result.manifestGenerated ? "\nتم تجهيز المنفست تلقائيًا." : "";
+          let extra = result.manifestGenerated ? "\\nتم تجهيز المنفست تلقائيًا." : "";
           setStatus(
-            "تم تسجيل الصعود بنجاح.\n" +
-            "اسم الحاج: " + (result.name || '-') + "\n" +
-            "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
-            "العدد الحالي: " + (result.currentCount || 0) + " / " + (result.capacity || 0) + "\n" +
+            "تم تسجيل الصعود بنجاح.\\n" +
+            "اسم الحاج: " + (result.name || '-') + "\\n" +
+            "رقم الحافلة: " + (result.busNumber || '-') + "\\n" +
+            "العدد الحالي: " + (result.currentCount || 0) + " / " + (result.capacity || 0) + "\\n" +
             "حالة الحافلة: " + (result.busStatus || '-') + extra,
             'success'
           );
@@ -1488,9 +1942,9 @@
         if (result.success) {
           playWarningSound();
           setStatus(
-            "تم إلغاء الصعود بنجاح.\n" +
-            "اسم الحاج: " + (result.name || '-') + "\n" +
-            "رقم الهوية: " + (result.id || '-') + "\n" +
+            "تم إلغاء الصعود بنجاح.\\n" +
+            "اسم الحاج: " + (result.name || '-') + "\\n" +
+            "رقم الهوية: " + (result.id || '-') + "\\n" +
             "رقم الحافلة السابقة: " + (result.busNumber || '-'),
             'warning'
           );
@@ -1526,9 +1980,9 @@
         if (result.success) {
           playSuccessSound();
           setStatus(
-            "تم تجهيز المنفست بنجاح.\n" +
-            "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
-            "رقم اللوحة: " + (result.plateNumber || '-') + "\n" +
+            "تم تجهيز المنفست بنجاح.\\n" +
+            "رقم الحافلة: " + (result.busNumber || '-') + "\\n" +
+            "رقم اللوحة: " + (result.plateNumber || '-') + "\\n" +
             "عدد الركاب: " + (result.count || 0),
             'success'
           );
@@ -1564,9 +2018,9 @@
         if (result.success) {
           playSuccessSound();
           setStatus(
-            "تم إعلان انطلاق الحافلة بنجاح.\n" +
-            "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
-            "رقم اللوحة: " + (result.plateNumber || '-') + "\n" +
+            "تم إعلان انطلاق الحافلة بنجاح.\\n" +
+            "رقم الحافلة: " + (result.busNumber || '-') + "\\n" +
+            "رقم اللوحة: " + (result.plateNumber || '-') + "\\n" +
             "السائق: " + (result.driverName || '-'),
             'success'
           );
@@ -1602,9 +2056,9 @@
         if (result.success) {
           playSuccessSound();
           setStatus(
-            "تم إعلان وصول الحافلة بنجاح.\n" +
-            "رقم الحافلة: " + (result.busNumber || '-') + "\n" +
-            "رقم اللوحة: " + (result.plateNumber || '-') + "\n" +
+            "تم إعلان وصول الحافلة بنجاح.\\n" +
+            "رقم الحافلة: " + (result.busNumber || '-') + "\\n" +
+            "رقم اللوحة: " + (result.plateNumber || '-') + "\\n" +
             "السائق: " + (result.driverName || '-'),
             'success'
           );
@@ -1668,6 +2122,7 @@
     window.addEventListener('load', async () => {
       initializeNavigation();
       showOperationTab('manual');
+      updateCameraUI(false);
       await loadDashboardStats();
       await loadBusLiveInfo();
     });
