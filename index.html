@@ -16,22 +16,16 @@
       --primary: #0b57d0;
       --primary-dark: #0a4db8;
       --primary-soft: #eef4ff;
-
       --green: #0f9d58;
       --green-soft: #e7f6ee;
-
       --red: #d93025;
       --red-soft: #fce8e6;
-
       --purple: #7b1fa2;
       --purple-soft: #f4ebfb;
-
       --orange: #ef6c00;
       --orange-soft: #fff1e6;
-
       --yellow: #f9ab00;
       --yellow-soft: #fef7e0;
-
       --gray: #5f6368;
       --bg: #eef4fa;
       --card: #ffffff;
@@ -39,19 +33,13 @@
       --border: #dbe6f2;
       --text: #17324b;
       --muted: #6b7b8c;
-
       --shadow-xs: 0 2px 8px rgba(10, 77, 184, 0.05);
       --shadow-sm: 0 6px 18px rgba(10, 77, 184, 0.08);
-      --shadow-md: 0 10px 28px rgba(10, 77, 184, 0.10);
-
       --radius: 18px;
       --nav-height: 82px;
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     html, body {
       margin: 0;
@@ -61,9 +49,7 @@
       font-family: "Cairo", Arial, sans-serif;
     }
 
-    body {
-      padding-bottom: calc(var(--nav-height) + 26px);
-    }
+    body { padding-bottom: calc(var(--nav-height) + 26px); }
 
     .app-shell {
       max-width: 920px;
@@ -102,7 +88,7 @@
 
     .topbar-grid {
       display: grid;
-      grid-template-columns: 1.3fr 0.9fr;
+      grid-template-columns: 1.2fr 1fr;
       gap: 10px;
       align-items: stretch;
     }
@@ -126,9 +112,7 @@
       font-weight: 800;
     }
 
-    .mini-icon {
-      width: 16px;
-      height: 16px;
+    .mini-icon, .card-title-icon, .btn-icon, .op-tab-icon, .nav-icon, .kpi-icon {
       stroke: currentColor;
       fill: none;
       stroke-width: 2;
@@ -137,6 +121,12 @@
       flex-shrink: 0;
     }
 
+    .mini-icon { width: 16px; height: 16px; }
+    .card-title-icon, .kpi-icon { width: 18px; height: 18px; }
+    .btn-icon { width: 18px; height: 18px; }
+    .op-tab-icon { width: 16px; height: 16px; }
+    .nav-icon { width: 22px; height: 22px; display: block; transition: transform 0.18s ease; }
+
     .bus-toolbar {
       display: grid;
       grid-template-columns: 1fr auto auto;
@@ -144,17 +134,18 @@
       align-items: center;
     }
 
-    .bus-select {
-      margin: 0;
+    .bus-select, input, select, textarea, button {
       width: 100%;
-      padding: 10px 12px;
       border-radius: 12px;
       border: 1px solid #cfd8e3;
-      background: #fff;
+      padding: 12px 14px;
       font-size: 15px;
+      background: #fff;
       font-family: inherit;
       color: var(--text);
     }
+
+    .bus-select { margin: 0; padding: 10px 12px; }
 
     .bus-pill {
       min-width: 72px;
@@ -167,58 +158,15 @@
       white-space: nowrap;
     }
 
-    .bus-number-pill {
-      background: var(--primary-soft);
-      color: var(--primary-dark);
-      border-color: #d6e4fb;
-    }
+    .bus-number-pill { background: var(--primary-soft); color: var(--primary-dark); border-color: #d6e4fb; }
+    .status-pill { background: #eef3fd; color: #355070; border-color: #dbe6f2; }
+    .status-open { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
+    .status-full { background: var(--red-soft); color: #a50e0e; border-color: #efc4c1; }
+    .status-departed { background: var(--purple-soft); color: #6a1b9a; border-color: #dec8f2; }
+    .status-arrived { background: var(--orange-soft); color: #b25a00; border-color: #ffd7a6; }
+    .status-closed { background: #eceff1; color: #455a64; border-color: #d7dfe4; }
 
-    .status-pill {
-      background: #eef3fd;
-      color: #355070;
-      border-color: #dbe6f2;
-    }
-
-    .status-open {
-      background: var(--green-soft);
-      color: #137333;
-      border-color: #b7dfc2;
-    }
-
-    .status-full {
-      background: var(--red-soft);
-      color: #a50e0e;
-      border-color: #efc4c1;
-    }
-
-    .status-departed {
-      background: var(--purple-soft);
-      color: #6a1b9a;
-      border-color: #dec8f2;
-    }
-
-    .status-arrived {
-      background: var(--orange-soft);
-      color: #b25a00;
-      border-color: #ffd7a6;
-    }
-
-    .status-closed {
-      background: #eceff1;
-      color: #455a64;
-      border-color: #d7dfe4;
-    }
-
-    .topbar-meta {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-
-    .summary-hidden {
-      display: none;
-    }
-
+    .summary-hidden { display: none; }
     .compact-meta .mini-kpi {
       background: #fff;
       border: 1px solid var(--border);
@@ -242,21 +190,16 @@
       line-height: 1.2;
     }
 
-    .hint-line {
-      margin-top: 6px;
-      font-size: 12px;
+    .hint-line, .hint, .section-subtitle, .section-note {
       color: var(--muted);
-      line-height: 1.5;
+      line-height: 1.7;
     }
 
-    .screen {
-      display: none;
-      animation: screenFade 0.18s ease;
-    }
+    .hint-line { margin-top: 6px; font-size: 12px; }
+    .hint, .section-note { font-size: 13px; }
 
-    .screen.active {
-      display: block;
-    }
+    .screen { display: none; animation: screenFade 0.18s ease; }
+    .screen.active { display: block; }
 
     @keyframes screenFade {
       from { opacity: 0; transform: translateY(4px); }
@@ -270,16 +213,9 @@
       box-shadow: var(--shadow-sm);
       margin-bottom: 14px;
       border: 1px solid var(--border);
-      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease, background 0.18s ease;
     }
 
-    .card.soft {
-      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
-    }
-
-    .section-header {
-      margin-bottom: 8px;
-    }
+    .card.soft { background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
 
     .section-title {
       font-size: 21px;
@@ -287,37 +223,15 @@
       margin: 0 0 4px;
     }
 
-    .section-subtitle {
-      font-size: 13px;
-      color: var(--muted);
-      margin: 0;
-      line-height: 1.7;
-    }
-
     .theme-register .section-title { color: var(--primary-dark); }
     .theme-operations .section-title { color: var(--orange); }
     .theme-buses .section-title { color: var(--green); }
     .theme-reports .section-title { color: var(--purple); }
 
-    .theme-register {
-      background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 100%);
-      border-color: #d6e4fb;
-    }
-
-    .theme-operations {
-      background: linear-gradient(180deg, #ffffff 0%, #fff8f2 100%);
-      border-color: #ffe0c2;
-    }
-
-    .theme-buses {
-      background: linear-gradient(180deg, #ffffff 0%, #f4fbf7 100%);
-      border-color: #d5ebdd;
-    }
-
-    .theme-reports {
-      background: linear-gradient(180deg, #ffffff 0%, #faf6ff 100%);
-      border-color: #e6d8f7;
-    }
+    .theme-register { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 100%); border-color: #d6e4fb; }
+    .theme-operations { background: linear-gradient(180deg, #ffffff 0%, #fff8f2 100%); border-color: #ffe0c2; }
+    .theme-buses { background: linear-gradient(180deg, #ffffff 0%, #f4fbf7 100%); border-color: #d5ebdd; }
+    .theme-reports { background: linear-gradient(180deg, #ffffff 0%, #faf6ff 100%); border-color: #e6d8f7; }
 
     .card-title-row {
       display: flex;
@@ -326,17 +240,7 @@
       margin-bottom: 10px;
     }
 
-    .card-title-icon {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      flex-shrink: 0;
-      color: var(--primary-dark);
-    }
+    .card-title-icon { color: var(--primary-dark); }
 
     h3 {
       margin: 0;
@@ -344,14 +248,6 @@
       font-size: 18px;
       font-weight: 800;
       line-height: 1.3;
-    }
-
-    .section-note {
-      font-size: 13px;
-      color: var(--muted);
-      margin-top: -2px;
-      margin-bottom: 10px;
-      line-height: 1.7;
     }
 
     label {
@@ -362,21 +258,7 @@
       font-size: 14px;
     }
 
-    input, select, textarea, button {
-      width: 100%;
-      border-radius: 12px;
-      border: 1px solid #cfd8e3;
-      padding: 12px 14px;
-      font-size: 15px;
-      background: #fff;
-      font-family: inherit;
-      color: var(--text);
-    }
-
-    textarea {
-      resize: vertical;
-      min-height: 82px;
-    }
+    textarea { resize: vertical; min-height: 82px; }
 
     button {
       border: none;
@@ -386,12 +268,10 @@
       font-weight: 700;
       margin-top: 10px;
       box-shadow: var(--shadow-xs);
-      transition: transform 0.12s ease, opacity 0.12s ease;
+      transition: transform 0.12s ease, opacity 0.12s ease, filter 0.12s ease;
     }
 
-    button:active {
-      transform: scale(0.99);
-    }
+    button:active { transform: scale(0.99); }
 
     .btn-secondary { background: var(--gray); }
     .btn-green { background: var(--green); }
@@ -406,28 +286,29 @@
       gap: 8px;
     }
 
-    .btn-icon {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      flex-shrink: 0;
+    .btn-disabled {
+      opacity: 0.45;
+      cursor: not-allowed !important;
+      filter: grayscale(0.12);
+      pointer-events: none;
     }
 
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+    .disabled-hint {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--red);
+      font-weight: 700;
+      display: none;
     }
 
-    .info-grid {
+    .row, .info-grid, .screen-action-grid, .status-action-grid, .kpi-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
       gap: 10px;
     }
+
+    .row, .info-grid, .screen-action-grid { grid-template-columns: 1fr 1fr; }
+    .status-action-grid { grid-template-columns: repeat(2, 1fr); margin-top: 10px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
 
     .info-item {
       background: var(--card-soft);
@@ -451,10 +332,18 @@
       line-height: 1.4;
     }
 
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+    .user-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      background: var(--primary-soft);
+      color: var(--primary-dark);
+      border: 1px solid #d6e4fb;
+      margin-top: 6px;
     }
 
     .kpi-card {
@@ -486,18 +375,6 @@
       line-height: 1.5;
     }
 
-    .kpi-icon {
-      width: 18px;
-      height: 18px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      color: currentColor;
-      flex-shrink: 0;
-    }
-
     .kpi-number {
       font-size: 30px;
       line-height: 1.1;
@@ -505,31 +382,11 @@
       color: var(--text);
     }
 
-    .hint {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 6px;
-      line-height: 1.7;
-    }
-
-    .screen-action-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-
     .screen-action-card {
       background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 12px;
-    }
-
-    .status-action-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 10px;
     }
 
     .camera-status {
@@ -572,9 +429,7 @@
       line-height: 1.7;
     }
 
-    .log-item:last-child {
-      border-bottom: none;
-    }
+    .log-item:last-child { border-bottom: none; }
 
     .bottom-nav {
       position: fixed;
@@ -625,44 +480,15 @@
       transition: background 0.18s ease;
     }
 
-    .nav-icon {
-      width: 22px;
-      height: 22px;
-      display: block;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      transition: transform 0.18s ease;
-    }
+    .nav-btn.active .nav-icon { transform: translateY(-1px) scale(1.06); }
 
-    .nav-btn.active .nav-icon {
-      transform: translateY(-1px) scale(1.06);
-    }
-
-    .nav-btn[data-screen="register"].active {
-      background: linear-gradient(180deg, #eef4ff 0%, #e7f0ff 100%);
-      color: var(--primary-dark);
-    }
+    .nav-btn[data-screen="register"].active { background: linear-gradient(180deg, #eef4ff 0%, #e7f0ff 100%); color: var(--primary-dark); }
     .nav-btn[data-screen="register"].active::before { background: var(--primary-dark); }
-
-    .nav-btn[data-screen="operations"].active {
-      background: linear-gradient(180deg, #fff4ea 0%, #ffe9d2 100%);
-      color: #b85b00;
-    }
+    .nav-btn[data-screen="operations"].active { background: linear-gradient(180deg, #fff4ea 0%, #ffe9d2 100%); color: #b85b00; }
     .nav-btn[data-screen="operations"].active::before { background: #b85b00; }
-
-    .nav-btn[data-screen="buses"].active {
-      background: linear-gradient(180deg, #eefaf2 0%, #dff3e6 100%);
-      color: #0d7e46;
-    }
+    .nav-btn[data-screen="buses"].active { background: linear-gradient(180deg, #eefaf2 0%, #dff3e6 100%); color: #0d7e46; }
     .nav-btn[data-screen="buses"].active::before { background: #0d7e46; }
-
-    .nav-btn[data-screen="reports"].active {
-      background: linear-gradient(180deg, #f5edff 0%, #ebdcff 100%);
-      color: #6d28a8;
-    }
+    .nav-btn[data-screen="reports"].active { background: linear-gradient(180deg, #f5edff 0%, #ebdcff 100%); color: #6d28a8; }
     .nav-btn[data-screen="reports"].active::before { background: #6d28a8; }
 
     .nav-badge {
@@ -683,13 +509,8 @@
       line-height: 1;
     }
 
-    .nav-badge.show {
-      display: inline-flex;
-    }
-
-    .nav-badge.reports {
-      background: var(--orange);
-    }
+    .nav-badge.show { display: inline-flex; }
+    .nav-badge.reports { background: var(--orange); }
 
     .operation-tabs {
       display: grid;
@@ -720,25 +541,8 @@
       box-shadow: var(--shadow-xs);
     }
 
-    .op-tab-icon {
-      width: 16px;
-      height: 16px;
-      stroke: currentColor;
-      fill: none;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-      flex-shrink: 0;
-    }
-
-    .op-panel {
-      display: none;
-    }
-
-    .op-panel.active {
-      display: block;
-      animation: screenFade 0.15s ease;
-    }
+    .op-panel { display: none; }
+    .op-panel.active { display: block; animation: screenFade 0.15s ease; }
 
     .status-chip {
       display: inline-flex;
@@ -752,71 +556,12 @@
       line-height: 1.2;
     }
 
-    .chip-open {
-      background: var(--green-soft);
-      color: #137333;
-      border: 1px solid #b7dfc2;
-    }
-
-    .chip-full {
-      background: var(--red-soft);
-      color: #a50e0e;
-      border: 1px solid #efc4c1;
-    }
-
-    .chip-departed {
-      background: var(--purple-soft);
-      color: #6a1b9a;
-      border: 1px solid #dec8f2;
-    }
-
-    .chip-arrived {
-      background: var(--orange-soft);
-      color: #b25a00;
-      border: 1px solid #ffd7a6;
-    }
-
-    .chip-closed {
-      background: #eceff1;
-      color: #455a64;
-      border: 1px solid #d7dfe4;
-    }
-
-    .chip-unknown {
-      background: #eef3fd;
-      color: #355070;
-      border: 1px solid #dbe6f2;
-    }
-
-    .flash-success {
-      animation: flashSuccess 0.7s ease;
-    }
-
-    .flash-error {
-      animation: flashError 0.7s ease;
-    }
-
-    .flash-warning {
-      animation: flashWarning 0.7s ease;
-    }
-
-    @keyframes flashSuccess {
-      0% { box-shadow: 0 0 0 rgba(15,157,88,0); }
-      50% { box-shadow: 0 0 0 6px rgba(15,157,88,0.18); border-color: #8fd2ae; }
-      100% { box-shadow: var(--shadow-sm); }
-    }
-
-    @keyframes flashError {
-      0% { box-shadow: 0 0 0 rgba(217,48,37,0); }
-      50% { box-shadow: 0 0 0 6px rgba(217,48,37,0.18); border-color: #efb5b0; }
-      100% { box-shadow: var(--shadow-sm); }
-    }
-
-    @keyframes flashWarning {
-      0% { box-shadow: 0 0 0 rgba(249,171,0,0); }
-      50% { box-shadow: 0 0 0 6px rgba(249,171,0,0.18); border-color: #f0d48a; }
-      100% { box-shadow: var(--shadow-sm); }
-    }
+    .chip-open { background: var(--green-soft); color: #137333; border: 1px solid #b7dfc2; }
+    .chip-full { background: var(--red-soft); color: #a50e0e; border: 1px solid #efc4c1; }
+    .chip-departed { background: var(--purple-soft); color: #6a1b9a; border: 1px solid #dec8f2; }
+    .chip-arrived { background: var(--orange-soft); color: #b25a00; border: 1px solid #ffd7a6; }
+    .chip-closed { background: #eceff1; color: #455a64; border: 1px solid #d7dfe4; }
+    .chip-unknown { background: #eef3fd; color: #355070; border: 1px solid #dbe6f2; }
 
     #status {
       position: fixed;
@@ -859,71 +604,21 @@
       to { transform: scaleX(0); }
     }
 
-    .status-success {
-      background: #e6f4ea;
-      border-color: #34a853;
-      color: #137333;
-    }
-
-    .status-error {
-      background: #fce8e6;
-      border-color: #d93025;
-      color: #a50e0e;
-    }
-
-    .status-warning {
-      background: #fef7e0;
-      border-color: #f9ab00;
-      color: #8d6500;
-    }
-
-    .status-info {
-      background: #e8f0fe;
-      border-color: #1a73e8;
-      color: #174ea6;
-    }
+    .status-success { background: #e6f4ea; border-color: #34a853; color: #137333; }
+    .status-error { background: #fce8e6; border-color: #d93025; color: #a50e0e; }
+    .status-warning { background: #fef7e0; border-color: #f9ab00; color: #8d6500; }
+    .status-info { background: #e8f0fe; border-color: #1a73e8; color: #174ea6; }
 
     @media (max-width: 720px) {
-      .hero img {
-        max-height: 100px;
-      }
-
-      .topbar-grid,
-      .row,
-      .info-grid,
-      .screen-action-grid,
-      .status-action-grid,
-      .operation-tabs,
-      .kpi-grid {
+      .topbar-grid, .row, .info-grid, .screen-action-grid, .status-action-grid, .operation-tabs, .kpi-grid {
         grid-template-columns: 1fr;
       }
-
-      .topbar {
-        position: static;
-      }
-
-      .bus-toolbar {
-        grid-template-columns: 1fr;
-      }
-
-      .bottom-nav {
-        left: 8px;
-        right: 8px;
-        bottom: 8px;
-      }
-
-      .nav-icon {
-        width: 21px;
-        height: 21px;
-      }
-
-      .nav-btn {
-        font-size: 11px;
-      }
-
-      .nav-badge {
-        left: 10px;
-      }
+      .topbar { position: static; }
+      .bus-toolbar { grid-template-columns: 1fr; }
+      .bottom-nav { left: 8px; right: 8px; bottom: 8px; }
+      .nav-icon { width: 21px; height: 21px; }
+      .nav-btn { font-size: 11px; }
+      .nav-badge { left: 10px; }
     }
   </style>
 </head>
@@ -973,23 +668,16 @@
           <div class="hint-line">اختر الحافلة أولًا قبل التسجيل أو تنفيذ العمليات.</div>
         </div>
 
-        <div class="topbar-box summary-hidden" id="topSummaryBox">
+        <div class="topbar-box" id="currentUserBox">
           <div class="topbar-title-row">
             <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M4 20V10"></path>
-              <path d="M10 20V4"></path>
-              <path d="M16 20v-7"></path>
-              <path d="M22 20V8"></path>
+              <path d="M20 21a8 8 0 1 0-16 0"></path>
+              <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            <span>ملخص سريع</span>
+            <span>المستخدم الحالي</span>
           </div>
 
-          <div class="topbar-meta compact-meta">
-            <div class="mini-kpi">
-              <div class="mini-kpi-label">المقاعد المتبقية</div>
-              <div class="mini-kpi-value" id="topRemainingSeats">—</div>
-            </div>
-          </div>
+          <div class="user-badge" id="currentUserBadge">غير محدد</div>
         </div>
       </div>
     </div>
@@ -1013,8 +701,6 @@
           <h3>بيانات التشغيل</h3>
         </div>
 
-        <div class="section-note">حدد نوع الإثبات واسم المستخدم قبل بدء المسح.</div>
-
         <div class="row">
           <div>
             <label for="proofType">نوع الإثبات</label>
@@ -1028,9 +714,17 @@
           </div>
 
           <div>
-            <label for="userName">اسم المستخدم</label>
-            <input type="text" id="userName" placeholder="اسم الموظف أو المشرف" />
+            <label for="userSelect">اسم المستخدم</label>
+            <select id="userSelect" onchange="handleUserSelectionChange()">
+              <option value="">اختر المستخدم</option>
+            </select>
           </div>
+        </div>
+
+        <div id="manualUserWrap" style="display:none;">
+          <label for="manualUserName">اكتب اسم المستخدم</label>
+          <input type="text" id="manualUserName" placeholder="اسم المستخدم اليدوي" oninput="handleUserSelectionChange()" />
+          <div class="hint">الإدخال اليدوي تكون صلاحيته دائمًا: مسجل</div>
         </div>
 
         <div>
@@ -1050,7 +744,7 @@
 
         <div class="screen-action-grid">
           <div class="screen-action-card">
-            <button class="btn-with-icon" onclick="startScanner()">
+            <button class="btn-with-icon" id="startScannerBtn" onclick="startScanner()">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
                 <rect x="3" y="6" width="12" height="12" rx="2"></rect>
@@ -1074,7 +768,6 @@
           <span id="cameraStatusText">الكاميرا متوقفة</span>
         </div>
 
-        <div class="hint">اختر رقم الحافلة من الأعلى ثم ابدأ توجيه الكاميرا نحو الباركود.</div>
         <div id="reader"></div>
       </div>
     </section>
@@ -1091,12 +784,10 @@
         <div class="card-title-row">
           <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
             <circle cx="12" cy="12" r="3"></circle>
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.36.62.95 1 1.67 1H21a2 2 0 1 1 0 4h-.09c-.72 0-1.31.38-1.51 1z"></path>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"></path>
           </svg>
           <h3>بيانات العمليات</h3>
         </div>
-
-        <div class="section-note">هذه البيانات تستخدم في الإدخال اليدوي فقط.</div>
 
         <div class="row">
           <div>
@@ -1111,8 +802,8 @@
           </div>
 
           <div>
-            <label for="operationUserName">اسم المستخدم</label>
-            <input type="text" id="operationUserName" placeholder="اسم الموظف أو المشرف" />
+            <label for="operationUserMirror">المستخدم</label>
+            <input type="text" id="operationUserMirror" readonly />
           </div>
         </div>
 
@@ -1160,7 +851,7 @@
 
           <label for="manualId">رقم الهوية</label>
           <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
-          <button class="btn-with-icon" onclick="submitManualId()">
+          <button class="btn-with-icon" id="manualSubmitBtn" onclick="submitManualId()">
             <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 5v14"></path>
               <path d="M5 12h14"></path>
@@ -1180,7 +871,7 @@
 
           <label for="cancelId">رقم الهوية</label>
           <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
-          <button class="btn-red btn-with-icon" onclick="cancelBoarding()">
+          <button class="btn-red btn-with-icon" id="cancelBoardingBtn" onclick="cancelBoarding()">
             <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M18 6L6 18"></path>
               <path d="M6 6l12 12"></path>
@@ -1216,7 +907,7 @@
       <div class="card theme-buses">
         <div class="section-header">
           <h2 class="section-title">الحافلات</h2>
-          <p class="section-subtitle">معلومات الحافلة الحالية والمنفست والانطلاق والوصول</p>
+          <p class="section-subtitle">معلومات الحافلة الحالية وتغيير الحالة وتجهيز المنفست</p>
         </div>
       </div>
 
@@ -1233,40 +924,14 @@
         </div>
 
         <div class="info-grid">
-          <div class="info-item">
-            <div class="info-title">رقم الحافلة</div>
-            <div class="info-value" id="liveBusNumber">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-title">رقم اللوحة</div>
-            <div class="info-value" id="livePlateNumber">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-title">اسم السائق</div>
-            <div class="info-value" id="liveDriverName">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-title">موديل الحافلة</div>
-            <div class="info-value" id="liveModel">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-title">العدد الحالي</div>
-            <div class="info-value" id="liveCurrentCount">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-title">السعة</div>
-            <div class="info-value" id="liveCapacity">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-title">المقاعد المتبقية</div>
-            <div class="info-value" id="liveRemainingSeats">-</div>
-          </div>
-          <div class="info-item">
-            <div class="info-title">حالة الحافلة</div>
-            <div class="info-value" id="liveBusStatusColored">
-              <span class="status-chip chip-unknown">غير محددة</span>
-            </div>
-          </div>
+          <div class="info-item"><div class="info-title">رقم الحافلة</div><div class="info-value" id="liveBusNumber">-</div></div>
+          <div class="info-item"><div class="info-title">رقم اللوحة</div><div class="info-value" id="livePlateNumber">-</div></div>
+          <div class="info-item"><div class="info-title">اسم السائق</div><div class="info-value" id="liveDriverName">-</div></div>
+          <div class="info-item"><div class="info-title">موديل الحافلة</div><div class="info-value" id="liveModel">-</div></div>
+          <div class="info-item"><div class="info-title">العدد الحالي</div><div class="info-value" id="liveCurrentCount">-</div></div>
+          <div class="info-item"><div class="info-title">السعة</div><div class="info-value" id="liveCapacity">-</div></div>
+          <div class="info-item"><div class="info-title">المقاعد المتبقية</div><div class="info-value" id="liveRemainingSeats">-</div></div>
+          <div class="info-item"><div class="info-title">حالة الحافلة</div><div class="info-value" id="liveBusStatusColored"><span class="status-chip chip-unknown">غير محددة</span></div></div>
         </div>
       </div>
 
@@ -1281,40 +946,29 @@
         </div>
 
         <div class="status-action-grid">
-          <button class="btn-green btn-with-icon" type="button" onclick="changeBusStatus('مفتوحة')">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20 6L9 17l-5-5"></path>
-            </svg>
+          <button class="btn-green btn-with-icon" id="openBusBtn" type="button" onclick="changeBusStatus('مفتوحة')">
+            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
             <span>فتح الحافلة</span>
           </button>
 
-          <button class="btn-red btn-with-icon" type="button" onclick="changeBusStatus('ممتلئة')">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M18 6L6 18"></path>
-              <path d="M6 6l12 12"></path>
-            </svg>
+          <button class="btn-red btn-with-icon manage-bus-btn" type="button" onclick="changeBusStatus('ممتلئة')">
+            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
             <span>تعيين ممتلئة</span>
           </button>
 
-          <button class="btn-purple btn-with-icon" type="button" onclick="changeBusStatus('انطلقت')">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 12h12"></path>
-              <path d="M13 6l6 6-6 6"></path>
-            </svg>
+          <button class="btn-purple btn-with-icon manage-bus-btn" type="button" onclick="changeBusStatus('انطلقت')">
+            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg>
             <span>إعلان انطلقت</span>
           </button>
 
-          <button class="btn-orange btn-with-icon" type="button" onclick="changeBusStatus('وصلت')">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20 6L9 17l-5-5"></path>
-            </svg>
+          <button class="btn-orange btn-with-icon manage-bus-btn" type="button" onclick="changeBusStatus('وصلت')">
+            <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
             <span>إعلان وصلت</span>
           </button>
         </div>
 
-        <div class="hint">
-          إذا كانت الحافلة مكتملة السعة، فلن يسمح التسجيل حتى بعد فتحها إلا بعد إلغاء حاج ووجود مقعد شاغر.
-        </div>
+        <div id="openBusDisabledHint" class="disabled-hint">لا يمكن فتح الحافلة حتى يتم إلغاء حاج ووجود مقعد شاغر.</div>
+        <div id="roleDisabledHint" class="disabled-hint">هذه العملية تتطلب صلاحية مشرف.</div>
       </div>
 
       <div class="card" id="busActionsCard">
@@ -1330,7 +984,7 @@
 
         <div class="screen-action-grid">
           <div class="screen-action-card" style="grid-column: 1 / -1;">
-            <button class="btn-green btn-with-icon" onclick="generateManifest()">
+            <button class="btn-green btn-with-icon manage-bus-btn" id="generateManifestBtn" onclick="generateManifest()">
               <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M8 6h8"></path>
                 <path d="M8 10h8"></path>
@@ -1365,57 +1019,27 @@
 
         <div class="kpi-grid">
           <div class="kpi-card kpi-green">
-            <div class="kpi-top">
-              <div class="kpi-label">الحافلات المفتوحة للصعود</div>
-              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 6V4h8v2"></path>
-                <rect x="4" y="6" width="16" height="11" rx="2"></rect>
-              </svg>
-            </div>
+            <div class="kpi-top"><div class="kpi-label">الحافلات المفتوحة للصعود</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M8 6V4h8v2"></path><rect x="4" y="6" width="16" height="11" rx="2"></rect></svg></div>
             <div class="kpi-number" id="statsOpenBuses">-</div>
           </div>
 
           <div class="kpi-card kpi-purple">
-            <div class="kpi-top">
-              <div class="kpi-label">الحافلات التي انطلقت</div>
-              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 12h12"></path>
-                <path d="M13 6l6 6-6 6"></path>
-              </svg>
-            </div>
+            <div class="kpi-top"><div class="kpi-label">الحافلات التي انطلقت</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg></div>
             <div class="kpi-number" id="statsDepartedBuses">-</div>
           </div>
 
           <div class="kpi-card kpi-orange">
-            <div class="kpi-top">
-              <div class="kpi-label">الحافلات الباقية</div>
-              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <rect x="4" y="6" width="16" height="11" rx="2"></rect>
-                <path d="M4 11h16"></path>
-              </svg>
-            </div>
+            <div class="kpi-top"><div class="kpi-label">الحافلات الباقية</div><svg class="kpi-icon" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="11" rx="2"></rect><path d="M4 11h16"></path></svg></div>
             <div class="kpi-number" id="statsRemainingBuses">-</div>
           </div>
 
           <div class="kpi-card kpi-blue">
-            <div class="kpi-top">
-              <div class="kpi-label">الحجاج الذين صعدوا</div>
-              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M20 6L9 17l-5-5"></path>
-              </svg>
-            </div>
+            <div class="kpi-top"><div class="kpi-label">الحجاج الذين صعدوا</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></div>
             <div class="kpi-number" id="statsBoardedCount">-</div>
           </div>
 
           <div class="kpi-card kpi-red" style="grid-column: 1 / -1;">
-            <div class="kpi-top">
-              <div class="kpi-label">الحجاج المتبقين</div>
-              <svg class="kpi-icon" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="9"></circle>
-                <path d="M15 9l-6 6"></path>
-                <path d="M9 9l6 6"></path>
-              </svg>
-            </div>
+            <div class="kpi-top"><div class="kpi-label">الحجاج المتبقين</div><svg class="kpi-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6"></path><path d="M9 9l6 6"></path></svg></div>
             <div class="kpi-number" id="statsRemainingCount">-</div>
           </div>
         </div>
@@ -1438,41 +1062,24 @@
 
   <nav class="bottom-nav">
     <button class="nav-btn active" data-screen="register" onclick="showScreen('register')">
-      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
-        <rect x="3" y="6" width="12" height="12" rx="2"></rect>
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path><rect x="3" y="6" width="12" height="12" rx="2"></rect></svg>
       <span>التسجيل</span>
     </button>
 
     <button class="nav-btn" data-screen="operations" onclick="showScreen('operations')">
-      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09A1.65 1.65 0 0 0 15 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9c.36.62.95 1 1.67 1H21a2 2 0 1 1 0 4h-.09c-.72 0-1.31.38-1.51 1z"></path>
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"></path></svg>
       <span>العمليات</span>
     </button>
 
     <button class="nav-btn" data-screen="buses" onclick="showScreen('buses')">
       <span class="nav-badge" id="busesBadge">0</span>
-      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M8 6V4h8v2"></path>
-        <rect x="4" y="6" width="16" height="11" rx="2"></rect>
-        <path d="M4 11h16"></path>
-        <circle cx="8" cy="18" r="1.5"></circle>
-        <circle cx="16" cy="18" r="1.5"></circle>
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M8 6V4h8v2"></path><rect x="4" y="6" width="16" height="11" rx="2"></rect><path d="M4 11h16"></path><circle cx="8" cy="18" r="1.5"></circle><circle cx="16" cy="18" r="1.5"></circle></svg>
       <span>الحافلات</span>
     </button>
 
     <button class="nav-btn" data-screen="reports" onclick="showScreen('reports')">
       <span class="nav-badge reports" id="reportsBadge">0</span>
-      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4 20V10"></path>
-        <path d="M10 20V4"></path>
-        <path d="M16 20v-7"></path>
-        <path d="M22 20V8"></path>
-      </svg>
+      <svg class="nav-icon" viewBox="0 0 24 24"><path d="M4 20V10"></path><path d="M10 20V4"></path><path d="M16 20v-7"></path><path d="M22 20V8"></path></svg>
       <span>التقارير</span>
     </button>
   </nav>
@@ -1483,7 +1090,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbztCa02pe5h1qWtA-V4jpaWbOnOzx64m0DmuckRtuZQRUGS5RkHgU8plzTh29daYVbleQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxitUb8MPDWecfgCwWn-Rqjv_jcAp4okTFqhphW7OCDIIGrWTA1qGHTbEFNwWKagMT1NA/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1492,6 +1099,8 @@
     let lastScannedAt = 0;
     let statusHideTimer = null;
     let currentScreen = 'register';
+    let currentUserContext = { name: '', role: '', source: '' };
+    let currentBusState = { busStatus: '', remainingSeats: 0, currentCount: 0, capacity: 0 };
 
     function hideAllScreens() {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
@@ -1510,81 +1119,161 @@
       text.textContent = isLive ? 'الكاميرا تعمل الآن' : 'الكاميرا متوقفة';
     }
 
+    function setCurrentUserBadge() {
+      const badge = document.getElementById('currentUserBadge');
+      if (!currentUserContext.name) {
+        badge.textContent = 'غير محدد';
+        document.getElementById('operationUserMirror').value = '';
+        return;
+      }
+      const suffix = currentUserContext.source === 'manual' ? ' (إدخال يدوي)' : '';
+      badge.textContent = `${currentUserContext.name} - ${currentUserContext.role}${suffix}`;
+      document.getElementById('operationUserMirror').value = badge.textContent;
+    }
+
+    function userCanManageBuses() {
+      return currentUserContext.role === 'مشرف' || currentUserContext.role === 'مدير';
+    }
+
+    function disableElement(el, disabled) {
+      if (!el) return;
+      el.disabled = !!disabled;
+      el.classList.toggle('btn-disabled', !!disabled);
+    }
+
+    function updatePermissionUI() {
+      const manageDenied = !userCanManageBuses();
+      document.querySelectorAll('.manage-bus-btn').forEach(btn => disableElement(btn, manageDenied));
+      const roleHint = document.getElementById('roleDisabledHint');
+      roleHint.style.display = manageDenied ? 'block' : 'none';
+      updateOpenBusButtonState();
+    }
+
+    function updateOpenBusButtonState() {
+      const btn = document.getElementById('openBusBtn');
+      const hint = document.getElementById('openBusDisabledHint');
+      const roleDenied = !userCanManageBuses();
+      const busIsFull = Number(currentBusState.remainingSeats || 0) <= 0 && Number(currentBusState.capacity || 0) > 0;
+
+      if (roleDenied) {
+        disableElement(btn, true);
+        hint.style.display = 'none';
+        return;
+      }
+
+      if (busIsFull) {
+        disableElement(btn, true);
+        hint.style.display = 'block';
+      } else {
+        disableElement(btn, false);
+        hint.style.display = 'none';
+      }
+    }
+
+    async function loadUsers() {
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getUsers' })
+        });
+        const result = await response.json();
+        const select = document.getElementById('userSelect');
+        select.innerHTML = '<option value="">اختر المستخدم</option>';
+
+        (result.users || []).forEach(u => {
+          const opt = document.createElement('option');
+          opt.value = u.name;
+          opt.textContent = `${u.name} - ${u.role}`;
+          select.appendChild(opt);
+        });
+
+        const manualOpt = document.createElement('option');
+        manualOpt.value = '__manual__';
+        manualOpt.textContent = 'إدخال يدوي';
+        select.appendChild(manualOpt);
+      } catch (e) {}
+    }
+
+    async function handleUserSelectionChange() {
+      const selectedUser = document.getElementById('userSelect').value;
+      const manualWrap = document.getElementById('manualUserWrap');
+      const manualUser = document.getElementById('manualUserName').value.trim();
+
+      manualWrap.style.display = selectedUser === '__manual__' ? 'block' : 'none';
+
+      if (!selectedUser) {
+        currentUserContext = { name: '', role: '', source: '' };
+        setCurrentUserBadge();
+        updatePermissionUI();
+        return;
+      }
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'resolveUser',
+            selectedUser: selectedUser,
+            manualUser: manualUser
+          })
+        });
+
+        const result = await response.json();
+        if (!result.success) {
+          currentUserContext = { name: '', role: '', source: '' };
+          setCurrentUserBadge();
+          updatePermissionUI();
+          if (selectedUser === '__manual__' && manualUser) {
+            setStatus(result.message || 'تعذر تحديد المستخدم', 'warning');
+          }
+          return;
+        }
+
+        currentUserContext = {
+          name: result.name || '',
+          role: result.role || '',
+          source: result.source || ''
+        };
+        setCurrentUserBadge();
+        updatePermissionUI();
+      } catch (e) {}
+    }
+
     function updateTopSummaryVisibility(hasBus) {
-      const box = document.getElementById('topSummaryBox');
-      box.classList.toggle('summary-hidden', !hasBus);
+      document.getElementById('topSummaryBox').classList.toggle('summary-hidden', !hasBus);
     }
 
     function setTopStatusPill(statusText) {
       const el = document.getElementById('currentStatusPill');
       const text = String(statusText || '').trim() || 'غير محددة';
-
       el.className = 'bus-pill status-pill';
-
       if (text === 'مفتوحة') el.classList.add('status-open');
       else if (text === 'ممتلئة') el.classList.add('status-full');
       else if (text === 'انطلقت') el.classList.add('status-departed');
       else if (text === 'وصلت') el.classList.add('status-arrived');
       else if (text === 'مغلقة') el.classList.add('status-closed');
-
       el.textContent = text;
     }
 
     function getStatusChipHtml(status) {
       const text = String(status || '').trim();
-
       if (text === 'مفتوحة') return '<span class="status-chip chip-open">مفتوحة</span>';
       if (text === 'ممتلئة') return '<span class="status-chip chip-full">ممتلئة</span>';
       if (text === 'انطلقت') return '<span class="status-chip chip-departed">انطلقت</span>';
       if (text === 'وصلت') return '<span class="status-chip chip-arrived">وصلت</span>';
       if (text === 'مغلقة') return '<span class="status-chip chip-closed">مغلقة</span>';
-
       return '<span class="status-chip chip-unknown">' + (text || 'غير محددة') + '</span>';
     }
 
-    function flashCard(cardId, type) {
-      const el = document.getElementById(cardId);
-      if (!el) return;
-
-      el.classList.remove('flash-success', 'flash-error', 'flash-warning');
-      void el.offsetWidth;
-
-      if (type === 'success') el.classList.add('flash-success');
-      else if (type === 'error') el.classList.add('flash-error');
-      else if (type === 'warning') el.classList.add('flash-warning');
-
-      setTimeout(() => {
-        el.classList.remove('flash-success', 'flash-error', 'flash-warning');
-      }, 900);
-    }
-
-    function flashByCurrentScreen(type) {
-      if (currentScreen === 'register') {
-        flashCard('registerFormCard', type);
-        flashCard('scannerCard', type);
-      } else if (currentScreen === 'operations') {
-        flashCard('operationsTabsCard', type);
-      } else if (currentScreen === 'buses') {
-        flashCard('busInfoCard', type);
-        flashCard('busStatusCard', type);
-        flashCard('busActionsCard', type);
-      } else if (currentScreen === 'reports') {
-        flashCard('reportsStatsCard', type);
-      }
-    }
-
     function updateNavBadgesFromStats(result) {
-      const busesBadge = document.getElementById('busesBadge');
-      const reportsBadge = document.getElementById('reportsBadge');
-
       const openBuses = Number(result.openBusesCount || 0);
       const departedBuses = Number(result.departedBusesCount || 0);
-
-      busesBadge.textContent = openBuses;
-      reportsBadge.textContent = departedBuses;
-
-      busesBadge.classList.toggle('show', openBuses > 0);
-      reportsBadge.classList.toggle('show', departedBuses > 0);
+      document.getElementById('busesBadge').textContent = openBuses;
+      document.getElementById('reportsBadge').textContent = departedBuses;
+      document.getElementById('busesBadge').classList.toggle('show', openBuses > 0);
+      document.getElementById('reportsBadge').classList.toggle('show', departedBuses > 0);
     }
 
     function activateScreen(name) {
@@ -1601,10 +1290,7 @@
 
     function showScreen(name, pushHistory = true) {
       activateScreen(name);
-
-      if (pushHistory) {
-        history.pushState({ screen: name }, '', '#' + name);
-      }
+      if (pushHistory) history.pushState({ screen: name }, '', '#' + name);
     }
 
     function initializeNavigation() {
@@ -1641,10 +1327,7 @@
       const box = document.getElementById('status');
       const text = document.getElementById('statusText');
 
-      if (statusHideTimer) {
-        clearTimeout(statusHideTimer);
-        statusHideTimer = null;
-      }
+      if (statusHideTimer) clearTimeout(statusHideTimer);
 
       box.style.display = 'block';
       text.innerText = 'الحالة: ' + msg;
@@ -1656,461 +1339,8 @@
       else box.classList.add('status-info');
 
       resetStatusProgressBar();
-
-      if (type === 'success' || type === 'error' || type === 'warning') {
-        flashByCurrentScreen(type);
-      }
-
-      statusHideTimer = setTimeout(() => {
-        box.style.display = 'none';
-      }, 2200);
+      statusHideTimer = setTimeout(() => { box.style.display = 'none'; }, 2200);
     }
 
     function normalizeDigits(text) {
-      const arabicNums = '٠١٢٣٤٥٦٧٨٩';
-      return String(text).replace(/[٠-٩]/g, d => String(arabicNums.indexOf(d)));
-    }
-
-    function extractId(rawText) {
-      const text = normalizeDigits(String(rawText)).trim();
-      if (/^\d+$/.test(text)) return text;
-      const match = text.match(/\d{6,}/);
-      return match ? match[0] : text;
-    }
-
-    function playTone(freq, duration = 0.16) {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        const audioContext = new AudioCtx();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.22, audioContext.currentTime);
-
-        oscillator.start();
-        oscillator.stop(audioContext.currentTime + duration);
-      } catch (e) {}
-    }
-
-    function playSuccessSound() { playTone(950, 0.16); }
-    function playErrorSound() { playTone(300, 0.20); }
-    function playWarningSound() { playTone(550, 0.18); }
-
-    function validateRegisterForm() {
-      const busNumber = document.getElementById('busNumber').value.trim();
-      const proofType = document.getElementById('proofType').value.trim();
-      const userName = document.getElementById('userName').value.trim();
-
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
-        return false;
-      }
-      if (!proofType) {
-        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
-        return false;
-      }
-      if (!userName) {
-        setStatus('الرجاء إدخال اسم المستخدم', 'warning');
-        return false;
-      }
-      return true;
-    }
-
-    async function startScanner() {
-      if (!validateRegisterForm()) return;
-      if (html5QrCode) return;
-
-      try {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          setStatus('المتصفح أو الصفحة الحالية لا تدعم تشغيل الكاميرا هنا.', 'error');
-          playErrorSound();
-          return;
-        }
-
-        html5QrCode = new Html5Qrcode("reader");
-        await html5QrCode.start(
-          { facingMode: "environment" },
-          { fps: 15, qrbox: { width: 240, height: 240 }, aspectRatio: 1.0 },
-          onScanSuccess,
-          function () {}
-        );
-
-        updateCameraUI(true);
-        setStatus('تم تشغيل الكاميرا.', 'info');
-      } catch (err) {
-        updateCameraUI(false);
-        playErrorSound();
-        setStatus('فشل تشغيل الكاميرا', 'error');
-      }
-    }
-
-    async function stopScanner() {
-      if (!html5QrCode) {
-        updateCameraUI(false);
-        return;
-      }
-      try {
-        await html5QrCode.stop();
-        await html5QrCode.clear();
-      } catch (e) {}
-      html5QrCode = null;
-      updateCameraUI(false);
-      setStatus('تم إيقاف الكاميرا.', 'info');
-    }
-
-    async function loadBusLiveInfo() {
-      const busNumber = document.getElementById('busNumber').value.trim();
-
-      if (!busNumber) {
-        clearBusLiveInfo();
-        return;
-      }
-
-      document.getElementById('currentBusPill').textContent = busNumber;
-      updateTopSummaryVisibility(true);
-
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'getBusLiveInfo', busNumber })
-        });
-
-        const result = await response.json();
-
-        if (!result.success) {
-          clearBusLiveInfo();
-          return;
-        }
-
-        document.getElementById('liveBusNumber').innerText = result.busNumber || '-';
-        document.getElementById('livePlateNumber').innerText = result.plateNumber || '-';
-        document.getElementById('liveDriverName').innerText = result.driverName || '-';
-        document.getElementById('liveModel').innerText = result.model || '-';
-        document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
-        document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
-        document.getElementById('liveRemainingSeats').innerText = result.remainingSeats ?? '-';
-        document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(result.busStatus);
-
-        document.getElementById('topRemainingSeats').innerText = result.remainingSeats ?? '-';
-        setTopStatusPill(result.busStatus || '');
-
-        const recentBox = document.getElementById('recentOperations');
-        if (!result.recentOperations || result.recentOperations.length === 0) {
-          recentBox.innerHTML = 'لا توجد بيانات بعد';
-        } else {
-          recentBox.innerHTML = result.recentOperations.map(op => `
-            <div class="log-item">
-              <div><strong>${op.pilgrimName || '-'}</strong></div>
-              <div>رقم الهوية: ${op.idValue || '-'}</div>
-              <div>الحالة: ${op.status || '-'}</div>
-            </div>
-          `).join('');
-        }
-      } catch (error) {}
-    }
-
-    function clearBusLiveInfo() {
-      document.getElementById('liveBusNumber').innerText = '-';
-      document.getElementById('livePlateNumber').innerText = '-';
-      document.getElementById('liveDriverName').innerText = '-';
-      document.getElementById('liveModel').innerText = '-';
-      document.getElementById('liveCurrentCount').innerText = '-';
-      document.getElementById('liveCapacity').innerText = '-';
-      document.getElementById('liveRemainingSeats').innerText = '-';
-      document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml('');
-      document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
-
-      document.getElementById('topRemainingSeats').innerText = '—';
-      document.getElementById('currentBusPill').textContent = '—';
-      setTopStatusPill('');
-      updateTopSummaryVisibility(false);
-    }
-
-    async function loadDashboardStats() {
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'getDashboardStats' })
-        });
-
-        const result = await response.json();
-        if (!result.success) return;
-
-        document.getElementById('statsOpenBuses').innerText = result.openBusesCount ?? '-';
-        document.getElementById('statsDepartedBuses').innerText = result.departedBusesCount ?? '-';
-        document.getElementById('statsRemainingBuses').innerText = result.remainingBusesCount ?? '-';
-        document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
-        document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
-
-        updateNavBadgesFromStats(result);
-      } catch (error) {}
-    }
-
-    async function sendBoardingData(idValue, sourceScreen = 'register') {
-      const busNumber = document.getElementById('busNumber').value.trim();
-
-      let proofType = '';
-      let userName = '';
-      let notes = '';
-
-      if (sourceScreen === 'operations') {
-        proofType = document.getElementById('operationProofType')?.value.trim() || '';
-        userName = document.getElementById('operationUserName')?.value.trim() || '';
-        notes = document.getElementById('operationNotes')?.value.trim() || '';
-      } else {
-        proofType = document.getElementById('proofType')?.value.trim() || '';
-        userName = document.getElementById('userName')?.value.trim() || '';
-        notes = document.getElementById('notes')?.value.trim() || '';
-      }
-
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
-        return;
-      }
-
-      if (!proofType) {
-        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
-        return;
-      }
-
-      if (!userName) {
-        setStatus('الرجاء إدخال اسم المستخدم', 'warning');
-        return;
-      }
-
-      const normalizedId = normalizeDigits(idValue).trim();
-
-      if (!/^\d+$/.test(normalizedId)) {
-        playErrorSound();
-        setStatus('رقم الهوية غير صالح', 'error');
-        return;
-      }
-
-      if (normalizedId.length !== REQUIRED_ID_LENGTH) {
-        playErrorSound();
-        setStatus('رقم الهوية يجب أن يكون 10 أرقام', 'error');
-        return;
-      }
-
-      const now = Date.now();
-      if (normalizedId === lastScannedValue && (now - lastScannedAt) < 2000) return;
-      if (isSaving) return;
-
-      isSaving = true;
-      lastScannedValue = normalizedId;
-      lastScannedAt = now;
-
-      try {
-        setStatus("جارٍ تسجيل الصعود...", 'info');
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            id: normalizedId,
-            busNumber,
-            proofType,
-            userName,
-            notes
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          playSuccessSound();
-          setStatus(
-            "تم التسجيل: " + (result.name || '-') +
-            " | الحافلة " + (result.busNumber || '-'),
-            'success'
-          );
-        } else {
-          playErrorSound();
-          setStatus("فشل العملية: " + (result.message || 'خطأ'), 'error');
-        }
-      } catch (error) {
-        playErrorSound();
-        setStatus("خطأ أثناء الإرسال", 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-
-      setTimeout(() => { isSaving = false; }, 1500);
-    }
-
-    async function onScanSuccess(decodedText) {
-      const extractedId = extractId(decodedText).trim();
-      await sendBoardingData(extractedId, 'register');
-    }
-
-    async function submitManualId() {
-      const manualId = document.getElementById('manualId').value.trim();
-      await sendBoardingData(manualId, 'operations');
-    }
-
-    async function cancelBoarding() {
-      const cancelId = document.getElementById('cancelId').value.trim();
-      if (!cancelId) {
-        setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود', 'warning');
-        return;
-      }
-
-      try {
-        setStatus('جارٍ إلغاء الصعود...', 'info');
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'cancelBoarding', id: cancelId })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          playWarningSound();
-          setStatus("تم إلغاء الصعود بنجاح", 'warning');
-        } else {
-          playErrorSound();
-          setStatus("فشل إلغاء الصعود", 'error');
-        }
-      } catch (error) {
-        playErrorSound();
-        setStatus("حدث خطأ أثناء الإلغاء", 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-    }
-
-    async function generateManifest() {
-      const busNumber = document.getElementById('busNumber').value.trim();
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
-        return;
-      }
-
-      try {
-        setStatus('جارٍ تجهيز المنفست...', 'info');
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'generateManifest', busNumber })
-        });
-
-        const result = await response.json();
-        if (result.success) {
-          playSuccessSound();
-          setStatus("تم تجهيز المنفست بنجاح", 'success');
-        } else {
-          playErrorSound();
-          setStatus("فشل تجهيز المنفست", 'error');
-        }
-      } catch (error) {
-        playErrorSound();
-        setStatus("حدث خطأ أثناء تجهيز المنفست", 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-    }
-
-    async function changeBusStatus(newStatus) {
-      const busNumber = document.getElementById('busNumber').value.trim();
-
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
-        return;
-      }
-
-      try {
-        setStatus('جارٍ تغيير حالة الحافلة...', 'info');
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'changeBusStatus',
-            busNumber: busNumber,
-            newStatus: newStatus
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          playSuccessSound();
-          setStatus(result.message || ('تم تغيير حالة الحافلة إلى ' + newStatus), 'success');
-        } else {
-          playErrorSound();
-          setStatus(result.message || 'فشل تغيير حالة الحافلة', 'error');
-        }
-      } catch (error) {
-        playErrorSound();
-        setStatus('حدث خطأ أثناء تغيير حالة الحافلة', 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-    }
-
-    async function searchPilgrim() {
-      const searchId = document.getElementById('searchId').value.trim();
-      const resultBox = document.getElementById('searchResult');
-
-      if (!searchId) {
-        setStatus('الرجاء إدخال رقم الهوية للبحث', 'warning');
-        return;
-      }
-
-      try {
-        resultBox.innerHTML = 'جارٍ البحث...';
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'searchPilgrimStatus', id: searchId })
-        });
-
-        const result = await response.json();
-        if (!result.success) {
-          playErrorSound();
-          setStatus(result.message || 'لا توجد نتيجة', 'error');
-          resultBox.innerHTML = result.message || 'لا توجد نتيجة';
-          return;
-        }
-
-        playSuccessSound();
-        setStatus('تم العثور على نتيجة', 'success');
-        resultBox.innerHTML = `
-          <div><strong>الاسم:</strong> ${result.name || '-'}</div>
-          <div><strong>رقم الهوية:</strong> ${result.id || '-'}</div>
-          <div><strong>الحالة الحالية:</strong> ${result.pilgrimStatus || '-'}</div>
-          <div><strong>آخر حالة عملية:</strong> ${result.latestOperationStatus || '-'}</div>
-          <div><strong>رقم الحافلة:</strong> ${result.busNumber || '-'}</div>
-          <div><strong>رقم اللوحة:</strong> ${result.plateNumber || '-'}</div>
-          <div><strong>وقت آخر عملية:</strong> ${result.timestamp || '-'}</div>
-        `;
-      } catch (error) {
-        playErrorSound();
-        setStatus('حدث خطأ أثناء البحث', 'error');
-        resultBox.innerHTML = 'حدث خطأ أثناء البحث';
-      }
-    }
-
-    window.addEventListener('load', async () => {
-      initializeNavigation();
-      showOperationTab('manual');
-      updateCameraUI(false);
-      updateTopSummaryVisibility(false);
-      await loadDashboardStats();
-      await loadBusLiveInfo();
-    });
-  </script>
-</body>
-</html>
+      const arabicNums = '
