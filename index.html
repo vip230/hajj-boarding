@@ -41,6 +41,7 @@
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
     html, body {
       margin: 0;
       padding: 0;
@@ -48,6 +49,7 @@
       color: var(--text);
       font-family: "Cairo", Arial, sans-serif;
     }
+
     body { padding-bottom: calc(var(--nav-height) + 26px); }
 
     .hidden { display: none !important; }
@@ -60,8 +62,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background:
-        radial-gradient(circle at top, #e8f3ff 0%, #eef4fa 48%, #e7eef7 100%);
+      background: radial-gradient(circle at top, #e8f3ff 0%, #eef4fa 48%, #e7eef7 100%);
       padding: 20px;
     }
 
@@ -121,8 +122,8 @@
       height: 100%;
       width: 100%;
       background: linear-gradient(90deg, #0b57d0, #4a86e8);
+      animation: splashLoad 0.45s linear forwards;
       transform-origin: right center;
-      animation: splashLoad 1.1s linear forwards;
     }
 
     @keyframes splashLoad {
@@ -241,7 +242,8 @@
     .card-title-icon,
     .nav-icon,
     .op-tab-icon,
-    .kpi-icon {
+    .kpi-icon,
+    .confirm-icon {
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
@@ -254,6 +256,7 @@
     .btn-icon, .card-title-icon, .kpi-icon { width: 18px; height: 18px; }
     .nav-icon { width: 22px; height: 22px; }
     .op-tab-icon { width: 16px; height: 16px; }
+    .confirm-icon { width: 26px; height: 26px; }
 
     .bus-toolbar {
       display: grid;
@@ -297,8 +300,6 @@
     .status-departed { background: var(--purple-soft); color: #6a1b9a; border-color: #dec8f2; }
     .status-arrived { background: var(--orange-soft); color: #b25a00; border-color: #ffd7a6; }
     .status-closed { background: #eceff1; color: #455a64; border-color: #d7dfe4; }
-
-    .summary-hidden { display: none; }
 
     .mini-kpi {
       background: #fff;
@@ -661,7 +662,7 @@
       left: 12px;
       right: 12px;
       bottom: calc(var(--nav-height) + 14px);
-      z-index: 2000;
+      z-index: 3000;
       padding: 9px 12px 8px;
       border-radius: 12px;
       white-space: pre-line;
@@ -702,6 +703,57 @@
     .status-warning { background: #fef7e0; border-color: #f9ab00; color: #8d6500; }
     .status-info { background: #e8f0fe; border-color: #1a73e8; color: #174ea6; }
 
+    #confirmModal {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background: rgba(23, 50, 75, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .confirm-box {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.16);
+      overflow: hidden;
+    }
+
+    .confirm-head {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(180deg, #f7fbff 0%, #eef5ff 100%);
+      border-bottom: 1px solid var(--border);
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    .confirm-body {
+      padding: 18px;
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--text);
+    }
+
+    .confirm-actions {
+      padding: 0 18px 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .confirm-actions button {
+      margin-top: 0;
+    }
+
     @media (max-width: 720px) {
       .topbar-grid,
       .row,
@@ -713,12 +765,17 @@
       .user-status-grid {
         grid-template-columns: 1fr;
       }
+
       .topbar { position: static; }
       .bus-toolbar { grid-template-columns: 1fr; }
       .bottom-nav { left: 8px; right: 8px; bottom: 8px; }
       .nav-icon { width: 21px; height: 21px; }
       .nav-btn { font-size: 11px; }
       .nav-badge { left: 10px; }
+
+      .confirm-actions {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -759,7 +816,7 @@
           <button id="loginBtn" onclick="login()">دخول</button>
         </div>
 
-        <div class="login-note">لن يتم تفعيل الصلاحيات قبل التحقق من الرقم السري.</div>
+        <div class="login-note">كل مرة يتم فتح الرابط ستبدأ من شاشة الدخول حفاظًا على الأمان.</div>
       </div>
     </div>
   </div>
@@ -1097,22 +1154,22 @@
           </div>
 
           <div class="status-action-grid">
-            <button class="btn-green btn-with-icon" id="openBusBtn" type="button" onclick="changeBusStatus('مفتوحة')">
+            <button class="btn-green btn-with-icon" id="openBusBtn" type="button" onclick="requestBusStatusChange('مفتوحة')">
               <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
               <span>فتح الحافلة</span>
             </button>
 
-            <button class="btn-red btn-with-icon" id="fullBusBtn" type="button" onclick="changeBusStatus('ممتلئة')">
+            <button class="btn-red btn-with-icon" id="fullBusBtn" type="button" onclick="requestBusStatusChange('ممتلئة')">
               <svg class="btn-icon" viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
               <span>تعيين ممتلئة</span>
             </button>
 
-            <button class="btn-purple btn-with-icon" id="departedBusBtn" type="button" onclick="changeBusStatus('انطلقت')">
+            <button class="btn-purple btn-with-icon" id="departedBusBtn" type="button" onclick="requestBusStatusChange('انطلقت')">
               <svg class="btn-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg>
               <span>إعلان انطلقت</span>
             </button>
 
-            <button class="btn-orange btn-with-icon" id="arrivedBusBtn" type="button" onclick="changeBusStatus('وصلت')">
+            <button class="btn-orange btn-with-icon" id="arrivedBusBtn" type="button" onclick="requestBusStatusChange('وصلت')">
               <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
               <span>إعلان وصلت</span>
             </button>
@@ -1135,7 +1192,7 @@
 
           <div class="screen-action-grid">
             <div class="screen-action-card" style="grid-column: 1 / -1;">
-              <button class="btn-green btn-with-icon" id="manifestBtn" onclick="generateManifest()">
+              <button class="btn-green btn-with-icon" id="manifestBtn" onclick="requestGenerateManifest()">
                 <svg class="btn-icon" viewBox="0 0 24 24">
                   <path d="M8 6h8"></path>
                   <path d="M8 10h8"></path>
@@ -1240,13 +1297,27 @@
     <div class="status-progress"><div class="status-progress-bar" id="statusProgressBar"></div></div>
   </div>
 
+  <div id="confirmModal" class="hidden">
+    <div class="confirm-box">
+      <div class="confirm-head">
+        <svg class="confirm-icon" viewBox="0 0 24 24">
+          <path d="M12 9v4"></path>
+          <path d="M12 17h.01"></path>
+          <path d="M10.29 3.86l-7 12.14A2 2 0 0 0 5 19h14a2 2 0 0 0 1.71-3l-7-12.14a2 2 0 0 0-3.42 0z"></path>
+        </svg>
+        <span id="confirmTitle">تأكيد العملية</span>
+      </div>
+      <div class="confirm-body" id="confirmMessage">هل تريد المتابعة؟</div>
+      <div class="confirm-actions">
+        <button class="btn-secondary" onclick="closeConfirm(false)">إلغاء</button>
+        <button onclick="closeConfirm(true)">تأكيد</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsPCTLpSfvqodRfEuD_pa1teWPZXq0J2qu-QTcZD9DQQIw-nFLFLL26ax314vxwVE9NQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwi8MKeyfC4r3w_KkxDicNKoHeklWWAvKqujyk86NrTdyJuHpZc9DRcarpGQFAAfCn1cQ/exec';
     const REQUIRED_ID_LENGTH = 10;
-    const STORAGE_KEYS = {
-      sessionToken: 'bus_app_session_token',
-      lastBus: 'bus_app_last_bus'
-    };
 
     let html5QrCode = null;
     let isSaving = false;
@@ -1264,25 +1335,7 @@
 
     let currentBusInfo = null;
 
-    function saveSessionToken(token) {
-      localStorage.setItem(STORAGE_KEYS.sessionToken, token || '');
-    }
-
-    function getSavedSessionToken() {
-      return localStorage.getItem(STORAGE_KEYS.sessionToken) || '';
-    }
-
-    function clearSavedSessionToken() {
-      localStorage.removeItem(STORAGE_KEYS.sessionToken);
-    }
-
-    function saveLastBus(busNo) {
-      if (busNo) localStorage.setItem(STORAGE_KEYS.lastBus, busNo);
-    }
-
-    function getLastBus() {
-      return localStorage.getItem(STORAGE_KEYS.lastBus) || '';
-    }
+    let confirmResolver = null;
 
     function hideAllScreens() {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
@@ -1344,37 +1397,6 @@
         .replaceAll("'", '&#039;');
     }
 
-    function flashCard(cardId, type) {
-      const el = document.getElementById(cardId);
-      if (!el) return;
-
-      el.classList.remove('flash-success', 'flash-error', 'flash-warning');
-      void el.offsetWidth;
-
-      if (type === 'success') el.classList.add('flash-success');
-      else if (type === 'error') el.classList.add('flash-error');
-      else if (type === 'warning') el.classList.add('flash-warning');
-
-      setTimeout(() => {
-        el.classList.remove('flash-success', 'flash-error', 'flash-warning');
-      }, 900);
-    }
-
-    function flashByCurrentScreen(type) {
-      if (currentScreen === 'register') {
-        flashCard('registerFormCard', type);
-        flashCard('scannerCard', type);
-      } else if (currentScreen === 'operations') {
-        flashCard('operationsTabsCard', type);
-      } else if (currentScreen === 'buses') {
-        flashCard('busInfoCard', type);
-        flashCard('busStatusCard', type);
-        flashCard('busActionsCard', type);
-      } else if (currentScreen === 'reports') {
-        flashCard('reportsStatsCard', type);
-      }
-    }
-
     function updateNavBadgesFromStats(result) {
       const busesBadge = document.getElementById('busesBadge');
       const reportsBadge = document.getElementById('reportsBadge');
@@ -1403,7 +1425,9 @@
 
     function showScreen(name, pushHistory = true) {
       activateScreen(name);
-      if (pushHistory) history.pushState({ screen: name }, '', '#' + name);
+      if (pushHistory) {
+        history.pushState({ screen: name }, '', '#' + name);
+      }
     }
 
     function initializeNavigation() {
@@ -1452,10 +1476,6 @@
       else box.classList.add('status-info');
 
       resetStatusProgressBar();
-
-      if (type === 'success' || type === 'error' || type === 'warning') {
-        flashByCurrentScreen(type);
-      }
 
       statusHideTimer = setTimeout(() => {
         box.classList.add('hidden');
@@ -1524,7 +1544,25 @@
           changeBusStatus: true
         }
       };
+
       return !!(permissions[role] && permissions[role][action]);
+    }
+
+    function openConfirm(message, title = 'تأكيد العملية') {
+      return new Promise((resolve) => {
+        confirmResolver = resolve;
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = message;
+        document.getElementById('confirmModal').classList.remove('hidden');
+      });
+    }
+
+    function closeConfirm(result) {
+      document.getElementById('confirmModal').classList.add('hidden');
+      if (confirmResolver) {
+        confirmResolver(result);
+        confirmResolver = null;
+      }
     }
 
     async function loadLoginUsers() {
@@ -1674,40 +1712,12 @@
         session.role = result.user.role;
         session.loginAt = result.user.loginAt;
 
-        saveSessionToken(session.token);
         playSuccessSound();
         setStatus('تم تسجيل الدخول بنجاح', 'success');
         enterApp();
       } catch (e) {
         playErrorSound();
         setStatus('حدث خطأ أثناء تسجيل الدخول', 'error');
-      }
-    }
-
-    async function tryRestoreSession() {
-      const token = getSavedSessionToken();
-      if (!token) return false;
-
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'restoreSession', sessionToken: token })
-        });
-
-        const result = await response.json();
-        if (!result.success) {
-          clearSavedSessionToken();
-          return false;
-        }
-
-        session.token = token;
-        session.userName = result.userName;
-        session.role = result.role;
-        session.loginAt = result.loginAt;
-        return true;
-      } catch (e) {
-        return false;
       }
     }
 
@@ -1722,13 +1732,14 @@
         }
       } catch (e) {}
 
-      clearSavedSessionToken();
       session = { token: '', userName: '', role: '', loginAt: '' };
       currentBusInfo = null;
       stopScanner();
       document.getElementById('appRoot').classList.add('hidden');
       document.getElementById('loginScreen').classList.remove('hidden');
       document.getElementById('loginPin').value = '';
+      document.getElementById('loginUser').value = '';
+      clearBusUI();
       renderSessionInfo();
     }
 
@@ -1737,12 +1748,6 @@
       document.getElementById('appRoot').classList.remove('hidden');
       renderSessionInfo();
       initializeNavigation();
-
-      const lastBus = getLastBus();
-      if (lastBus) {
-        document.getElementById('busNumber').value = lastBus;
-      }
-
       loadDashboardStats();
       loadBusLiveInfo();
     }
@@ -1750,33 +1755,80 @@
     async function bootstrap() {
       await loadLoginUsers();
 
-      setTimeout(async () => {
+      // شاشة سريعة جدًا ثم دخول مباشر لشاشة الدخول
+      setTimeout(() => {
         document.getElementById('splashScreen').classList.add('hidden');
-
-        const restored = await tryRestoreSession();
-        if (restored) {
-          enterApp();
-        } else {
-          document.getElementById('loginScreen').classList.remove('hidden');
-        }
-      }, 1100);
+        document.getElementById('loginScreen').classList.remove('hidden');
+      }, 420);
     }
 
-    async function onBusChanged() {
-      const busNo = document.getElementById('busNumber').value.trim();
-      if (busNo) saveLastBus(busNo);
-      await loadBusLiveInfo();
+    function onBusChanged() {
+      loadBusLiveInfo();
+    }
+
+    function updateBusUI(result) {
+      currentBusInfo = result;
+
+      const busNumber = result.busNumber || '-';
+      const status = result.busStatus || '';
+      const remainingSeats = result.remainingSeats ?? '-';
+
+      document.getElementById('currentBusPill').textContent = busNumber;
+      setTopStatusPill(status);
+
+      document.getElementById('liveBusNumber').innerText = busNumber;
+      document.getElementById('livePlateNumber').innerText = result.plateNumber || '-';
+      document.getElementById('liveDriverName').innerText = result.driverName || '-';
+      document.getElementById('liveModel').innerText = result.model || '-';
+      document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
+      document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
+      document.getElementById('liveRemainingSeats').innerText = remainingSeats;
+      document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(status);
+
+      const recentBox = document.getElementById('recentOperations');
+      if (!result.recentOperations || result.recentOperations.length === 0) {
+        recentBox.innerHTML = 'لا توجد بيانات بعد';
+      } else {
+        recentBox.innerHTML = result.recentOperations.map(op => `
+          <div class="log-item">
+            <div><strong>${escapeHtml(op.pilgrimName || '-')}</strong></div>
+            <div>رقم الهوية: ${escapeHtml(op.idValue || '-')}</div>
+            <div>الحالة: ${escapeHtml(op.status || '-')}</div>
+          </div>
+        `).join('');
+      }
+
+      applyPermissionUI();
+      updateStateBanner();
+    }
+
+    function clearBusUI() {
+      currentBusInfo = null;
+
+      document.getElementById('currentBusPill').textContent = '—';
+      setTopStatusPill('');
+
+      document.getElementById('liveBusNumber').innerText = '-';
+      document.getElementById('livePlateNumber').innerText = '-';
+      document.getElementById('liveDriverName').innerText = '-';
+      document.getElementById('liveModel').innerText = '-';
+      document.getElementById('liveCurrentCount').innerText = '-';
+      document.getElementById('liveCapacity').innerText = '-';
+      document.getElementById('liveRemainingSeats').innerText = '-';
+      document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml('');
+      document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
+
+      applyPermissionUI();
+      updateStateBanner();
     }
 
     async function loadBusLiveInfo() {
       const busNumber = document.getElementById('busNumber').value.trim();
 
       if (!busNumber) {
-        clearBusLiveInfo();
+        clearBusUI();
         return;
       }
-
-      document.getElementById('currentBusPill').textContent = busNumber;
 
       try {
         const response = await fetch(SCRIPT_URL, {
@@ -1788,66 +1840,20 @@
         const result = await response.json();
 
         if (!result.success) {
-          clearBusLiveInfo();
           if ((result.message || '').includes('الجلسة')) {
             await logout();
           } else {
+            clearBusUI();
             setStatus(result.message || 'تعذر جلب معلومات الحافلة', 'error');
           }
           return;
         }
 
-        currentBusInfo = result;
-
-        document.getElementById('liveBusNumber').innerText = result.busNumber || '-';
-        document.getElementById('livePlateNumber').innerText = result.plateNumber || '-';
-        document.getElementById('liveDriverName').innerText = result.driverName || '-';
-        document.getElementById('liveModel').innerText = result.model || '-';
-        document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
-        document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
-        document.getElementById('liveRemainingSeats').innerText = result.remainingSeats ?? '-';
-        document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(result.busStatus);
-        document.getElementById('topRemainingSeats').innerText = result.remainingSeats ?? '-';
-
-        setTopStatusPill(result.busStatus || '');
-
-        const recentBox = document.getElementById('recentOperations');
-        if (!result.recentOperations || result.recentOperations.length === 0) {
-          recentBox.innerHTML = 'لا توجد بيانات بعد';
-        } else {
-          recentBox.innerHTML = result.recentOperations.map(op => `
-            <div class="log-item">
-              <div><strong>${escapeHtml(op.pilgrimName || '-')}</strong></div>
-              <div>رقم الهوية: ${escapeHtml(op.idValue || '-')}</div>
-              <div>الحالة: ${escapeHtml(op.status || '-')}</div>
-            </div>
-          `).join('');
-        }
-
-        applyPermissionUI();
-        updateStateBanner();
+        updateBusUI(result);
       } catch (e) {
-        clearBusLiveInfo();
+        clearBusUI();
         setStatus('حدث خطأ أثناء جلب معلومات الحافلة', 'error');
       }
-    }
-
-    function clearBusLiveInfo() {
-      currentBusInfo = null;
-      document.getElementById('liveBusNumber').innerText = '-';
-      document.getElementById('livePlateNumber').innerText = '-';
-      document.getElementById('liveDriverName').innerText = '-';
-      document.getElementById('liveModel').innerText = '-';
-      document.getElementById('liveCurrentCount').innerText = '-';
-      document.getElementById('liveCapacity').innerText = '-';
-      document.getElementById('liveRemainingSeats').innerText = '-';
-      document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml('');
-      document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
-      document.getElementById('topRemainingSeats').innerText = '—';
-      document.getElementById('currentBusPill').textContent = '—';
-      setTopStatusPill('');
-      applyPermissionUI();
-      updateStateBanner();
     }
 
     async function loadDashboardStats() {
@@ -1879,18 +1885,22 @@
         setStatus('الرجاء اختيار رقم الحافلة', 'warning');
         return false;
       }
+
       if (!proofType) {
         setStatus('الرجاء اختيار نوع الإثبات', 'warning');
         return false;
       }
+
       if (!session.userName) {
         setStatus('انتهت الجلسة. سجل الدخول مرة أخرى', 'warning');
         return false;
       }
+
       if (!can(session.role, 'boardPilgrim')) {
         setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
         return false;
       }
+
       return true;
     }
 
@@ -1927,13 +1937,14 @@
         updateCameraUI(false);
         return;
       }
+
       try {
         await html5QrCode.stop();
         await html5QrCode.clear();
       } catch (e) {}
+
       html5QrCode = null;
       updateCameraUI(false);
-      setStatus('تم إيقاف الكاميرا.', 'info');
     }
 
     async function sendBoardingData(idValue, sourceScreen = 'register') {
@@ -1954,6 +1965,7 @@
         setStatus('الرجاء اختيار رقم الحافلة', 'warning');
         return;
       }
+
       if (!proofType) {
         setStatus('الرجاء اختيار نوع الإثبات', 'warning');
         return;
@@ -2016,7 +2028,10 @@
 
       await loadBusLiveInfo();
       await loadDashboardStats();
-      setTimeout(() => { isSaving = false; }, 1500);
+
+      setTimeout(() => {
+        isSaving = false;
+      }, 1500);
     }
 
     async function onScanSuccess(decodedText) {
@@ -2029,6 +2044,7 @@
         setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
         return;
       }
+
       const manualId = document.getElementById('manualId').value.trim();
       await sendBoardingData(manualId, 'operations');
     }
@@ -2080,7 +2096,7 @@
       await loadDashboardStats();
     }
 
-    async function generateManifest() {
+    async function requestGenerateManifest() {
       if (!can(session.role, 'generateManifest')) {
         setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
         return;
@@ -2092,7 +2108,14 @@
         return;
       }
 
-      if (!confirm('هل أنت متأكد من تجهيز المنفست لهذه الحافلة؟')) return;
+      const confirmed = await openConfirm('هل أنت متأكد من تجهيز المنفست لهذه الحافلة؟', 'تأكيد تجهيز المنفست');
+      if (!confirmed) return;
+
+      await generateManifest();
+    }
+
+    async function generateManifest() {
+      const busNumber = document.getElementById('busNumber').value.trim();
 
       try {
         setStatus('جارٍ تجهيز المنفست...', 'info');
@@ -2129,7 +2152,7 @@
       await loadDashboardStats();
     }
 
-    async function changeBusStatus(newStatus) {
+    async function requestBusStatusChange(newStatus) {
       if (!can(session.role, 'changeBusStatus')) {
         setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
         return;
@@ -2146,7 +2169,18 @@
         return;
       }
 
-      if (!confirm('هل أنت متأكد من تغيير حالة الحافلة إلى "' + newStatus + '"؟')) return;
+      const confirmed = await openConfirm(
+        'هل أنت متأكد من تغيير حالة الحافلة إلى "' + newStatus + '"؟',
+        'تأكيد تغيير الحالة'
+      );
+
+      if (!confirmed) return;
+
+      await changeBusStatus(newStatus);
+    }
+
+    async function changeBusStatus(newStatus) {
+      const busNumber = document.getElementById('busNumber').value.trim();
 
       try {
         setStatus('جارٍ تغيير حالة الحافلة...', 'info');
@@ -2244,6 +2278,8 @@
     window.addEventListener('load', async () => {
       updateCameraUI(false);
       showOperationTab('manual');
+      renderSessionInfo();
+      clearBusUI();
       await bootstrap();
     });
   </script>
