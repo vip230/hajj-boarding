@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
-
   <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
   <style>
@@ -33,6 +32,7 @@
       --border: #dbe6f2;
       --text: #17324b;
       --muted: #6b7b8c;
+      --disabled: #b8c4d1;
       --shadow-xs: 0 2px 8px rgba(10, 77, 184, 0.05);
       --shadow-sm: 0 6px 18px rgba(10, 77, 184, 0.08);
       --radius: 18px;
@@ -88,7 +88,7 @@
 
     .topbar-grid {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.3fr 0.9fr;
       gap: 10px;
       align-items: stretch;
     }
@@ -102,7 +102,8 @@
       box-shadow: var(--shadow-xs);
     }
 
-    .topbar-title-row {
+    .topbar-title-row,
+    .user-card-title {
       display: flex;
       align-items: center;
       gap: 7px;
@@ -112,9 +113,9 @@
       font-weight: 800;
     }
 
-    .mini-icon, .card-title-icon, .btn-icon, .op-tab-icon, .nav-icon, .kpi-icon {
-      stroke: currentColor;
+    .mini-icon, .btn-icon, .card-title-icon, .op-tab-icon, .nav-icon, .kpi-icon {
       fill: none;
+      stroke: currentColor;
       stroke-width: 2;
       stroke-linecap: round;
       stroke-linejoin: round;
@@ -122,10 +123,10 @@
     }
 
     .mini-icon { width: 16px; height: 16px; }
-    .card-title-icon, .kpi-icon { width: 18px; height: 18px; }
-    .btn-icon { width: 18px; height: 18px; }
+    .btn-icon, .kpi-icon { width: 18px; height: 18px; }
+    .card-title-icon { width: 18px; height: 18px; color: var(--primary-dark); }
     .op-tab-icon { width: 16px; height: 16px; }
-    .nav-icon { width: 22px; height: 22px; display: block; transition: transform 0.18s ease; }
+    .nav-icon { width: 22px; height: 22px; }
 
     .bus-toolbar {
       display: grid;
@@ -134,7 +135,7 @@
       align-items: center;
     }
 
-    .bus-select, input, select, textarea, button {
+    .bus-select, select, input, textarea, button {
       width: 100%;
       border-radius: 12px;
       border: 1px solid #cfd8e3;
@@ -166,7 +167,8 @@
     .status-arrived { background: var(--orange-soft); color: #b25a00; border-color: #ffd7a6; }
     .status-closed { background: #eceff1; color: #455a64; border-color: #d7dfe4; }
 
-    .summary-hidden { display: none; }
+    .summary-hidden, .hidden { display: none !important; }
+
     .compact-meta .mini-kpi {
       background: #fff;
       border: 1px solid var(--border);
@@ -176,27 +178,10 @@
       min-height: 44px;
     }
 
-    .mini-kpi-label {
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-
-    .mini-kpi-value {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--text);
-      line-height: 1.2;
-    }
-
-    .hint-line, .hint, .section-subtitle, .section-note {
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
+    .mini-kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+    .mini-kpi-value { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.2; }
+    .hint-line, .hint, .section-note, .section-subtitle { color: var(--muted); line-height: 1.7; }
     .hint-line { margin-top: 6px; font-size: 12px; }
-    .hint, .section-note { font-size: 13px; }
 
     .screen { display: none; animation: screenFade 0.18s ease; }
     .screen.active { display: block; }
@@ -215,7 +200,7 @@
       border: 1px solid var(--border);
     }
 
-    .card.soft { background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
+    .soft { background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
 
     .section-title {
       font-size: 21px;
@@ -239,8 +224,6 @@
       gap: 8px;
       margin-bottom: 10px;
     }
-
-    .card-title-icon { color: var(--primary-dark); }
 
     h3 {
       margin: 0;
@@ -286,21 +269,6 @@
       gap: 8px;
     }
 
-    .btn-disabled {
-      opacity: 0.45;
-      cursor: not-allowed !important;
-      filter: grayscale(0.12);
-      pointer-events: none;
-    }
-
-    .disabled-hint {
-      margin-top: 8px;
-      font-size: 12px;
-      color: var(--red);
-      font-weight: 700;
-      display: none;
-    }
-
     .row, .info-grid, .screen-action-grid, .status-action-grid, .kpi-grid {
       display: grid;
       gap: 10px;
@@ -317,34 +285,8 @@
       padding: 12px;
     }
 
-    .info-title {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 5px;
-      font-weight: 700;
-    }
-
-    .info-value {
-      font-size: 18px;
-      font-weight: 800;
-      color: var(--text);
-      word-break: break-word;
-      line-height: 1.4;
-    }
-
-    .user-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 800;
-      background: var(--primary-soft);
-      color: var(--primary-dark);
-      border: 1px solid #d6e4fb;
-      margin-top: 6px;
-    }
+    .info-title { font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 700; }
+    .info-value { font-size: 18px; font-weight: 800; color: var(--text); word-break: break-word; line-height: 1.4; }
 
     .kpi-card {
       border-radius: 16px;
@@ -368,19 +310,8 @@
       margin-bottom: 10px;
     }
 
-    .kpi-label {
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-      line-height: 1.5;
-    }
-
-    .kpi-number {
-      font-size: 30px;
-      line-height: 1.1;
-      font-weight: 800;
-      color: var(--text);
-    }
+    .kpi-label { font-size: 12px; color: var(--muted); font-weight: 700; line-height: 1.5; }
+    .kpi-number { font-size: 30px; line-height: 1.1; font-weight: 800; color: var(--text); }
 
     .screen-action-card {
       background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
@@ -430,6 +361,99 @@
     }
 
     .log-item:last-child { border-bottom: none; }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .chip-open { background: var(--green-soft); color: #137333; border: 1px solid #b7dfc2; }
+    .chip-full { background: var(--red-soft); color: #a50e0e; border: 1px solid #efc4c1; }
+    .chip-departed { background: var(--purple-soft); color: #6a1b9a; border: 1px solid #dec8f2; }
+    .chip-arrived { background: var(--orange-soft); color: #b25a00; border: 1px solid #ffd7a6; }
+    .chip-closed { background: #eceff1; color: #455a64; border: 1px solid #d7dfe4; }
+    .chip-unknown { background: #eef3fd; color: #355070; border: 1px solid #dbe6f2; }
+
+    .operation-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .op-tab-btn {
+      background: #f3f7fd;
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+      margin-top: 0;
+      padding: 10px 8px;
+      font-size: 14px;
+      border-radius: 12px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: none;
+    }
+
+    .op-tab-btn.active { background: var(--primary); color: #fff; box-shadow: var(--shadow-xs); }
+    .op-panel { display: none; }
+    .op-panel.active { display: block; animation: screenFade 0.15s ease; }
+
+    .user-status-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 10px 12px;
+      margin-top: 10px;
+    }
+
+    .user-status-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .state-banner {
+      margin-top: 10px;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1px solid;
+    }
+
+    .state-open { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
+    .state-full { background: var(--red-soft); color: #a50e0e; border-color: #efc4c1; }
+    .state-departed { background: var(--purple-soft); color: #6a1b9a; border-color: #dec8f2; }
+    .state-arrived { background: var(--orange-soft); color: #b25a00; border-color: #ffd7a6; }
+    .state-default { background: #eef3fd; color: #355070; border-color: #dbe6f2; }
+
+    .disabled-control,
+    button:disabled,
+    select:disabled,
+    input:disabled,
+    textarea:disabled {
+      opacity: 0.55;
+      filter: grayscale(0.15);
+      cursor: not-allowed !important;
+      pointer-events: none;
+    }
+
+    .disabled-note {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
 
     .bottom-nav {
       position: fixed;
@@ -481,7 +505,6 @@
     }
 
     .nav-btn.active .nav-icon { transform: translateY(-1px) scale(1.06); }
-
     .nav-btn[data-screen="register"].active { background: linear-gradient(180deg, #eef4ff 0%, #e7f0ff 100%); color: var(--primary-dark); }
     .nav-btn[data-screen="register"].active::before { background: var(--primary-dark); }
     .nav-btn[data-screen="operations"].active { background: linear-gradient(180deg, #fff4ea 0%, #ffe9d2 100%); color: #b85b00; }
@@ -511,57 +534,6 @@
 
     .nav-badge.show { display: inline-flex; }
     .nav-badge.reports { background: var(--orange); }
-
-    .operation-tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
-
-    .op-tab-btn {
-      background: #f3f7fd;
-      color: var(--primary-dark);
-      border: 1px solid var(--border);
-      margin-top: 0;
-      padding: 10px 8px;
-      font-size: 14px;
-      border-radius: 12px;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      box-shadow: none;
-    }
-
-    .op-tab-btn.active {
-      background: var(--primary);
-      color: #fff;
-      box-shadow: var(--shadow-xs);
-    }
-
-    .op-panel { display: none; }
-    .op-panel.active { display: block; animation: screenFade 0.15s ease; }
-
-    .status-chip {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 90px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 800;
-      line-height: 1.2;
-    }
-
-    .chip-open { background: var(--green-soft); color: #137333; border: 1px solid #b7dfc2; }
-    .chip-full { background: var(--red-soft); color: #a50e0e; border: 1px solid #efc4c1; }
-    .chip-departed { background: var(--purple-soft); color: #6a1b9a; border: 1px solid #dec8f2; }
-    .chip-arrived { background: var(--orange-soft); color: #b25a00; border: 1px solid #ffd7a6; }
-    .chip-closed { background: #eceff1; color: #455a64; border: 1px solid #d7dfe4; }
-    .chip-unknown { background: #eef3fd; color: #355070; border: 1px solid #dbe6f2; }
 
     #status {
       position: fixed;
@@ -610,7 +582,7 @@
     .status-info { background: #e8f0fe; border-color: #1a73e8; color: #174ea6; }
 
     @media (max-width: 720px) {
-      .topbar-grid, .row, .info-grid, .screen-action-grid, .status-action-grid, .operation-tabs, .kpi-grid {
+      .topbar-grid, .row, .info-grid, .screen-action-grid, .status-action-grid, .operation-tabs, .kpi-grid, .user-status-grid {
         grid-template-columns: 1fr;
       }
       .topbar { position: static; }
@@ -632,7 +604,7 @@
       <div class="topbar-grid">
         <div class="topbar-box">
           <div class="topbar-title-row">
-            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="mini-icon" viewBox="0 0 24 24">
               <path d="M8 6V4h8v2"></path>
               <rect x="4" y="6" width="16" height="11" rx="2"></rect>
               <path d="M4 11h16"></path>
@@ -645,20 +617,11 @@
           <div class="bus-toolbar">
             <select id="busNumber" class="bus-select" onchange="loadBusLiveInfo()">
               <option value="">اختر رقم الحافلة</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
-              <option value="10">10</option>
-              <option value="11">11</option>
-              <option value="12">12</option>
-              <option value="13">13</option>
-              <option value="14">14</option>
+              <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+              <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+              <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+              <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+              <option value="13">13</option><option value="14">14</option>
             </select>
 
             <div class="bus-pill bus-number-pill" id="currentBusPill">—</div>
@@ -668,16 +631,23 @@
           <div class="hint-line">اختر الحافلة أولًا قبل التسجيل أو تنفيذ العمليات.</div>
         </div>
 
-        <div class="topbar-box" id="currentUserBox">
+        <div class="topbar-box summary-hidden" id="topSummaryBox">
           <div class="topbar-title-row">
-            <svg class="mini-icon" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M20 21a8 8 0 1 0-16 0"></path>
-              <circle cx="12" cy="7" r="4"></circle>
+            <svg class="mini-icon" viewBox="0 0 24 24">
+              <path d="M4 20V10"></path>
+              <path d="M10 20V4"></path>
+              <path d="M16 20v-7"></path>
+              <path d="M22 20V8"></path>
             </svg>
-            <span>المستخدم الحالي</span>
+            <span>ملخص سريع</span>
           </div>
 
-          <div class="user-badge" id="currentUserBadge">غير محدد</div>
+          <div class="compact-meta">
+            <div class="mini-kpi">
+              <div class="mini-kpi-label">المقاعد المتبقية</div>
+              <div class="mini-kpi-value" id="topRemainingSeats">—</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -692,7 +662,7 @@
 
       <div class="card" id="registerFormCard">
         <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="card-title-icon" viewBox="0 0 24 24">
             <path d="M19 21H8a2 2 0 0 1-2-2V5"></path>
             <path d="M16 3H8a2 2 0 0 0-2 2v14"></path>
             <path d="M9 7h6"></path>
@@ -714,28 +684,48 @@
           </div>
 
           <div>
-            <label for="userSelect">اسم المستخدم</label>
-            <select id="userSelect" onchange="handleUserSelectionChange()">
-              <option value="">اختر المستخدم</option>
+            <label for="selectedUser">المستخدم</label>
+            <select id="selectedUser" onchange="onUserSelectionChanged()">
+              <option value="">جارٍ تحميل المستخدمين...</option>
             </select>
+            <div id="manualUserWrap" class="hidden">
+              <label for="manualUserName">اسم المستخدم اليدوي</label>
+              <input type="text" id="manualUserName" placeholder="اكتب اسم المستخدم" oninput="onManualUserChanged()" />
+            </div>
           </div>
         </div>
 
-        <div id="manualUserWrap" style="display:none;">
-          <label for="manualUserName">اكتب اسم المستخدم</label>
-          <input type="text" id="manualUserName" placeholder="اسم المستخدم اليدوي" oninput="handleUserSelectionChange()" />
-          <div class="hint">الإدخال اليدوي تكون صلاحيته دائمًا: مسجل</div>
+        <div class="user-status-card">
+          <div class="user-card-title">
+            <svg class="mini-icon" viewBox="0 0 24 24">
+              <path d="M20 21a8 8 0 0 0-16 0"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            <span>بيانات المستخدم الحالي</span>
+          </div>
+          <div class="user-status-grid">
+            <div class="info-item">
+              <div class="info-title">اسم المستخدم</div>
+              <div class="info-value" id="currentUserName">-</div>
+            </div>
+            <div class="info-item">
+              <div class="info-title">الصلاحية</div>
+              <div class="info-value" id="currentUserRole">-</div>
+            </div>
+          </div>
         </div>
 
         <div>
           <label for="notes">ملاحظات</label>
           <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
         </div>
+
+        <div id="registerStateBanner" class="state-banner state-default">اختر الحافلة والمستخدم لبدء العمل</div>
       </div>
 
       <div class="card soft" id="scannerCard">
         <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="card-title-icon" viewBox="0 0 24 24">
             <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
             <rect x="3" y="6" width="12" height="12" rx="2"></rect>
           </svg>
@@ -745,7 +735,7 @@
         <div class="screen-action-grid">
           <div class="screen-action-card">
             <button class="btn-with-icon" id="startScannerBtn" onclick="startScanner()">
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <svg class="btn-icon" viewBox="0 0 24 24">
                 <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
                 <rect x="3" y="6" width="12" height="12" rx="2"></rect>
               </svg>
@@ -755,7 +745,7 @@
 
           <div class="screen-action-card">
             <button class="btn-secondary btn-with-icon" onclick="stopScanner()">
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <svg class="btn-icon" viewBox="0 0 24 24">
                 <rect x="6" y="6" width="12" height="12" rx="2"></rect>
               </svg>
               <span>إيقاف الكاميرا</span>
@@ -768,6 +758,7 @@
           <span id="cameraStatusText">الكاميرا متوقفة</span>
         </div>
 
+        <div class="hint">اختر رقم الحافلة من الأعلى ثم ابدأ توجيه الكاميرا نحو الباركود.</div>
         <div id="reader"></div>
       </div>
     </section>
@@ -782,7 +773,7 @@
 
       <div class="card" id="operationsDataCard">
         <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="card-title-icon" viewBox="0 0 24 24">
             <circle cx="12" cy="12" r="3"></circle>
             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"></path>
           </svg>
@@ -802,8 +793,8 @@
           </div>
 
           <div>
-            <label for="operationUserMirror">المستخدم</label>
-            <input type="text" id="operationUserMirror" readonly />
+            <label>المستخدم الحالي</label>
+            <input type="text" id="operationUserPreview" disabled value="سيتم استخدام نفس المستخدم المختار أعلاه" />
           </div>
         </div>
 
@@ -816,7 +807,7 @@
       <div class="card" id="operationsTabsCard">
         <div class="operation-tabs">
           <button class="op-tab-btn active" data-op-tab="manual" onclick="showOperationTab('manual')">
-            <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="op-tab-icon" viewBox="0 0 24 24">
               <path d="M12 5v14"></path>
               <path d="M5 12h14"></path>
             </svg>
@@ -824,7 +815,7 @@
           </button>
 
           <button class="op-tab-btn" data-op-tab="cancel" onclick="showOperationTab('cancel')">
-            <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="op-tab-icon" viewBox="0 0 24 24">
               <path d="M18 6L6 18"></path>
               <path d="M6 6l12 12"></path>
             </svg>
@@ -832,7 +823,7 @@
           </button>
 
           <button class="op-tab-btn" data-op-tab="search" onclick="showOperationTab('search')">
-            <svg class="op-tab-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="op-tab-icon" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="7"></circle>
               <path d="M21 21l-4.35-4.35"></path>
             </svg>
@@ -842,7 +833,7 @@
 
         <div class="op-panel active" id="op-panel-manual">
           <div class="card-title-row">
-            <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
               <path d="M12 5v14"></path>
               <path d="M5 12h14"></path>
             </svg>
@@ -851,18 +842,19 @@
 
           <label for="manualId">رقم الهوية</label>
           <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
-          <button class="btn-with-icon" id="manualSubmitBtn" onclick="submitManualId()">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <button class="btn-with-icon" id="manualBoardBtn" onclick="submitManualId()">
+            <svg class="btn-icon" viewBox="0 0 24 24">
               <path d="M12 5v14"></path>
               <path d="M5 12h14"></path>
             </svg>
             <span>تسجيل يدوي</span>
           </button>
+          <div class="disabled-note" id="manualBoardNote"></div>
         </div>
 
         <div class="op-panel" id="op-panel-cancel">
           <div class="card-title-row">
-            <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
               <path d="M18 6L6 18"></path>
               <path d="M6 6l12 12"></path>
             </svg>
@@ -872,17 +864,18 @@
           <label for="cancelId">رقم الهوية</label>
           <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
           <button class="btn-red btn-with-icon" id="cancelBoardingBtn" onclick="cancelBoarding()">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="btn-icon" viewBox="0 0 24 24">
               <path d="M18 6L6 18"></path>
               <path d="M6 6l12 12"></path>
             </svg>
             <span>إلغاء الصعود</span>
           </button>
+          <div class="disabled-note" id="cancelBoardingNote"></div>
         </div>
 
         <div class="op-panel" id="op-panel-search">
           <div class="card-title-row">
-            <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="7"></circle>
               <path d="M21 21l-4.35-4.35"></path>
             </svg>
@@ -891,13 +884,14 @@
 
           <label for="searchId">رقم الهوية</label>
           <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
-          <button class="btn-with-icon" onclick="searchPilgrim()">
-            <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <button class="btn-with-icon" id="searchPilgrimBtn" onclick="searchPilgrim()">
+            <svg class="btn-icon" viewBox="0 0 24 24">
               <circle cx="11" cy="11" r="7"></circle>
               <path d="M21 21l-4.35-4.35"></path>
             </svg>
             <span>بحث</span>
           </button>
+          <div class="disabled-note" id="searchPilgrimNote"></div>
           <div id="searchResult" class="info-item" style="margin-top:12px;">لا توجد نتيجة بعد</div>
         </div>
       </div>
@@ -913,7 +907,7 @@
 
       <div class="card" id="busInfoCard">
         <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="card-title-icon" viewBox="0 0 24 24">
             <path d="M8 6V4h8v2"></path>
             <rect x="4" y="6" width="16" height="11" rx="2"></rect>
             <path d="M4 11h16"></path>
@@ -937,7 +931,7 @@
 
       <div class="card" id="busStatusCard">
         <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="card-title-icon" viewBox="0 0 24 24">
             <path d="M12 20V10"></path>
             <path d="M18 20V4"></path>
             <path d="M6 20v-6"></path>
@@ -951,29 +945,29 @@
             <span>فتح الحافلة</span>
           </button>
 
-          <button class="btn-red btn-with-icon manage-bus-btn" type="button" onclick="changeBusStatus('ممتلئة')">
+          <button class="btn-red btn-with-icon" id="fullBusBtn" type="button" onclick="changeBusStatus('ممتلئة')">
             <svg class="btn-icon" viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
             <span>تعيين ممتلئة</span>
           </button>
 
-          <button class="btn-purple btn-with-icon manage-bus-btn" type="button" onclick="changeBusStatus('انطلقت')">
+          <button class="btn-purple btn-with-icon" id="departedBusBtn" type="button" onclick="changeBusStatus('انطلقت')">
             <svg class="btn-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg>
             <span>إعلان انطلقت</span>
           </button>
 
-          <button class="btn-orange btn-with-icon manage-bus-btn" type="button" onclick="changeBusStatus('وصلت')">
+          <button class="btn-orange btn-with-icon" id="arrivedBusBtn" type="button" onclick="changeBusStatus('وصلت')">
             <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
             <span>إعلان وصلت</span>
           </button>
         </div>
 
-        <div id="openBusDisabledHint" class="disabled-hint">لا يمكن فتح الحافلة حتى يتم إلغاء حاج ووجود مقعد شاغر.</div>
-        <div id="roleDisabledHint" class="disabled-hint">هذه العملية تتطلب صلاحية مشرف.</div>
+        <div class="disabled-note" id="busStatusPermissionNote"></div>
+        <div class="disabled-note" id="openBusCapacityNote"></div>
       </div>
 
       <div class="card" id="busActionsCard">
         <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="card-title-icon" viewBox="0 0 24 24">
             <path d="M8 6h8"></path>
             <path d="M8 10h8"></path>
             <path d="M8 14h5"></path>
@@ -984,8 +978,8 @@
 
         <div class="screen-action-grid">
           <div class="screen-action-card" style="grid-column: 1 / -1;">
-            <button class="btn-green btn-with-icon manage-bus-btn" id="generateManifestBtn" onclick="generateManifest()">
-              <svg class="btn-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <button class="btn-green btn-with-icon" id="manifestBtn" onclick="generateManifest()">
+              <svg class="btn-icon" viewBox="0 0 24 24">
                 <path d="M8 6h8"></path>
                 <path d="M8 10h8"></path>
                 <path d="M8 14h5"></path>
@@ -995,6 +989,7 @@
             </button>
           </div>
         </div>
+        <div class="disabled-note" id="manifestPermissionNote"></div>
       </div>
     </section>
 
@@ -1008,7 +1003,7 @@
 
       <div class="card" id="reportsStatsCard">
         <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="card-title-icon" viewBox="0 0 24 24">
             <path d="M4 20V10"></path>
             <path d="M10 20V4"></path>
             <path d="M16 20v-7"></path>
@@ -1018,36 +1013,17 @@
         </div>
 
         <div class="kpi-grid">
-          <div class="kpi-card kpi-green">
-            <div class="kpi-top"><div class="kpi-label">الحافلات المفتوحة للصعود</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M8 6V4h8v2"></path><rect x="4" y="6" width="16" height="11" rx="2"></rect></svg></div>
-            <div class="kpi-number" id="statsOpenBuses">-</div>
-          </div>
-
-          <div class="kpi-card kpi-purple">
-            <div class="kpi-top"><div class="kpi-label">الحافلات التي انطلقت</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg></div>
-            <div class="kpi-number" id="statsDepartedBuses">-</div>
-          </div>
-
-          <div class="kpi-card kpi-orange">
-            <div class="kpi-top"><div class="kpi-label">الحافلات الباقية</div><svg class="kpi-icon" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="11" rx="2"></rect><path d="M4 11h16"></path></svg></div>
-            <div class="kpi-number" id="statsRemainingBuses">-</div>
-          </div>
-
-          <div class="kpi-card kpi-blue">
-            <div class="kpi-top"><div class="kpi-label">الحجاج الذين صعدوا</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></div>
-            <div class="kpi-number" id="statsBoardedCount">-</div>
-          </div>
-
-          <div class="kpi-card kpi-red" style="grid-column: 1 / -1;">
-            <div class="kpi-top"><div class="kpi-label">الحجاج المتبقين</div><svg class="kpi-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6"></path><path d="M9 9l6 6"></path></svg></div>
-            <div class="kpi-number" id="statsRemainingCount">-</div>
-          </div>
+          <div class="kpi-card kpi-green"><div class="kpi-top"><div class="kpi-label">الحافلات المفتوحة للصعود</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M8 6V4h8v2"></path><rect x="4" y="6" width="16" height="11" rx="2"></rect></svg></div><div class="kpi-number" id="statsOpenBuses">-</div></div>
+          <div class="kpi-card kpi-purple"><div class="kpi-top"><div class="kpi-label">الحافلات التي انطلقت</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg></div><div class="kpi-number" id="statsDepartedBuses">-</div></div>
+          <div class="kpi-card kpi-orange"><div class="kpi-top"><div class="kpi-label">الحافلات الباقية</div><svg class="kpi-icon" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="11" rx="2"></rect><path d="M4 11h16"></path></svg></div><div class="kpi-number" id="statsRemainingBuses">-</div></div>
+          <div class="kpi-card kpi-blue"><div class="kpi-top"><div class="kpi-label">الحجاج الذين صعدوا</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></div><div class="kpi-number" id="statsBoardedCount">-</div></div>
+          <div class="kpi-card kpi-red" style="grid-column:1 / -1;"><div class="kpi-top"><div class="kpi-label">الحجاج المتبقين</div><svg class="kpi-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6"></path><path d="M9 9l6 6"></path></svg></div><div class="kpi-number" id="statsRemainingCount">-</div></div>
         </div>
       </div>
 
       <div class="card" id="reportsLogCard">
         <div class="card-title-row">
-          <svg class="card-title-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <svg class="card-title-icon" viewBox="0 0 24 24">
             <path d="M8 6h8"></path>
             <path d="M8 10h8"></path>
             <path d="M8 14h5"></path>
@@ -1090,7 +1066,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxitUb8MPDWecfgCwWn-Rqjv_jcAp4okTFqhphW7OCDIIGrWTA1qGHTbEFNwWKagMT1NA/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxflC9ibQ6I-3WWdkbWnsNTuS0aAnPywf3g_BMsOe_4JeQhs_b6YW6Vj22R0nouShJJow/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1099,8 +1075,16 @@
     let lastScannedAt = 0;
     let statusHideTimer = null;
     let currentScreen = 'register';
-    let currentUserContext = { name: '', role: '', source: '' };
-    let currentBusState = { busStatus: '', remainingSeats: 0, currentCount: 0, capacity: 0 };
+
+    let currentUser = {
+      selectedUser: '',
+      manualUser: '',
+      resolvedName: '',
+      role: '',
+      isManual: false
+    };
+
+    let currentBusInfo = null;
 
     function hideAllScreens() {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
@@ -1119,128 +1103,6 @@
       text.textContent = isLive ? 'الكاميرا تعمل الآن' : 'الكاميرا متوقفة';
     }
 
-    function setCurrentUserBadge() {
-      const badge = document.getElementById('currentUserBadge');
-      if (!currentUserContext.name) {
-        badge.textContent = 'غير محدد';
-        document.getElementById('operationUserMirror').value = '';
-        return;
-      }
-      const suffix = currentUserContext.source === 'manual' ? ' (إدخال يدوي)' : '';
-      badge.textContent = `${currentUserContext.name} - ${currentUserContext.role}${suffix}`;
-      document.getElementById('operationUserMirror').value = badge.textContent;
-    }
-
-    function userCanManageBuses() {
-      return currentUserContext.role === 'مشرف' || currentUserContext.role === 'مدير';
-    }
-
-    function disableElement(el, disabled) {
-      if (!el) return;
-      el.disabled = !!disabled;
-      el.classList.toggle('btn-disabled', !!disabled);
-    }
-
-    function updatePermissionUI() {
-      const manageDenied = !userCanManageBuses();
-      document.querySelectorAll('.manage-bus-btn').forEach(btn => disableElement(btn, manageDenied));
-      const roleHint = document.getElementById('roleDisabledHint');
-      roleHint.style.display = manageDenied ? 'block' : 'none';
-      updateOpenBusButtonState();
-    }
-
-    function updateOpenBusButtonState() {
-      const btn = document.getElementById('openBusBtn');
-      const hint = document.getElementById('openBusDisabledHint');
-      const roleDenied = !userCanManageBuses();
-      const busIsFull = Number(currentBusState.remainingSeats || 0) <= 0 && Number(currentBusState.capacity || 0) > 0;
-
-      if (roleDenied) {
-        disableElement(btn, true);
-        hint.style.display = 'none';
-        return;
-      }
-
-      if (busIsFull) {
-        disableElement(btn, true);
-        hint.style.display = 'block';
-      } else {
-        disableElement(btn, false);
-        hint.style.display = 'none';
-      }
-    }
-
-    async function loadUsers() {
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'getUsers' })
-        });
-        const result = await response.json();
-        const select = document.getElementById('userSelect');
-        select.innerHTML = '<option value="">اختر المستخدم</option>';
-
-        (result.users || []).forEach(u => {
-          const opt = document.createElement('option');
-          opt.value = u.name;
-          opt.textContent = `${u.name} - ${u.role}`;
-          select.appendChild(opt);
-        });
-
-        const manualOpt = document.createElement('option');
-        manualOpt.value = '__manual__';
-        manualOpt.textContent = 'إدخال يدوي';
-        select.appendChild(manualOpt);
-      } catch (e) {}
-    }
-
-    async function handleUserSelectionChange() {
-      const selectedUser = document.getElementById('userSelect').value;
-      const manualWrap = document.getElementById('manualUserWrap');
-      const manualUser = document.getElementById('manualUserName').value.trim();
-
-      manualWrap.style.display = selectedUser === '__manual__' ? 'block' : 'none';
-
-      if (!selectedUser) {
-        currentUserContext = { name: '', role: '', source: '' };
-        setCurrentUserBadge();
-        updatePermissionUI();
-        return;
-      }
-
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'resolveUser',
-            selectedUser: selectedUser,
-            manualUser: manualUser
-          })
-        });
-
-        const result = await response.json();
-        if (!result.success) {
-          currentUserContext = { name: '', role: '', source: '' };
-          setCurrentUserBadge();
-          updatePermissionUI();
-          if (selectedUser === '__manual__' && manualUser) {
-            setStatus(result.message || 'تعذر تحديد المستخدم', 'warning');
-          }
-          return;
-        }
-
-        currentUserContext = {
-          name: result.name || '',
-          role: result.role || '',
-          source: result.source || ''
-        };
-        setCurrentUserBadge();
-        updatePermissionUI();
-      } catch (e) {}
-    }
-
     function updateTopSummaryVisibility(hasBus) {
       document.getElementById('topSummaryBox').classList.toggle('summary-hidden', !hasBus);
     }
@@ -1249,11 +1111,13 @@
       const el = document.getElementById('currentStatusPill');
       const text = String(statusText || '').trim() || 'غير محددة';
       el.className = 'bus-pill status-pill';
+
       if (text === 'مفتوحة') el.classList.add('status-open');
       else if (text === 'ممتلئة') el.classList.add('status-full');
       else if (text === 'انطلقت') el.classList.add('status-departed');
       else if (text === 'وصلت') el.classList.add('status-arrived');
       else if (text === 'مغلقة') el.classList.add('status-closed');
+
       el.textContent = text;
     }
 
@@ -1267,13 +1131,50 @@
       return '<span class="status-chip chip-unknown">' + (text || 'غير محددة') + '</span>';
     }
 
+    function getStateBannerClass(status) {
+      const s = String(status || '').trim();
+      if (s === 'مفتوحة') return 'state-open';
+      if (s === 'ممتلئة') return 'state-full';
+      if (s === 'انطلقت') return 'state-departed';
+      if (s === 'وصلت') return 'state-arrived';
+      return 'state-default';
+    }
+
+    function flashCard(cardId, type) {
+      const el = document.getElementById(cardId);
+      if (!el) return;
+      el.classList.remove('flash-success', 'flash-error', 'flash-warning');
+      void el.offsetWidth;
+      if (type === 'success') el.classList.add('flash-success');
+      else if (type === 'error') el.classList.add('flash-error');
+      else if (type === 'warning') el.classList.add('flash-warning');
+      setTimeout(() => el.classList.remove('flash-success', 'flash-error', 'flash-warning'), 900);
+    }
+
+    function flashByCurrentScreen(type) {
+      if (currentScreen === 'register') {
+        flashCard('registerFormCard', type);
+        flashCard('scannerCard', type);
+      } else if (currentScreen === 'operations') {
+        flashCard('operationsTabsCard', type);
+      } else if (currentScreen === 'buses') {
+        flashCard('busInfoCard', type);
+        flashCard('busStatusCard', type);
+        flashCard('busActionsCard', type);
+      } else if (currentScreen === 'reports') {
+        flashCard('reportsStatsCard', type);
+      }
+    }
+
     function updateNavBadgesFromStats(result) {
+      const busesBadge = document.getElementById('busesBadge');
+      const reportsBadge = document.getElementById('reportsBadge');
       const openBuses = Number(result.openBusesCount || 0);
       const departedBuses = Number(result.departedBusesCount || 0);
-      document.getElementById('busesBadge').textContent = openBuses;
-      document.getElementById('reportsBadge').textContent = departedBuses;
-      document.getElementById('busesBadge').classList.toggle('show', openBuses > 0);
-      document.getElementById('reportsBadge').classList.toggle('show', departedBuses > 0);
+      busesBadge.textContent = openBuses;
+      reportsBadge.textContent = departedBuses;
+      busesBadge.classList.toggle('show', openBuses > 0);
+      reportsBadge.classList.toggle('show', departedBuses > 0);
     }
 
     function activateScreen(name) {
@@ -1311,7 +1212,6 @@
       document.querySelectorAll('.op-tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.opTab === tabName);
       });
-
       document.querySelectorAll('.op-panel').forEach(panel => panel.classList.remove('active'));
       document.getElementById('op-panel-' + tabName).classList.add('active');
     }
@@ -1339,8 +1239,769 @@
       else box.classList.add('status-info');
 
       resetStatusProgressBar();
+
+      if (type === 'success' || type === 'error' || type === 'warning') {
+        flashByCurrentScreen(type);
+      }
+
       statusHideTimer = setTimeout(() => { box.style.display = 'none'; }, 2200);
     }
 
     function normalizeDigits(text) {
-      const arabicNums = '
+      const arabicNums = '٠١٢٣٤٥٦٧٨٩';
+      return String(text || '').replace(/[٠-٩]/g, d => String(arabicNums.indexOf(d)));
+    }
+
+    function extractId(rawText) {
+      const text = normalizeDigits(String(rawText)).trim();
+      if (/^\d+$/.test(text)) return text;
+      const match = text.match(/\d{6,}/);
+      return match ? match[0] : text;
+    }
+
+    function playTone(freq, duration = 0.16) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const audioContext = new AudioCtx();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.22, audioContext.currentTime);
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playSuccessSound() { playTone(950, 0.16); }
+    function playErrorSound() { playTone(300, 0.20); }
+    function playWarningSound() { playTone(550, 0.18); }
+
+    function currentUserPayload() {
+      return {
+        selectedUser: currentUser.selectedUser || '',
+        manualUser: currentUser.manualUser || ''
+      };
+    }
+
+    function can(role, action) {
+      const permissions = {
+        'مسجل': {
+          boardPilgrim: true,
+          cancelBoarding: true,
+          searchPilgrim: true,
+          generateManifest: false,
+          changeBusStatus: false
+        },
+        'مشرف': {
+          boardPilgrim: true,
+          cancelBoarding: true,
+          searchPilgrim: true,
+          generateManifest: true,
+          changeBusStatus: true
+        },
+        'مدير': {
+          boardPilgrim: true,
+          cancelBoarding: true,
+          searchPilgrim: true,
+          generateManifest: true,
+          changeBusStatus: true
+        }
+      };
+      return !!(permissions[role] && permissions[role][action]);
+    }
+
+    async function loadUsers() {
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getUsers' })
+        });
+
+        const result = await response.json();
+        const select = document.getElementById('selectedUser');
+
+        if (!result.success) {
+          select.innerHTML = '<option value="">تعذر تحميل المستخدمين</option>';
+          return;
+        }
+
+        let html = '<option value="">اختر المستخدم</option>';
+        result.users.forEach(user => {
+          html += `<option value="${escapeHtml(user.name)}">${escapeHtml(user.name)} - ${escapeHtml(user.role)}</option>`;
+        });
+        html += '<option value="manual">إدخال يدوي</option>';
+        select.innerHTML = html;
+      } catch (e) {
+        document.getElementById('selectedUser').innerHTML = '<option value="">تعذر تحميل المستخدمين</option>';
+      }
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    async function onUserSelectionChanged() {
+      const selected = document.getElementById('selectedUser').value;
+      const manualWrap = document.getElementById('manualUserWrap');
+
+      currentUser.selectedUser = selected;
+      currentUser.manualUser = document.getElementById('manualUserName').value.trim();
+
+      manualWrap.classList.toggle('hidden', selected !== 'manual');
+
+      if (selected !== 'manual') {
+        document.getElementById('manualUserName').value = '';
+        currentUser.manualUser = '';
+      }
+
+      await resolveCurrentUser();
+    }
+
+    async function onManualUserChanged() {
+      currentUser.manualUser = document.getElementById('manualUserName').value.trim();
+      await resolveCurrentUser();
+    }
+
+    async function resolveCurrentUser() {
+      const selectedUser = document.getElementById('selectedUser').value;
+      const manualUser = document.getElementById('manualUserName').value.trim();
+
+      currentUser.selectedUser = selectedUser;
+      currentUser.manualUser = manualUser;
+
+      if (!selectedUser) {
+        currentUser.resolvedName = '';
+        currentUser.role = '';
+        currentUser.isManual = false;
+        renderUserContext();
+        return;
+      }
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'resolveUser',
+            selectedUser,
+            manualUser
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          currentUser.resolvedName = result.userName || '';
+          currentUser.role = result.role || '';
+          currentUser.isManual = !!result.isManual;
+        } else {
+          currentUser.resolvedName = '';
+          currentUser.role = '';
+          currentUser.isManual = false;
+          if (selectedUser === 'manual' && !manualUser) {
+          } else {
+            setStatus(result.message || 'تعذر تحديد المستخدم', 'warning');
+          }
+        }
+      } catch (e) {
+        currentUser.resolvedName = '';
+        currentUser.role = '';
+        currentUser.isManual = false;
+      }
+
+      renderUserContext();
+    }
+
+    function renderUserContext() {
+      document.getElementById('currentUserName').innerText = currentUser.resolvedName || '-';
+      document.getElementById('currentUserRole').innerText =
+        currentUser.role ? (currentUser.role + (currentUser.isManual ? ' (إدخال يدوي)' : '')) : '-';
+
+      document.getElementById('operationUserPreview').value =
+        currentUser.resolvedName ? `${currentUser.resolvedName} - ${currentUser.role}` : 'سيتم استخدام نفس المستخدم المختار أعلاه';
+
+      applyPermissionUI();
+      updateStateBanner();
+    }
+
+    function setControlState(el, enabled, noteEl, noteText = '') {
+      if (!el) return;
+      el.disabled = !enabled;
+      el.classList.toggle('disabled-control', !enabled);
+      if (noteEl) noteEl.textContent = enabled ? '' : noteText;
+    }
+
+    function applyPermissionUI() {
+      const role = currentUser.role || '';
+
+      setControlState(
+        document.getElementById('startScannerBtn'),
+        can(role, 'boardPilgrim'),
+        null
+      );
+
+      setControlState(
+        document.getElementById('manualBoardBtn'),
+        can(role, 'boardPilgrim'),
+        document.getElementById('manualBoardNote'),
+        'هذه العملية غير متاحة لهذا المستخدم'
+      );
+
+      setControlState(
+        document.getElementById('cancelBoardingBtn'),
+        can(role, 'cancelBoarding'),
+        document.getElementById('cancelBoardingNote'),
+        'هذه العملية غير متاحة لهذا المستخدم'
+      );
+
+      setControlState(
+        document.getElementById('searchPilgrimBtn'),
+        can(role, 'searchPilgrim'),
+        document.getElementById('searchPilgrimNote'),
+        'هذه العملية غير متاحة لهذا المستخدم'
+      );
+
+      const statusAllowed = can(role, 'changeBusStatus');
+      const statusNote = 'هذه العملية تتطلب صلاحية مشرف';
+      setControlState(document.getElementById('fullBusBtn'), statusAllowed, null);
+      setControlState(document.getElementById('departedBusBtn'), statusAllowed, null);
+      setControlState(document.getElementById('arrivedBusBtn'), statusAllowed, null);
+
+      const openBtn = document.getElementById('openBusBtn');
+      const openCapacityNote = document.getElementById('openBusCapacityNote');
+      const statusPermNote = document.getElementById('busStatusPermissionNote');
+
+      if (!statusAllowed) {
+        setControlState(openBtn, false, null);
+        statusPermNote.textContent = statusNote;
+        openCapacityNote.textContent = '';
+      } else {
+        statusPermNote.textContent = '';
+        const canOpen = getCanOpenBus();
+        setControlState(openBtn, canOpen, null);
+        openCapacityNote.textContent = canOpen ? '' : 'لا يمكن فتح الحافلة حتى يتم إلغاء حاج ووجود مقعد شاغر';
+      }
+
+      setControlState(
+        document.getElementById('manifestBtn'),
+        can(role, 'generateManifest'),
+        document.getElementById('manifestPermissionNote'),
+        'هذه العملية تتطلب صلاحية مشرف'
+      );
+    }
+
+    function getCanOpenBus() {
+      if (!currentBusInfo) return true;
+      const status = String(currentBusInfo.busStatus || '').trim();
+      const remaining = Number(currentBusInfo.remainingSeats || 0);
+      if (status === 'ممتلئة' && remaining <= 0) return false;
+      return true;
+    }
+
+    function updateStateBanner() {
+      const banner = document.getElementById('registerStateBanner');
+      const role = currentUser.role || '';
+      let text = 'اختر الحافلة والمستخدم لبدء العمل';
+      let cls = 'state-default';
+
+      if (!currentUser.resolvedName) {
+        text = 'اختر المستخدم أولًا';
+      } else if (!currentBusInfo) {
+        text = `المستخدم الحالي: ${currentUser.resolvedName} | الصلاحية: ${role}`;
+      } else {
+        const status = String(currentBusInfo.busStatus || '').trim() || 'غير محددة';
+        const remaining = Number(currentBusInfo.remainingSeats || 0);
+
+        if (status === 'مفتوحة') {
+          text = `الحافلة مفتوحة للتسجيل | المقاعد المتبقية: ${remaining}`;
+        } else if (status === 'ممتلئة') {
+          text = 'الحافلة ممتلئة ولا تقبل التسجيل';
+        } else if (status === 'انطلقت') {
+          text = 'الحافلة انطلقت ولا تقبل التسجيل';
+        } else if (status === 'وصلت') {
+          text = 'الحافلة وصلت ولا تقبل التسجيل';
+        } else {
+          text = `حالة الحافلة: ${status}`;
+        }
+
+        cls = getStateBannerClass(status);
+      }
+
+      banner.className = 'state-banner ' + cls;
+      banner.textContent = text;
+    }
+
+    async function loadBusLiveInfo() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      if (!busNumber) {
+        clearBusLiveInfo();
+        return;
+      }
+
+      document.getElementById('currentBusPill').textContent = busNumber;
+      updateTopSummaryVisibility(true);
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getBusLiveInfo', busNumber })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          clearBusLiveInfo();
+          setStatus(result.message || 'تعذر جلب معلومات الحافلة', 'error');
+          return;
+        }
+
+        currentBusInfo = result;
+
+        document.getElementById('liveBusNumber').innerText = result.busNumber || '-';
+        document.getElementById('livePlateNumber').innerText = result.plateNumber || '-';
+        document.getElementById('liveDriverName').innerText = result.driverName || '-';
+        document.getElementById('liveModel').innerText = result.model || '-';
+        document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
+        document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
+        document.getElementById('liveRemainingSeats').innerText = result.remainingSeats ?? '-';
+        document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(result.busStatus);
+
+        document.getElementById('topRemainingSeats').innerText = result.remainingSeats ?? '-';
+        setTopStatusPill(result.busStatus || '');
+
+        const recentBox = document.getElementById('recentOperations');
+        if (!result.recentOperations || result.recentOperations.length === 0) {
+          recentBox.innerHTML = 'لا توجد بيانات بعد';
+        } else {
+          recentBox.innerHTML = result.recentOperations.map(op => `
+            <div class="log-item">
+              <div><strong>${escapeHtml(op.pilgrimName || '-')}</strong></div>
+              <div>رقم الهوية: ${escapeHtml(op.idValue || '-')}</div>
+              <div>الحالة: ${escapeHtml(op.status || '-')}</div>
+            </div>
+          `).join('');
+        }
+
+        applyPermissionUI();
+        updateStateBanner();
+      } catch (error) {
+        clearBusLiveInfo();
+        setStatus('حدث خطأ أثناء جلب معلومات الحافلة', 'error');
+      }
+    }
+
+    function clearBusLiveInfo() {
+      currentBusInfo = null;
+      document.getElementById('liveBusNumber').innerText = '-';
+      document.getElementById('livePlateNumber').innerText = '-';
+      document.getElementById('liveDriverName').innerText = '-';
+      document.getElementById('liveModel').innerText = '-';
+      document.getElementById('liveCurrentCount').innerText = '-';
+      document.getElementById('liveCapacity').innerText = '-';
+      document.getElementById('liveRemainingSeats').innerText = '-';
+      document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml('');
+      document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
+      document.getElementById('topRemainingSeats').innerText = '—';
+      document.getElementById('currentBusPill').textContent = '—';
+      setTopStatusPill('');
+      updateTopSummaryVisibility(false);
+      applyPermissionUI();
+      updateStateBanner();
+    }
+
+    async function loadDashboardStats() {
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getDashboardStats' })
+        });
+
+        const result = await response.json();
+        if (!result.success) return;
+
+        document.getElementById('statsOpenBuses').innerText = result.openBusesCount ?? '-';
+        document.getElementById('statsDepartedBuses').innerText = result.departedBusesCount ?? '-';
+        document.getElementById('statsRemainingBuses').innerText = result.remainingBusesCount ?? '-';
+        document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
+        document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
+
+        updateNavBadgesFromStats(result);
+      } catch (error) {}
+    }
+
+    function validateRegisterForm() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+      const proofType = document.getElementById('proofType').value.trim();
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
+        return false;
+      }
+      if (!proofType) {
+        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
+        return false;
+      }
+      if (!currentUser.resolvedName) {
+        setStatus('الرجاء اختيار المستخدم أولًا', 'warning');
+        return false;
+      }
+      if (!can(currentUser.role, 'boardPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return false;
+      }
+      return true;
+    }
+
+    async function startScanner() {
+      if (!validateRegisterForm()) return;
+      if (html5QrCode) return;
+
+      try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          setStatus('المتصفح أو الصفحة الحالية لا تدعم تشغيل الكاميرا هنا.', 'error');
+          playErrorSound();
+          return;
+        }
+
+        html5QrCode = new Html5Qrcode("reader");
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          { fps: 15, qrbox: { width: 240, height: 240 }, aspectRatio: 1.0 },
+          onScanSuccess,
+          function () {}
+        );
+
+        updateCameraUI(true);
+        setStatus('تم تشغيل الكاميرا.', 'info');
+      } catch (err) {
+        updateCameraUI(false);
+        playErrorSound();
+        setStatus('فشل تشغيل الكاميرا', 'error');
+      }
+    }
+
+    async function stopScanner() {
+      if (!html5QrCode) {
+        updateCameraUI(false);
+        return;
+      }
+      try {
+        await html5QrCode.stop();
+        await html5QrCode.clear();
+      } catch (e) {}
+      html5QrCode = null;
+      updateCameraUI(false);
+      setStatus('تم إيقاف الكاميرا.', 'info');
+    }
+
+    async function sendBoardingData(idValue, sourceScreen = 'register') {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      let proofType = '';
+      let notes = '';
+
+      if (sourceScreen === 'operations') {
+        proofType = document.getElementById('operationProofType')?.value.trim() || '';
+        notes = document.getElementById('operationNotes')?.value.trim() || '';
+      } else {
+        proofType = document.getElementById('proofType')?.value.trim() || '';
+        notes = document.getElementById('notes')?.value.trim() || '';
+      }
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
+        return;
+      }
+
+      if (!proofType) {
+        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
+        return;
+      }
+
+      if (!currentUser.resolvedName) {
+        setStatus('الرجاء اختيار المستخدم', 'warning');
+        return;
+      }
+
+      const normalizedId = normalizeDigits(idValue).trim();
+
+      if (!/^\d+$/.test(normalizedId)) {
+        playErrorSound();
+        setStatus('رقم الهوية غير صالح', 'error');
+        return;
+      }
+
+      if (normalizedId.length !== REQUIRED_ID_LENGTH) {
+        playErrorSound();
+        setStatus('رقم الهوية يجب أن يكون 10 أرقام', 'error');
+        return;
+      }
+
+      const now = Date.now();
+      if (normalizedId === lastScannedValue && (now - lastScannedAt) < 2000) return;
+      if (isSaving) return;
+
+      isSaving = true;
+      lastScannedValue = normalizedId;
+      lastScannedAt = now;
+
+      try {
+        setStatus('جارٍ تسجيل الصعود...', 'info');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            id: normalizedId,
+            busNumber,
+            proofType,
+            notes,
+            ...currentUserPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus('تم التسجيل: ' + (result.name || '-') + ' | الحافلة ' + (result.busNumber || '-'), 'success');
+        } else {
+          playErrorSound();
+          setStatus(result.message || 'فشل العملية', 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus('خطأ أثناء الإرسال', 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+      setTimeout(() => { isSaving = false; }, 1500);
+    }
+
+    async function onScanSuccess(decodedText) {
+      const extractedId = extractId(decodedText).trim();
+      await sendBoardingData(extractedId, 'register');
+    }
+
+    async function submitManualId() {
+      if (!can(currentUser.role, 'boardPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return;
+      }
+      const manualId = document.getElementById('manualId').value.trim();
+      await sendBoardingData(manualId, 'operations');
+    }
+
+    async function cancelBoarding() {
+      if (!can(currentUser.role, 'cancelBoarding')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return;
+      }
+
+      const cancelId = document.getElementById('cancelId').value.trim();
+      if (!cancelId) {
+        setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ إلغاء الصعود...', 'info');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'cancelBoarding',
+            id: cancelId,
+            ...currentUserPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playWarningSound();
+          setStatus(result.message || 'تم إلغاء الصعود بنجاح', 'warning');
+        } else {
+          playErrorSound();
+          setStatus(result.message || 'فشل إلغاء الصعود', 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء الإلغاء', 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+    }
+
+    async function generateManifest() {
+      if (!can(currentUser.role, 'generateManifest')) {
+        setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
+        return;
+      }
+
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ تجهيز المنفست...', 'info');
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'generateManifest',
+            busNumber,
+            ...currentUserPayload()
+          })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+          playSuccessSound();
+          setStatus(result.message || 'تم تجهيز المنفست بنجاح', 'success');
+        } else {
+          playErrorSound();
+          setStatus(result.message || 'فشل تجهيز المنفست', 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تجهيز المنفست', 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+    }
+
+    async function changeBusStatus(newStatus) {
+      if (!can(currentUser.role, 'changeBusStatus')) {
+        setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
+        return;
+      }
+
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      if (newStatus === 'مفتوحة' && !getCanOpenBus()) {
+        setStatus('لا يمكن فتح الحافلة حتى يتم إلغاء حاج ووجود مقعد شاغر', 'warning');
+        return;
+      }
+
+      try {
+        setStatus('جارٍ تغيير حالة الحافلة...', 'info');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'changeBusStatus',
+            busNumber,
+            newStatus,
+            ...currentUserPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus(result.message || ('تم تغيير حالة الحافلة إلى ' + newStatus), 'success');
+        } else {
+          playErrorSound();
+          setStatus(result.message || 'فشل تغيير حالة الحافلة', 'error');
+        }
+      } catch (error) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تغيير حالة الحافلة', 'error');
+      }
+
+      await loadBusLiveInfo();
+      await loadDashboardStats();
+    }
+
+    async function searchPilgrim() {
+      if (!can(currentUser.role, 'searchPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return;
+      }
+
+      const searchId = document.getElementById('searchId').value.trim();
+      const resultBox = document.getElementById('searchResult');
+
+      if (!searchId) {
+        setStatus('الرجاء إدخال رقم الهوية للبحث', 'warning');
+        return;
+      }
+
+      try {
+        resultBox.innerHTML = 'جارٍ البحث...';
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'searchPilgrimStatus',
+            id: searchId,
+            ...currentUserPayload()
+          })
+        });
+
+        const result = await response.json();
+        if (!result.success) {
+          playErrorSound();
+          setStatus(result.message || 'لا توجد نتيجة', 'error');
+          resultBox.innerHTML = result.message || 'لا توجد نتيجة';
+          return;
+        }
+
+        playSuccessSound();
+        setStatus('تم العثور على نتيجة', 'success');
+        resultBox.innerHTML = `
+          <div><strong>الاسم:</strong> ${escapeHtml(result.name || '-')}</div>
+          <div><strong>رقم الهوية:</strong> ${escapeHtml(result.id || '-')}</div>
+          <div><strong>الحالة الحالية:</strong> ${escapeHtml(result.pilgrimStatus || '-')}</div>
+          <div><strong>آخر حالة عملية:</strong> ${escapeHtml(result.latestOperationStatus || '-')}</div>
+          <div><strong>رقم الحافلة:</strong> ${escapeHtml(result.busNumber || '-')}</div>
+          <div><strong>رقم اللوحة:</strong> ${escapeHtml(result.plateNumber || '-')}</div>
+          <div><strong>وقت آخر عملية:</strong> ${escapeHtml(result.timestamp || '-')}</div>
+        `;
+      } catch (error) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء البحث', 'error');
+        resultBox.innerHTML = 'حدث خطأ أثناء البحث';
+      }
+    }
+
+    window.addEventListener('load', async () => {
+      initializeNavigation();
+      showOperationTab('manual');
+      updateCameraUI(false);
+      updateTopSummaryVisibility(false);
+      await loadUsers();
+      await resolveCurrentUser();
+      await loadDashboardStats();
+      await loadBusLiveInfo();
+    });
+  </script>
+</body>
+</html>
