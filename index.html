@@ -64,17 +64,24 @@
       justify-content: center;
       background: radial-gradient(circle at top, #e8f3ff 0%, #eef4fa 48%, #e7eef7 100%);
       padding: 20px;
+      transition: opacity 0.2s ease;
     }
 
     .splash-card,
     .login-card {
       width: 100%;
       max-width: 420px;
-      background: rgba(255,255,255,0.96);
+      background: rgba(255,255,255,0.97);
       border: 1px solid var(--border);
       border-radius: 28px;
       box-shadow: 0 18px 50px rgba(11, 87, 208, 0.12);
       overflow: hidden;
+      animation: cardIn 0.25s ease;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .brand-top {
@@ -174,6 +181,73 @@
       text-align: center;
     }
 
+    .pin-wrap {
+      position: relative;
+    }
+
+    .pin-wrap input {
+      padding-left: 52px;
+    }
+
+    .pin-toggle {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid #d7e2ef;
+      background: #f7fbff;
+      color: var(--primary-dark);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+      box-shadow: none;
+    }
+
+    .pin-toggle svg {
+      width: 18px;
+      height: 18px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .pin-error {
+      display: none;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--red);
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .pin-error.show {
+      display: block;
+    }
+
+    .input-error {
+      border-color: var(--red) !important;
+      box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.08);
+    }
+
+    .shake {
+      animation: shake 0.28s linear;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      50% { transform: translateX(5px); }
+      75% { transform: translateX(-4px); }
+      100% { transform: translateX(0); }
+    }
+
     .app-shell {
       max-width: 920px;
       margin: 0 auto;
@@ -223,6 +297,7 @@
       padding: 10px 12px;
       min-height: 62px;
       box-shadow: var(--shadow-xs);
+      transition: all 0.18s ease;
     }
 
     .topbar-title-row,
@@ -291,6 +366,7 @@
       text-align: center;
       border: 1px solid transparent;
       white-space: nowrap;
+      transition: all 0.18s ease;
     }
 
     .bus-number-pill { background: var(--primary-soft); color: var(--primary-dark); border-color: #d6e4fb; }
@@ -312,7 +388,12 @@
 
     .mini-kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
     .mini-kpi-value { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.2; }
-    .hint-line, .hint, .section-subtitle, .section-note { color: var(--muted); line-height: 1.7; }
+
+    .hint-line, .hint, .section-subtitle, .section-note {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
     .hint-line { margin-top: 6px; font-size: 12px; }
 
     .screen { display: none; animation: screenFade 0.18s ease; }
@@ -330,6 +411,7 @@
       box-shadow: var(--shadow-sm);
       margin-bottom: 14px;
       border: 1px solid var(--border);
+      transition: all 0.18s ease;
     }
 
     .soft { background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
@@ -380,6 +462,7 @@
       border: 1px solid #e3ebf5;
       border-radius: 14px;
       padding: 12px;
+      transition: all 0.18s ease;
     }
 
     .info-title { font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 700; }
@@ -400,6 +483,7 @@
       font-size: 13px;
       font-weight: 800;
       border: 1px solid;
+      transition: all 0.18s ease;
     }
 
     .state-open { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
@@ -416,7 +500,7 @@
       font-weight: 700;
       margin-top: 10px;
       box-shadow: var(--shadow-xs);
-      transition: transform 0.12s ease, opacity 0.12s ease, filter 0.12s ease;
+      transition: transform 0.12s ease, opacity 0.12s ease, filter 0.12s ease, background 0.18s ease;
     }
 
     button:active { transform: scale(0.99); }
@@ -508,6 +592,7 @@
       border: 1px solid var(--border);
       box-shadow: var(--shadow-xs);
       background: #fff;
+      transition: all 0.18s ease;
     }
 
     .kpi-blue { background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%); border-color: #d6e4fb; }
@@ -722,6 +807,7 @@
       border: 1px solid var(--border);
       box-shadow: 0 18px 50px rgba(0,0,0,0.16);
       overflow: hidden;
+      animation: cardIn 0.2s ease;
     }
 
     .confirm-head {
@@ -772,10 +858,7 @@
       .nav-icon { width: 21px; height: 21px; }
       .nav-btn { font-size: 11px; }
       .nav-badge { left: 10px; }
-
-      .confirm-actions {
-        grid-template-columns: 1fr;
-      }
+      .confirm-actions { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -810,7 +893,16 @@
 
           <div>
             <label for="loginPin">الرقم السري</label>
-            <input type="password" id="loginPin" inputmode="numeric" placeholder="أدخل الرقم السري" />
+            <div class="pin-wrap">
+              <input type="password" id="loginPin" inputmode="numeric" placeholder="أدخل الرقم السري" />
+              <button type="button" class="pin-toggle" onclick="togglePinVisibility()">
+                <svg id="pinEyeIcon" viewBox="0 0 24 24">
+                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+            <div id="pinError" class="pin-error">الرقم السري المدخل غير صحيح</div>
           </div>
 
           <button id="loginBtn" onclick="login()">دخول</button>
@@ -1316,7 +1408,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwi8MKeyfC4r3w_KkxDicNKoHeklWWAvKqujyk86NrTdyJuHpZc9DRcarpGQFAAfCn1cQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyp3RCAP6JzB6JLdCORX7aAVmBqpIQazhcWD41rC4ny1KrEBuqwj-yabr1gnNSXxXtVQg/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1334,8 +1426,62 @@
     };
 
     let currentBusInfo = null;
-
     let confirmResolver = null;
+    let busyActions = new Set();
+
+    function isBusy(key) {
+      return busyActions.has(key);
+    }
+
+    function setBusy(key, on) {
+      const ids = {
+        login: ['loginBtn'],
+        manualBoard: ['manualBoardBtn'],
+        cancelBoarding: ['cancelBoardingBtn'],
+        searchPilgrim: ['searchPilgrimBtn'],
+        changeBusStatus: ['openBusBtn', 'fullBusBtn', 'departedBusBtn', 'arrivedBusBtn'],
+        manifest: ['manifestBtn'],
+        startScanner: ['startScannerBtn']
+      };
+
+      const targetIds = ids[key] || [];
+      if (on) busyActions.add(key);
+      else busyActions.delete(key);
+
+      targetIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (on) {
+          el.dataset.busyLocked = '1';
+          el.disabled = true;
+        } else {
+          delete el.dataset.busyLocked;
+        }
+      });
+
+      if (!on) applyPermissionUI();
+    }
+
+    function hidePinError() {
+      document.getElementById('pinError').classList.remove('show');
+      document.getElementById('loginPin').classList.remove('input-error', 'shake');
+    }
+
+    function showPinError(message) {
+      const input = document.getElementById('loginPin');
+      const error = document.getElementById('pinError');
+      error.textContent = message || 'الرقم السري المدخل غير صحيح';
+      error.classList.add('show');
+      input.classList.add('input-error', 'shake');
+      input.value = '';
+      setTimeout(() => input.classList.remove('shake'), 300);
+      input.focus();
+    }
+
+    function togglePinVisibility() {
+      const input = document.getElementById('loginPin');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
 
     function hideAllScreens() {
       document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
@@ -1416,11 +1562,6 @@
       document.getElementById(`screen-${name}`).classList.add('active');
       currentScreen = name;
       updateBottomNav(name);
-
-      if (name === 'buses' || name === 'reports') {
-        loadBusLiveInfo();
-        loadDashboardStats();
-      }
     }
 
     function showScreen(name, pushHistory = true) {
@@ -1597,9 +1738,16 @@
 
     function setControlState(el, enabled, noteEl, noteText = '') {
       if (!el) return;
-      el.disabled = !enabled;
-      el.classList.toggle('disabled-control', !enabled);
-      if (noteEl) noteEl.textContent = enabled ? '' : noteText;
+
+      const lockedByBusy = el.dataset.busyLocked === '1';
+      const finalEnabled = enabled && !lockedByBusy;
+
+      el.disabled = !finalEnabled;
+      el.classList.toggle('disabled-control', !finalEnabled);
+
+      if (noteEl) {
+        noteEl.textContent = finalEnabled ? '' : noteText;
+      }
     }
 
     function getCanOpenBus() {
@@ -1677,8 +1825,12 @@
     }
 
     async function login() {
+      if (isBusy('login')) return;
+
       const userName = document.getElementById('loginUser').value.trim();
       const pin = document.getElementById('loginPin').value.trim();
+
+      hidePinError();
 
       if (!userName) {
         setStatus('اختر المستخدم أولًا', 'warning');
@@ -1691,6 +1843,7 @@
       }
 
       try {
+        setBusy('login', true);
         setStatus('جارٍ تسجيل الدخول...', 'info');
 
         const response = await fetch(SCRIPT_URL, {
@@ -1703,7 +1856,11 @@
 
         if (!result.success) {
           playErrorSound();
-          setStatus(result.message || 'فشل تسجيل الدخول', 'error');
+          if ((result.message || '').includes('الرقم السري')) {
+            showPinError(result.message);
+          } else {
+            setStatus(result.message || 'فشل تسجيل الدخول', 'error');
+          }
           return;
         }
 
@@ -1713,11 +1870,13 @@
         session.loginAt = result.user.loginAt;
 
         playSuccessSound();
-        setStatus('تم تسجيل الدخول بنجاح', 'success');
+        setStatus(`أهلاً ${session.userName} | الصلاحية: ${session.role}`, 'success');
         enterApp();
       } catch (e) {
         playErrorSound();
         setStatus('حدث خطأ أثناء تسجيل الدخول', 'error');
+      } finally {
+        setBusy('login', false);
       }
     }
 
@@ -1739,6 +1898,7 @@
       document.getElementById('loginScreen').classList.remove('hidden');
       document.getElementById('loginPin').value = '';
       document.getElementById('loginUser').value = '';
+      hidePinError();
       clearBusUI();
       renderSessionInfo();
     }
@@ -1748,14 +1908,12 @@
       document.getElementById('appRoot').classList.remove('hidden');
       renderSessionInfo();
       initializeNavigation();
-      loadDashboardStats();
-      loadBusLiveInfo();
+      refreshSnapshot();
     }
 
     async function bootstrap() {
       await loadLoginUsers();
 
-      // شاشة سريعة جدًا ثم دخول مباشر لشاشة الدخول
       setTimeout(() => {
         document.getElementById('splashScreen').classList.add('hidden');
         document.getElementById('loginScreen').classList.remove('hidden');
@@ -1763,7 +1921,7 @@
     }
 
     function onBusChanged() {
-      loadBusLiveInfo();
+      refreshSnapshot();
     }
 
     function updateBusUI(result) {
@@ -1771,7 +1929,6 @@
 
       const busNumber = result.busNumber || '-';
       const status = result.busStatus || '';
-      const remainingSeats = result.remainingSeats ?? '-';
 
       document.getElementById('currentBusPill').textContent = busNumber;
       setTopStatusPill(status);
@@ -1782,7 +1939,7 @@
       document.getElementById('liveModel').innerText = result.model || '-';
       document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
       document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
-      document.getElementById('liveRemainingSeats').innerText = remainingSeats;
+      document.getElementById('liveRemainingSeats').innerText = result.remainingSeats ?? '-';
       document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(status);
 
       const recentBox = document.getElementById('recentOperations');
@@ -1800,6 +1957,15 @@
 
       applyPermissionUI();
       updateStateBanner();
+    }
+
+    function updateStatsUI(result) {
+      document.getElementById('statsOpenBuses').innerText = result.openBusesCount ?? '-';
+      document.getElementById('statsDepartedBuses').innerText = result.departedBusesCount ?? '-';
+      document.getElementById('statsRemainingBuses').innerText = result.remainingBusesCount ?? '-';
+      document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
+      document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
+      updateNavBadgesFromStats(result);
     }
 
     function clearBusUI() {
@@ -1822,19 +1988,18 @@
       updateStateBanner();
     }
 
-    async function loadBusLiveInfo() {
+    async function refreshSnapshot() {
       const busNumber = document.getElementById('busNumber').value.trim();
-
-      if (!busNumber) {
-        clearBusUI();
-        return;
-      }
 
       try {
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'getBusLiveInfo', busNumber, ...authPayload() })
+          body: JSON.stringify({
+            action: 'getAppSnapshot',
+            busNumber,
+            ...authPayload()
+          })
         });
 
         const result = await response.json();
@@ -1843,38 +2008,23 @@
           if ((result.message || '').includes('الجلسة')) {
             await logout();
           } else {
-            clearBusUI();
-            setStatus(result.message || 'تعذر جلب معلومات الحافلة', 'error');
+            setStatus(result.message || 'تعذر تحديث البيانات', 'error');
           }
           return;
         }
 
-        updateBusUI(result);
+        if (result.stats && result.stats.success) {
+          updateStatsUI(result.stats);
+        }
+
+        if (busNumber && result.busInfo) {
+          updateBusUI(result.busInfo);
+        } else {
+          clearBusUI();
+        }
       } catch (e) {
-        clearBusUI();
-        setStatus('حدث خطأ أثناء جلب معلومات الحافلة', 'error');
+        if (busNumber) clearBusUI();
       }
-    }
-
-    async function loadDashboardStats() {
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'getDashboardStats', ...authPayload() })
-        });
-
-        const result = await response.json();
-        if (!result.success) return;
-
-        document.getElementById('statsOpenBuses').innerText = result.openBusesCount ?? '-';
-        document.getElementById('statsDepartedBuses').innerText = result.departedBusesCount ?? '-';
-        document.getElementById('statsRemainingBuses').innerText = result.remainingBusesCount ?? '-';
-        document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
-        document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
-
-        updateNavBadgesFromStats(result);
-      } catch (e) {}
     }
 
     function validateRegisterForm() {
@@ -1892,396 +2042,4 @@
       }
 
       if (!session.userName) {
-        setStatus('انتهت الجلسة. سجل الدخول مرة أخرى', 'warning');
-        return false;
-      }
-
-      if (!can(session.role, 'boardPilgrim')) {
-        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
-        return false;
-      }
-
-      return true;
-    }
-
-    async function startScanner() {
-      if (!validateRegisterForm()) return;
-      if (html5QrCode) return;
-
-      try {
-        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-          setStatus('المتصفح أو الصفحة الحالية لا تدعم تشغيل الكاميرا هنا.', 'error');
-          playErrorSound();
-          return;
-        }
-
-        html5QrCode = new Html5Qrcode("reader");
-        await html5QrCode.start(
-          { facingMode: "environment" },
-          { fps: 15, qrbox: { width: 240, height: 240 }, aspectRatio: 1.0 },
-          onScanSuccess,
-          function () {}
-        );
-
-        updateCameraUI(true);
-        setStatus('تم تشغيل الكاميرا.', 'info');
-      } catch (err) {
-        updateCameraUI(false);
-        playErrorSound();
-        setStatus('فشل تشغيل الكاميرا', 'error');
-      }
-    }
-
-    async function stopScanner() {
-      if (!html5QrCode) {
-        updateCameraUI(false);
-        return;
-      }
-
-      try {
-        await html5QrCode.stop();
-        await html5QrCode.clear();
-      } catch (e) {}
-
-      html5QrCode = null;
-      updateCameraUI(false);
-    }
-
-    async function sendBoardingData(idValue, sourceScreen = 'register') {
-      const busNumber = document.getElementById('busNumber').value.trim();
-
-      let proofType = '';
-      let notes = '';
-
-      if (sourceScreen === 'operations') {
-        proofType = document.getElementById('operationProofType')?.value.trim() || '';
-        notes = document.getElementById('operationNotes')?.value.trim() || '';
-      } else {
-        proofType = document.getElementById('proofType')?.value.trim() || '';
-        notes = document.getElementById('notes')?.value.trim() || '';
-      }
-
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
-        return;
-      }
-
-      if (!proofType) {
-        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
-        return;
-      }
-
-      const normalizedId = normalizeDigits(idValue).trim();
-
-      if (!/^\d+$/.test(normalizedId)) {
-        playErrorSound();
-        setStatus('رقم الهوية غير صالح', 'error');
-        return;
-      }
-
-      if (normalizedId.length !== REQUIRED_ID_LENGTH) {
-        playErrorSound();
-        setStatus('رقم الهوية يجب أن يكون 10 أرقام', 'error');
-        return;
-      }
-
-      const now = Date.now();
-      if (normalizedId === lastScannedValue && (now - lastScannedAt) < 2000) return;
-      if (isSaving) return;
-
-      isSaving = true;
-      lastScannedValue = normalizedId;
-      lastScannedAt = now;
-
-      try {
-        setStatus('جارٍ تسجيل الصعود...', 'info');
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            id: normalizedId,
-            busNumber,
-            proofType,
-            notes,
-            ...authPayload()
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          playSuccessSound();
-          setStatus('تم التسجيل: ' + (result.name || '-') + ' | الحافلة ' + (result.busNumber || '-'), 'success');
-        } else {
-          playErrorSound();
-          if ((result.message || '').includes('الجلسة')) {
-            await logout();
-          } else {
-            setStatus(result.message || 'فشل العملية', 'error');
-          }
-        }
-      } catch (e) {
-        playErrorSound();
-        setStatus('خطأ أثناء الإرسال', 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-
-      setTimeout(() => {
-        isSaving = false;
-      }, 1500);
-    }
-
-    async function onScanSuccess(decodedText) {
-      const extractedId = extractId(decodedText).trim();
-      await sendBoardingData(extractedId, 'register');
-    }
-
-    async function submitManualId() {
-      if (!can(session.role, 'boardPilgrim')) {
-        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
-        return;
-      }
-
-      const manualId = document.getElementById('manualId').value.trim();
-      await sendBoardingData(manualId, 'operations');
-    }
-
-    async function cancelBoarding() {
-      if (!can(session.role, 'cancelBoarding')) {
-        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
-        return;
-      }
-
-      const cancelId = document.getElementById('cancelId').value.trim();
-      if (!cancelId) {
-        setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود', 'warning');
-        return;
-      }
-
-      try {
-        setStatus('جارٍ إلغاء الصعود...', 'info');
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'cancelBoarding',
-            id: cancelId,
-            ...authPayload()
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          playWarningSound();
-          setStatus(result.message || 'تم إلغاء الصعود بنجاح', 'warning');
-        } else {
-          playErrorSound();
-          if ((result.message || '').includes('الجلسة')) {
-            await logout();
-          } else {
-            setStatus(result.message || 'فشل إلغاء الصعود', 'error');
-          }
-        }
-      } catch (e) {
-        playErrorSound();
-        setStatus('حدث خطأ أثناء الإلغاء', 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-    }
-
-    async function requestGenerateManifest() {
-      if (!can(session.role, 'generateManifest')) {
-        setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
-        return;
-      }
-
-      const busNumber = document.getElementById('busNumber').value.trim();
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
-        return;
-      }
-
-      const confirmed = await openConfirm('هل أنت متأكد من تجهيز المنفست لهذه الحافلة؟', 'تأكيد تجهيز المنفست');
-      if (!confirmed) return;
-
-      await generateManifest();
-    }
-
-    async function generateManifest() {
-      const busNumber = document.getElementById('busNumber').value.trim();
-
-      try {
-        setStatus('جارٍ تجهيز المنفست...', 'info');
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'generateManifest',
-            busNumber,
-            ...authPayload()
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          playSuccessSound();
-          setStatus(result.message || 'تم تجهيز المنفست بنجاح', 'success');
-        } else {
-          playErrorSound();
-          if ((result.message || '').includes('الجلسة')) {
-            await logout();
-          } else {
-            setStatus(result.message || 'فشل تجهيز المنفست', 'error');
-          }
-        }
-      } catch (e) {
-        playErrorSound();
-        setStatus('حدث خطأ أثناء تجهيز المنفست', 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-    }
-
-    async function requestBusStatusChange(newStatus) {
-      if (!can(session.role, 'changeBusStatus')) {
-        setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
-        return;
-      }
-
-      const busNumber = document.getElementById('busNumber').value.trim();
-      if (!busNumber) {
-        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
-        return;
-      }
-
-      if (newStatus === 'مفتوحة' && !getCanOpenBus()) {
-        setStatus('لا يمكن فتح الحافلة حتى يتم إلغاء حاج ووجود مقعد شاغر', 'warning');
-        return;
-      }
-
-      const confirmed = await openConfirm(
-        'هل أنت متأكد من تغيير حالة الحافلة إلى "' + newStatus + '"؟',
-        'تأكيد تغيير الحالة'
-      );
-
-      if (!confirmed) return;
-
-      await changeBusStatus(newStatus);
-    }
-
-    async function changeBusStatus(newStatus) {
-      const busNumber = document.getElementById('busNumber').value.trim();
-
-      try {
-        setStatus('جارٍ تغيير حالة الحافلة...', 'info');
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'changeBusStatus',
-            busNumber,
-            newStatus,
-            ...authPayload()
-          })
-        });
-
-        const result = await response.json();
-
-        if (result.success) {
-          playSuccessSound();
-          setStatus(result.message || ('تم تغيير حالة الحافلة إلى ' + newStatus), 'success');
-        } else {
-          playErrorSound();
-          if ((result.message || '').includes('الجلسة')) {
-            await logout();
-          } else {
-            setStatus(result.message || 'فشل تغيير حالة الحافلة', 'error');
-          }
-        }
-      } catch (e) {
-        playErrorSound();
-        setStatus('حدث خطأ أثناء تغيير حالة الحافلة', 'error');
-      }
-
-      await loadBusLiveInfo();
-      await loadDashboardStats();
-    }
-
-    async function searchPilgrim() {
-      if (!can(session.role, 'searchPilgrim')) {
-        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
-        return;
-      }
-
-      const searchId = document.getElementById('searchId').value.trim();
-      const resultBox = document.getElementById('searchResult');
-
-      if (!searchId) {
-        setStatus('الرجاء إدخال رقم الهوية للبحث', 'warning');
-        return;
-      }
-
-      try {
-        resultBox.innerHTML = 'جارٍ البحث...';
-
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'searchPilgrimStatus',
-            id: searchId,
-            ...authPayload()
-          })
-        });
-
-        const result = await response.json();
-        if (!result.success) {
-          playErrorSound();
-          if ((result.message || '').includes('الجلسة')) {
-            await logout();
-          } else {
-            setStatus(result.message || 'لا توجد نتيجة', 'error');
-            resultBox.innerHTML = result.message || 'لا توجد نتيجة';
-          }
-          return;
-        }
-
-        playSuccessSound();
-        setStatus('تم العثور على نتيجة', 'success');
-        resultBox.innerHTML = `
-          <div><strong>الاسم:</strong> ${escapeHtml(result.name || '-')}</div>
-          <div><strong>رقم الهوية:</strong> ${escapeHtml(result.id || '-')}</div>
-          <div><strong>الحالة الحالية:</strong> ${escapeHtml(result.pilgrimStatus || '-')}</div>
-          <div><strong>آخر حالة عملية:</strong> ${escapeHtml(result.latestOperationStatus || '-')}</div>
-          <div><strong>رقم الحافلة:</strong> ${escapeHtml(result.busNumber || '-')}</div>
-          <div><strong>رقم اللوحة:</strong> ${escapeHtml(result.plateNumber || '-')}</div>
-          <div><strong>وقت آخر عملية:</strong> ${escapeHtml(result.timestamp || '-')}</div>
-        `;
-      } catch (e) {
-        playErrorSound();
-        setStatus('حدث خطأ أثناء البحث', 'error');
-        resultBox.innerHTML = 'حدث خطأ أثناء البحث';
-      }
-    }
-
-    window.addEventListener('load', async () => {
-      updateCameraUI(false);
-      showOperationTab('manual');
-      renderSessionInfo();
-      clearBusUI();
-      await bootstrap();
-    });
-  </script>
-</body>
-</html>
+        setStatus('ان
