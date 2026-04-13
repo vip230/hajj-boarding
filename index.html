@@ -64,23 +64,22 @@
       justify-content: center;
       background: radial-gradient(circle at top, #e8f3ff 0%, #eef4fa 48%, #e7eef7 100%);
       padding: 20px;
-      transition: opacity 0.2s ease;
     }
 
     .splash-card,
     .login-card {
       width: 100%;
-      max-width: 420px;
-      background: rgba(255,255,255,0.97);
+      max-width: 430px;
+      background: rgba(255,255,255,0.96);
       border: 1px solid var(--border);
       border-radius: 28px;
       box-shadow: 0 18px 50px rgba(11, 87, 208, 0.12);
       overflow: hidden;
-      animation: cardIn 0.25s ease;
+      animation: floatIn .28s ease;
     }
 
-    @keyframes cardIn {
-      from { opacity: 0; transform: translateY(10px) scale(0.98); }
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(8px) scale(.99); }
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
@@ -171,7 +170,10 @@
       font-weight: 800;
       cursor: pointer;
       box-shadow: var(--shadow-xs);
+      transition: transform .12s ease, opacity .12s ease;
     }
+
+    .login-grid button:active { transform: scale(.99); }
 
     .login-note {
       margin-top: 10px;
@@ -181,12 +183,22 @@
       text-align: center;
     }
 
-    .pin-wrap {
+    .field-wrap {
       position: relative;
     }
 
-    .pin-wrap input {
-      padding-left: 52px;
+    .lock-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 8px;
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    .pin-row {
+      position: relative;
     }
 
     .pin-toggle {
@@ -194,58 +206,69 @@
       left: 8px;
       top: 50%;
       transform: translateY(-50%);
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-      border: 1px solid #d7e2ef;
-      background: #f7fbff;
-      color: var(--primary-dark);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-      margin: 0;
-      box-shadow: none;
+      width: auto !important;
+      min-width: 42px;
+      padding: 8px 10px !important;
+      border-radius: 10px !important;
+      border: 1px solid #d4deea !important;
+      background: #f7faff !important;
+      color: var(--primary-dark) !important;
+      font-size: 12px !important;
+      font-weight: 800 !important;
+      box-shadow: none !important;
+      margin-top: 0 !important;
     }
 
-    .pin-toggle svg {
-      width: 18px;
-      height: 18px;
-      fill: none;
-      stroke: currentColor;
-      stroke-width: 2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .pin-error {
-      display: none;
+    .error-text {
       margin-top: 6px;
       font-size: 12px;
-      color: var(--red);
-      font-weight: 700;
+      color: #b3261e;
+      font-weight: 800;
       text-align: right;
-    }
-
-    .pin-error.show {
-      display: block;
+      min-height: 18px;
     }
 
     .input-error {
-      border-color: var(--red) !important;
-      box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.08);
+      border-color: #d93025 !important;
+      box-shadow: 0 0 0 4px rgba(217,48,37,0.08);
+      background: #fff7f6 !important;
     }
 
     .shake {
-      animation: shake 0.28s linear;
+      animation: shake .26s linear;
     }
 
     @keyframes shake {
-      0% { transform: translateX(0); }
-      25% { transform: translateX(-5px); }
-      50% { transform: translateX(5px); }
-      75% { transform: translateX(-4px); }
-      100% { transform: translateX(0); }
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(4px); }
+      50% { transform: translateX(-4px); }
+      75% { transform: translateX(3px); }
+    }
+
+    .welcome-toast {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      z-index: 4500;
+      background: linear-gradient(180deg, #eef6ff 0%, #e4f0ff 100%);
+      border: 1px solid #cfe0fb;
+      color: var(--primary-dark);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
+      font-weight: 800;
+      display: none;
+    }
+
+    .welcome-toast.show {
+      display: block;
+      animation: welcomeIn .22s ease;
+    }
+
+    @keyframes welcomeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .app-shell {
@@ -297,7 +320,6 @@
       padding: 10px 12px;
       min-height: 62px;
       box-shadow: var(--shadow-xs);
-      transition: all 0.18s ease;
     }
 
     .topbar-title-row,
@@ -366,7 +388,7 @@
       text-align: center;
       border: 1px solid transparent;
       white-space: nowrap;
-      transition: all 0.18s ease;
+      transition: all .18s ease;
     }
 
     .bus-number-pill { background: var(--primary-soft); color: var(--primary-dark); border-color: #d6e4fb; }
@@ -388,12 +410,7 @@
 
     .mini-kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
     .mini-kpi-value { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.2; }
-
-    .hint-line, .hint, .section-subtitle, .section-note {
-      color: var(--muted);
-      line-height: 1.7;
-    }
-
+    .hint-line, .hint, .section-subtitle, .section-note { color: var(--muted); line-height: 1.7; }
     .hint-line { margin-top: 6px; font-size: 12px; }
 
     .screen { display: none; animation: screenFade 0.18s ease; }
@@ -411,7 +428,12 @@
       box-shadow: var(--shadow-sm);
       margin-bottom: 14px;
       border: 1px solid var(--border);
-      transition: all 0.18s ease;
+      animation: cardPop .18s ease;
+    }
+
+    @keyframes cardPop {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .soft { background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
@@ -462,7 +484,7 @@
       border: 1px solid #e3ebf5;
       border-radius: 14px;
       padding: 12px;
-      transition: all 0.18s ease;
+      transition: all .18s ease;
     }
 
     .info-title { font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 700; }
@@ -483,7 +505,7 @@
       font-size: 13px;
       font-weight: 800;
       border: 1px solid;
-      transition: all 0.18s ease;
+      transition: all .18s ease;
     }
 
     .state-open { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
@@ -500,10 +522,10 @@
       font-weight: 700;
       margin-top: 10px;
       box-shadow: var(--shadow-xs);
-      transition: transform 0.12s ease, opacity 0.12s ease, filter 0.12s ease, background 0.18s ease;
+      transition: transform 0.12s ease, opacity 0.12s ease, filter 0.12s ease;
     }
 
-    button:active { transform: scale(0.99); }
+    button:active { transform: scale(.99); }
 
     .btn-secondary { background: var(--gray); }
     .btn-green { background: var(--green); }
@@ -592,7 +614,7 @@
       border: 1px solid var(--border);
       box-shadow: var(--shadow-xs);
       background: #fff;
-      transition: all 0.18s ease;
+      transition: all .18s ease;
     }
 
     .kpi-blue { background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%); border-color: #d6e4fb; }
@@ -807,7 +829,7 @@
       border: 1px solid var(--border);
       box-shadow: 0 18px 50px rgba(0,0,0,0.16);
       overflow: hidden;
-      animation: cardIn 0.2s ease;
+      animation: floatIn .18s ease;
     }
 
     .confirm-head {
@@ -863,6 +885,8 @@
   </style>
 </head>
 <body>
+  <div class="welcome-toast" id="welcomeToast"></div>
+
   <div id="splashScreen">
     <div class="splash-card">
       <div class="brand-top">
@@ -882,27 +906,29 @@
         <img src="1447.png" alt="شركة مشاعل النور" />
       </div>
       <div class="login-body">
-        <h1 class="app-name">تسجيل الدخول</h1>
+        <div class="lock-head">
+          <svg class="mini-icon" viewBox="0 0 24 24">
+            <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+            <path d="M8 11V8a4 4 0 1 1 8 0v3"></path>
+          </svg>
+          <span>تسجيل الدخول</span>
+        </div>
+
         <p class="app-sub">اختر المستخدم ثم أدخل الرقم السري لتفعيل الصلاحيات</p>
 
         <div class="login-grid">
-          <div>
+          <div class="field-wrap">
             <label for="loginUser">المستخدم</label>
             <select id="loginUser"></select>
           </div>
 
-          <div>
+          <div class="field-wrap">
             <label for="loginPin">الرقم السري</label>
-            <div class="pin-wrap">
+            <div class="pin-row">
               <input type="password" id="loginPin" inputmode="numeric" placeholder="أدخل الرقم السري" />
-              <button type="button" class="pin-toggle" onclick="togglePinVisibility()">
-                <svg id="pinEyeIcon" viewBox="0 0 24 24">
-                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </button>
+              <button type="button" class="pin-toggle" onclick="togglePinVisibility()">إظهار</button>
             </div>
-            <div id="pinError" class="pin-error">الرقم السري المدخل غير صحيح</div>
+            <div class="error-text" id="pinErrorText"></div>
           </div>
 
           <button id="loginBtn" onclick="login()">دخول</button>
@@ -1246,22 +1272,22 @@
           </div>
 
           <div class="status-action-grid">
-            <button class="btn-green btn-with-icon" id="openBusBtn" type="button" onclick="requestBusStatusChange('مفتوحة')">
+            <button class="btn-green btn-with-icon" id="openBusBtn" onclick="requestBusStatusChange('مفتوحة')">
               <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
               <span>فتح الحافلة</span>
             </button>
 
-            <button class="btn-red btn-with-icon" id="fullBusBtn" type="button" onclick="requestBusStatusChange('ممتلئة')">
+            <button class="btn-red btn-with-icon" id="fullBusBtn" onclick="requestBusStatusChange('ممتلئة')">
               <svg class="btn-icon" viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
               <span>تعيين ممتلئة</span>
             </button>
 
-            <button class="btn-purple btn-with-icon" id="departedBusBtn" type="button" onclick="requestBusStatusChange('انطلقت')">
+            <button class="btn-purple btn-with-icon" id="departedBusBtn" onclick="requestBusStatusChange('انطلقت')">
               <svg class="btn-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg>
               <span>إعلان انطلقت</span>
             </button>
 
-            <button class="btn-orange btn-with-icon" id="arrivedBusBtn" type="button" onclick="requestBusStatusChange('وصلت')">
+            <button class="btn-orange btn-with-icon" id="arrivedBusBtn" onclick="requestBusStatusChange('وصلت')">
               <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
               <span>إعلان وصلت</span>
             </button>
@@ -1408,7 +1434,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyp3RCAP6JzB6JLdCORX7aAVmBqpIQazhcWD41rC4ny1KrEBuqwj-yabr1gnNSXxXtVQg/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1unVAkr6KPWvjaMNtu7yKaOTb1omRVae9mwNr9N_I4mrgVKMGteiwJLEcAHiue4GVvQ/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1427,60 +1453,30 @@
 
     let currentBusInfo = null;
     let confirmResolver = null;
-    let busyActions = new Set();
+    let busyKeys = new Set();
 
     function isBusy(key) {
-      return busyActions.has(key);
+      return busyKeys.has(key);
     }
 
-    function setBusy(key, on) {
-      const ids = {
-        login: ['loginBtn'],
-        manualBoard: ['manualBoardBtn'],
-        cancelBoarding: ['cancelBoardingBtn'],
-        searchPilgrim: ['searchPilgrimBtn'],
-        changeBusStatus: ['openBusBtn', 'fullBusBtn', 'departedBusBtn', 'arrivedBusBtn'],
-        manifest: ['manifestBtn'],
-        startScanner: ['startScannerBtn']
-      };
-
-      const targetIds = ids[key] || [];
-      if (on) busyActions.add(key);
-      else busyActions.delete(key);
-
-      targetIds.forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        if (on) {
-          el.dataset.busyLocked = '1';
-          el.disabled = true;
-        } else {
-          delete el.dataset.busyLocked;
-        }
-      });
-
-      if (!on) applyPermissionUI();
+    function setBusy(key, state) {
+      if (state) busyKeys.add(key);
+      else busyKeys.delete(key);
     }
 
-    function hidePinError() {
-      document.getElementById('pinError').classList.remove('show');
-      document.getElementById('loginPin').classList.remove('input-error', 'shake');
-    }
-
-    function showPinError(message) {
-      const input = document.getElementById('loginPin');
-      const error = document.getElementById('pinError');
-      error.textContent = message || 'الرقم السري المدخل غير صحيح';
-      error.classList.add('show');
-      input.classList.add('input-error', 'shake');
-      input.value = '';
-      setTimeout(() => input.classList.remove('shake'), 300);
-      input.focus();
-    }
-
-    function togglePinVisibility() {
-      const input = document.getElementById('loginPin');
-      input.type = input.type === 'password' ? 'text' : 'password';
+    function setButtonBusy(id, busy, busyText = 'جارٍ التنفيذ...') {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      if (busy) {
+        btn.dataset.originalText = btn.innerHTML;
+        btn.innerHTML = `<span>${busyText}</span>`;
+        btn.disabled = true;
+        btn.classList.add('disabled-control');
+      } else {
+        if (btn.dataset.originalText) btn.innerHTML = btn.dataset.originalText;
+        btn.disabled = false;
+        btn.classList.remove('disabled-control');
+      }
     }
 
     function hideAllScreens() {
@@ -1623,6 +1619,16 @@
       }, 2200);
     }
 
+    function showWelcomeToast(message) {
+      const toast = document.getElementById('welcomeToast');
+      toast.textContent = message;
+      toast.classList.add('show');
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2400);
+    }
+
     function normalizeDigits(text) {
       const arabicNums = '٠١٢٣٤٥٦٧٨٩';
       return String(text || '').replace(/[٠-٩]/g, d => String(arabicNums.indexOf(d)));
@@ -1689,6 +1695,36 @@
       return !!(permissions[role] && permissions[role][action]);
     }
 
+    function clearPinError() {
+      const pinInput = document.getElementById('loginPin');
+      const errorBox = document.getElementById('pinErrorText');
+      pinInput.classList.remove('input-error', 'shake');
+      errorBox.textContent = '';
+    }
+
+    function showPinError(message) {
+      const pinInput = document.getElementById('loginPin');
+      const errorBox = document.getElementById('pinErrorText');
+      errorBox.textContent = message;
+      pinInput.classList.remove('shake');
+      void pinInput.offsetWidth;
+      pinInput.classList.add('input-error', 'shake');
+      pinInput.value = '';
+      pinInput.focus();
+    }
+
+    function togglePinVisibility() {
+      const input = document.getElementById('loginPin');
+      const btn = document.querySelector('.pin-toggle');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = 'إخفاء';
+      } else {
+        input.type = 'password';
+        btn.textContent = 'إظهار';
+      }
+    }
+
     function openConfirm(message, title = 'تأكيد العملية') {
       return new Promise((resolve) => {
         confirmResolver = resolve;
@@ -1738,16 +1774,9 @@
 
     function setControlState(el, enabled, noteEl, noteText = '') {
       if (!el) return;
-
-      const lockedByBusy = el.dataset.busyLocked === '1';
-      const finalEnabled = enabled && !lockedByBusy;
-
-      el.disabled = !finalEnabled;
-      el.classList.toggle('disabled-control', !finalEnabled);
-
-      if (noteEl) {
-        noteEl.textContent = finalEnabled ? '' : noteText;
-      }
+      el.disabled = !enabled;
+      el.classList.toggle('disabled-control', !enabled);
+      if (noteEl) noteEl.textContent = enabled ? '' : noteText;
     }
 
     function getCanOpenBus() {
@@ -1826,11 +1855,10 @@
 
     async function login() {
       if (isBusy('login')) return;
+      clearPinError();
 
       const userName = document.getElementById('loginUser').value.trim();
       const pin = document.getElementById('loginPin').value.trim();
-
-      hidePinError();
 
       if (!userName) {
         setStatus('اختر المستخدم أولًا', 'warning');
@@ -1838,13 +1866,13 @@
       }
 
       if (!pin) {
-        setStatus('أدخل الرقم السري', 'warning');
+        showPinError('أدخل الرقم السري');
         return;
       }
 
       try {
         setBusy('login', true);
-        setStatus('جارٍ تسجيل الدخول...', 'info');
+        setButtonBusy('loginBtn', true, 'جارٍ الدخول...');
 
         const response = await fetch(SCRIPT_URL, {
           method: 'POST',
@@ -1857,7 +1885,7 @@
         if (!result.success) {
           playErrorSound();
           if ((result.message || '').includes('الرقم السري')) {
-            showPinError(result.message);
+            showPinError(result.message || 'الرقم السري المدخل غير صحيح');
           } else {
             setStatus(result.message || 'فشل تسجيل الدخول', 'error');
           }
@@ -1870,13 +1898,15 @@
         session.loginAt = result.user.loginAt;
 
         playSuccessSound();
-        setStatus(`أهلاً ${session.userName} | الصلاحية: ${session.role}`, 'success');
+        clearPinError();
         enterApp();
+        showWelcomeToast(`أهلاً ${session.userName} — الصلاحية: ${session.role}`);
       } catch (e) {
         playErrorSound();
         setStatus('حدث خطأ أثناء تسجيل الدخول', 'error');
       } finally {
         setBusy('login', false);
+        setButtonBusy('loginBtn', false);
       }
     }
 
@@ -1898,7 +1928,7 @@
       document.getElementById('loginScreen').classList.remove('hidden');
       document.getElementById('loginPin').value = '';
       document.getElementById('loginUser').value = '';
-      hidePinError();
+      clearPinError();
       clearBusUI();
       renderSessionInfo();
     }
@@ -1917,6 +1947,7 @@
       setTimeout(() => {
         document.getElementById('splashScreen').classList.add('hidden');
         document.getElementById('loginScreen').classList.remove('hidden');
+        document.getElementById('loginPin').focus();
       }, 420);
     }
 
@@ -1924,11 +1955,61 @@
       refreshSnapshot();
     }
 
+    function applySnapshot(snapshot) {
+      if (!snapshot || !snapshot.success) return;
+
+      if (snapshot.stats && snapshot.stats.success) {
+        document.getElementById('statsOpenBuses').innerText = snapshot.stats.openBusesCount ?? '-';
+        document.getElementById('statsDepartedBuses').innerText = snapshot.stats.departedBusesCount ?? '-';
+        document.getElementById('statsRemainingBuses').innerText = snapshot.stats.remainingBusesCount ?? '-';
+        document.getElementById('statsBoardedCount').innerText = snapshot.stats.boardedCount ?? '-';
+        document.getElementById('statsRemainingCount').innerText = snapshot.stats.remainingCount ?? '-';
+        updateNavBadgesFromStats(snapshot.stats);
+      }
+
+      if (snapshot.busInfo && snapshot.busInfo.success) {
+        updateBusUI(snapshot.busInfo);
+      } else {
+        const busNumber = document.getElementById('busNumber').value.trim();
+        if (!busNumber) clearBusUI();
+      }
+    }
+
+    async function refreshSnapshot() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getAppSnapshot', busNumber, ...authPayload() })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            clearBusUI();
+            setStatus(result.message || 'تعذر تحميل البيانات', 'error');
+          }
+          return;
+        }
+
+        applySnapshot(result);
+      } catch (e) {
+        clearBusUI();
+        setStatus('حدث خطأ أثناء تحميل البيانات', 'error');
+      }
+    }
+
     function updateBusUI(result) {
       currentBusInfo = result;
 
       const busNumber = result.busNumber || '-';
       const status = result.busStatus || '';
+      const remainingSeats = result.remainingSeats ?? '-';
 
       document.getElementById('currentBusPill').textContent = busNumber;
       setTopStatusPill(status);
@@ -1939,7 +2020,7 @@
       document.getElementById('liveModel').innerText = result.model || '-';
       document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
       document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
-      document.getElementById('liveRemainingSeats').innerText = result.remainingSeats ?? '-';
+      document.getElementById('liveRemainingSeats').innerText = remainingSeats;
       document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(status);
 
       const recentBox = document.getElementById('recentOperations');
@@ -1957,15 +2038,6 @@
 
       applyPermissionUI();
       updateStateBanner();
-    }
-
-    function updateStatsUI(result) {
-      document.getElementById('statsOpenBuses').innerText = result.openBusesCount ?? '-';
-      document.getElementById('statsDepartedBuses').innerText = result.departedBusesCount ?? '-';
-      document.getElementById('statsRemainingBuses').innerText = result.remainingBusesCount ?? '-';
-      document.getElementById('statsBoardedCount').innerText = result.boardedCount ?? '-';
-      document.getElementById('statsRemainingCount').innerText = result.remainingCount ?? '-';
-      updateNavBadgesFromStats(result);
     }
 
     function clearBusUI() {
@@ -1988,45 +2060,6 @@
       updateStateBanner();
     }
 
-    async function refreshSnapshot() {
-      const busNumber = document.getElementById('busNumber').value.trim();
-
-      try {
-        const response = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({
-            action: 'getAppSnapshot',
-            busNumber,
-            ...authPayload()
-          })
-        });
-
-        const result = await response.json();
-
-        if (!result.success) {
-          if ((result.message || '').includes('الجلسة')) {
-            await logout();
-          } else {
-            setStatus(result.message || 'تعذر تحديث البيانات', 'error');
-          }
-          return;
-        }
-
-        if (result.stats && result.stats.success) {
-          updateStatsUI(result.stats);
-        }
-
-        if (busNumber && result.busInfo) {
-          updateBusUI(result.busInfo);
-        } else {
-          clearBusUI();
-        }
-      } catch (e) {
-        if (busNumber) clearBusUI();
-      }
-    }
-
     function validateRegisterForm() {
       const busNumber = document.getElementById('busNumber').value.trim();
       const proofType = document.getElementById('proofType').value.trim();
@@ -2042,4 +2075,432 @@
       }
 
       if (!session.userName) {
-        setStatus('ان
+        setStatus('انتهت الجلسة. سجل الدخول مرة أخرى', 'warning');
+        return false;
+      }
+
+      if (!can(session.role, 'boardPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return false;
+      }
+
+      return true;
+    }
+
+    async function startScanner() {
+      if (!validateRegisterForm()) return;
+      if (html5QrCode || isBusy('scanner-start')) return;
+
+      try {
+        setBusy('scanner-start', true);
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          setStatus('المتصفح أو الصفحة الحالية لا تدعم تشغيل الكاميرا هنا.', 'error');
+          playErrorSound();
+          return;
+        }
+
+        html5QrCode = new Html5Qrcode("reader");
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          { fps: 15, qrbox: { width: 240, height: 240 }, aspectRatio: 1.0 },
+          onScanSuccess,
+          function () {}
+        );
+
+        updateCameraUI(true);
+        setStatus('تم تشغيل الكاميرا.', 'info');
+      } catch (err) {
+        updateCameraUI(false);
+        playErrorSound();
+        setStatus('فشل تشغيل الكاميرا', 'error');
+      } finally {
+        setBusy('scanner-start', false);
+      }
+    }
+
+    async function stopScanner() {
+      if (!html5QrCode) {
+        updateCameraUI(false);
+        return;
+      }
+
+      try {
+        await html5QrCode.stop();
+        await html5QrCode.clear();
+      } catch (e) {}
+
+      html5QrCode = null;
+      updateCameraUI(false);
+    }
+
+    async function sendBoardingData(idValue, sourceScreen = 'register') {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      let proofType = '';
+      let notes = '';
+      let busyKey = sourceScreen === 'operations' ? 'manualBoard' : 'scanBoard';
+      let buttonId = sourceScreen === 'operations' ? 'manualBoardBtn' : 'startScannerBtn';
+
+      if (sourceScreen === 'operations') {
+        proofType = document.getElementById('operationProofType')?.value.trim() || '';
+        notes = document.getElementById('operationNotes')?.value.trim() || '';
+      } else {
+        proofType = document.getElementById('proofType')?.value.trim() || '';
+        notes = document.getElementById('notes')?.value.trim() || '';
+      }
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
+        return;
+      }
+
+      if (!proofType) {
+        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
+        return;
+      }
+
+      const normalizedId = normalizeDigits(idValue).trim();
+
+      if (!/^\d+$/.test(normalizedId)) {
+        playErrorSound();
+        setStatus('رقم الهوية غير صالح', 'error');
+        return;
+      }
+
+      if (normalizedId.length !== REQUIRED_ID_LENGTH) {
+        playErrorSound();
+        setStatus('رقم الهوية يجب أن يكون 10 أرقام', 'error');
+        return;
+      }
+
+      const now = Date.now();
+      if (normalizedId === lastScannedValue && (now - lastScannedAt) < 2000) return;
+      if (isSaving || isBusy(busyKey)) return;
+
+      isSaving = true;
+      setBusy(busyKey, true);
+      if (sourceScreen === 'operations') setButtonBusy(buttonId, true, 'جارٍ التسجيل...');
+
+      lastScannedValue = normalizedId;
+      lastScannedAt = now;
+
+      try {
+        setStatus('جارٍ تسجيل الصعود...', 'info');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            id: normalizedId,
+            busNumber,
+            proofType,
+            notes,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus('تم التسجيل: ' + (result.name || '-') + ' | الحافلة ' + (result.busNumber || '-'), 'success');
+          if (result.snapshot) applySnapshot(result.snapshot);
+        } else {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'فشل العملية', 'error');
+          }
+        }
+      } catch (e) {
+        playErrorSound();
+        setStatus('خطأ أثناء الإرسال', 'error');
+      } finally {
+        isSaving = false;
+        setBusy(busyKey, false);
+        if (sourceScreen === 'operations') setButtonBusy(buttonId, false);
+      }
+    }
+
+    async function onScanSuccess(decodedText) {
+      const extractedId = extractId(decodedText).trim();
+      await sendBoardingData(extractedId, 'register');
+    }
+
+    async function submitManualId() {
+      if (!can(session.role, 'boardPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return;
+      }
+
+      const manualId = document.getElementById('manualId').value.trim();
+      await sendBoardingData(manualId, 'operations');
+    }
+
+    async function cancelBoarding() {
+      if (!can(session.role, 'cancelBoarding')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return;
+      }
+
+      const cancelId = document.getElementById('cancelId').value.trim();
+      if (!cancelId) {
+        setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود', 'warning');
+        return;
+      }
+
+      if (isBusy('cancelBoarding')) return;
+
+      try {
+        setBusy('cancelBoarding', true);
+        setButtonBusy('cancelBoardingBtn', true, 'جارٍ الإلغاء...');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'cancelBoarding',
+            id: cancelId,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playWarningSound();
+          setStatus(result.message || 'تم إلغاء الصعود بنجاح', 'warning');
+          if (result.snapshot) applySnapshot(result.snapshot);
+          else await refreshSnapshot();
+        } else {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'فشل إلغاء الصعود', 'error');
+          }
+        }
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء الإلغاء', 'error');
+      } finally {
+        setBusy('cancelBoarding', false);
+        setButtonBusy('cancelBoardingBtn', false);
+      }
+    }
+
+    async function requestGenerateManifest() {
+      if (!can(session.role, 'generateManifest')) {
+        setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
+        return;
+      }
+
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      const confirmed = await openConfirm('هل أنت متأكد من تجهيز المنفست لهذه الحافلة؟', 'تأكيد تجهيز المنفست');
+      if (!confirmed) return;
+
+      await generateManifest();
+    }
+
+    async function generateManifest() {
+      if (isBusy('manifest')) return;
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      try {
+        setBusy('manifest', true);
+        setButtonBusy('manifestBtn', true, 'جارٍ التجهيز...');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'generateManifest',
+            busNumber,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus(result.message || 'تم تجهيز المنفست بنجاح', 'success');
+          if (result.snapshot) applySnapshot(result.snapshot);
+        } else {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'فشل تجهيز المنفست', 'error');
+          }
+        }
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تجهيز المنفست', 'error');
+      } finally {
+        setBusy('manifest', false);
+        setButtonBusy('manifestBtn', false);
+      }
+    }
+
+    async function requestBusStatusChange(newStatus) {
+      if (!can(session.role, 'changeBusStatus')) {
+        setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
+        return;
+      }
+
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      if (newStatus === 'مفتوحة' && !getCanOpenBus()) {
+        setStatus('لا يمكن فتح الحافلة حتى يتم إلغاء حاج ووجود مقعد شاغر', 'warning');
+        return;
+      }
+
+      const confirmed = await openConfirm(
+        'هل أنت متأكد من تغيير حالة الحافلة إلى "' + newStatus + '"؟',
+        'تأكيد تغيير الحالة'
+      );
+
+      if (!confirmed) return;
+
+      await changeBusStatus(newStatus);
+    }
+
+    async function changeBusStatus(newStatus) {
+      if (isBusy('busStatus')) return;
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      try {
+        setBusy('busStatus', true);
+
+        const activeBtn =
+          newStatus === 'مفتوحة' ? 'openBusBtn' :
+          newStatus === 'ممتلئة' ? 'fullBusBtn' :
+          newStatus === 'انطلقت' ? 'departedBusBtn' :
+          'arrivedBusBtn';
+
+        setButtonBusy(activeBtn, true, 'جارٍ التحديث...');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'changeBusStatus',
+            busNumber,
+            newStatus,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus(result.message || ('تم تغيير حالة الحافلة إلى ' + newStatus), 'success');
+          if (result.snapshot) applySnapshot(result.snapshot);
+        } else {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'فشل تغيير حالة الحافلة', 'error');
+          }
+        }
+
+        setButtonBusy(activeBtn, false);
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تغيير حالة الحافلة', 'error');
+        ['openBusBtn','fullBusBtn','departedBusBtn','arrivedBusBtn'].forEach(id => setButtonBusy(id, false));
+      } finally {
+        setBusy('busStatus', false);
+      }
+    }
+
+    async function searchPilgrim() {
+      if (!can(session.role, 'searchPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return;
+      }
+
+      const searchId = document.getElementById('searchId').value.trim();
+      const resultBox = document.getElementById('searchResult');
+
+      if (!searchId) {
+        setStatus('الرجاء إدخال رقم الهوية للبحث', 'warning');
+        return;
+      }
+
+      if (isBusy('searchPilgrim')) return;
+
+      try {
+        setBusy('searchPilgrim', true);
+        setButtonBusy('searchPilgrimBtn', true, 'جارٍ البحث...');
+
+        resultBox.innerHTML = 'جارٍ البحث...';
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'searchPilgrimStatus',
+            id: searchId,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+        if (!result.success) {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'لا توجد نتيجة', 'error');
+            resultBox.innerHTML = result.message || 'لا توجد نتيجة';
+          }
+          return;
+        }
+
+        playSuccessSound();
+        setStatus('تم العثور على نتيجة', 'success');
+        resultBox.innerHTML = `
+          <div><strong>الاسم:</strong> ${escapeHtml(result.name || '-')}</div>
+          <div><strong>رقم الهوية:</strong> ${escapeHtml(result.id || '-')}</div>
+          <div><strong>الحالة الحالية:</strong> ${escapeHtml(result.pilgrimStatus || '-')}</div>
+          <div><strong>آخر حالة عملية:</strong> ${escapeHtml(result.latestOperationStatus || '-')}</div>
+          <div><strong>رقم الحافلة:</strong> ${escapeHtml(result.busNumber || '-')}</div>
+          <div><strong>رقم اللوحة:</strong> ${escapeHtml(result.plateNumber || '-')}</div>
+          <div><strong>وقت آخر عملية:</strong> ${escapeHtml(result.timestamp || '-')}</div>
+        `;
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء البحث', 'error');
+        resultBox.innerHTML = 'حدث خطأ أثناء البحث';
+      } finally {
+        setBusy('searchPilgrim', false);
+        setButtonBusy('searchPilgrimBtn', false);
+      }
+    }
+
+    window.addEventListener('load', async () => {
+      updateCameraUI(false);
+      showOperationTab('manual');
+      renderSessionInfo();
+      clearBusUI();
+      document.getElementById('loginPin').addEventListener('input', clearPinError);
+      await bootstrap();
+    });
+  </script>
+</body>
+</html>
