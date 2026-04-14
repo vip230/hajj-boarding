@@ -41,7 +41,6 @@
     }
 
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
     html, body {
       margin: 0;
       padding: 0;
@@ -49,9 +48,7 @@
       color: var(--text);
       font-family: "Cairo", Arial, sans-serif;
     }
-
     body { padding-bottom: calc(var(--nav-height) + 26px); }
-
     .hidden { display: none !important; }
 
     #splashScreen,
@@ -173,20 +170,7 @@
       transition: transform .12s ease, opacity .12s ease;
     }
 
-    .login-grid button:active { transform: scale(.99); }
-
-    .login-note {
-      margin-top: 10px;
-      font-size: 12px;
-      color: var(--muted);
-      line-height: 1.7;
-      text-align: center;
-    }
-
-    .field-wrap {
-      position: relative;
-    }
-
+    .field-wrap { position: relative; }
     .lock-head {
       display: inline-flex;
       align-items: center;
@@ -197,9 +181,7 @@
       font-weight: 800;
     }
 
-    .pin-row {
-      position: relative;
-    }
+    .pin-row { position: relative; }
 
     .pin-toggle {
       position: absolute;
@@ -234,15 +216,20 @@
       background: #fff7f6 !important;
     }
 
-    .shake {
-      animation: shake .26s linear;
-    }
-
+    .shake { animation: shake .26s linear; }
     @keyframes shake {
       0%,100% { transform: translateX(0); }
       25% { transform: translateX(4px); }
       50% { transform: translateX(-4px); }
       75% { transform: translateX(3px); }
+    }
+
+    .login-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      text-align: center;
     }
 
     .welcome-toast {
@@ -340,7 +327,8 @@
     .nav-icon,
     .op-tab-icon,
     .kpi-icon,
-    .confirm-icon {
+    .confirm-icon,
+    .log-icon {
       fill: none;
       stroke: currentColor;
       stroke-width: 2;
@@ -350,7 +338,7 @@
     }
 
     .mini-icon { width: 16px; height: 16px; }
-    .btn-icon, .card-title-icon, .kpi-icon { width: 18px; height: 18px; }
+    .btn-icon, .card-title-icon, .kpi-icon, .log-icon { width: 18px; height: 18px; }
     .nav-icon { width: 22px; height: 22px; }
     .op-tab-icon { width: 16px; height: 16px; }
     .confirm-icon { width: 26px; height: 26px; }
@@ -362,11 +350,7 @@
       align-items: center;
     }
 
-    .bus-select,
-    select,
-    input,
-    textarea,
-    button {
+    .bus-select, select, input, textarea, button {
       width: 100%;
       border-radius: 12px;
       border: 1px solid #cfd8e3;
@@ -579,15 +563,6 @@
       background: #fff;
       min-height: 48px;
     }
-
-    .log-item {
-      padding: 10px 0;
-      border-bottom: 1px solid #e8edf5;
-      font-size: 14px;
-      line-height: 1.7;
-    }
-
-    .log-item:last-child { border-bottom: none; }
 
     .status-chip {
       display: inline-flex;
@@ -858,8 +833,141 @@
       gap: 10px;
     }
 
-    .confirm-actions button {
-      margin-top: 0;
+    .confirm-actions button { margin-top: 0; }
+
+    .system-log-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .system-log-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .system-log-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid #eef3f8;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .system-log-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .system-log-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .system-log-title-wrap { min-width: 0; }
+
+    .system-log-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .system-log-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .system-log-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .log-theme-success .system-log-icon-wrap { background: var(--green-soft); color: #137333; }
+    .log-theme-success .system-log-badge { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
+
+    .log-theme-warning .system-log-icon-wrap { background: var(--orange-soft); color: #b25a00; }
+    .log-theme-warning .system-log-badge { background: var(--orange-soft); color: #b25a00; border-color: #ffd7a6; }
+
+    .log-theme-duplicate .system-log-icon-wrap { background: #fef7e0; color: #8d6500; }
+    .log-theme-duplicate .system-log-badge { background: #fef7e0; color: #8d6500; border-color: #f1d68a; }
+
+    .log-theme-danger .system-log-icon-wrap { background: var(--red-soft); color: #a50e0e; }
+    .log-theme-danger .system-log-badge { background: var(--red-soft); color: #a50e0e; border-color: #efc4c1; }
+
+    .log-theme-bus .system-log-icon-wrap { background: var(--purple-soft); color: #6a1b9a; }
+    .log-theme-bus .system-log-badge { background: var(--purple-soft); color: #6a1b9a; border-color: #dec8f2; }
+
+    .log-theme-neutral .system-log-icon-wrap { background: #eef3fd; color: #355070; }
+    .log-theme-neutral .system-log-badge { background: #eef3fd; color: #355070; border-color: #dbe6f2; }
+
+    .system-log-body { padding: 12px 14px 14px; }
+
+    .system-log-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .system-log-item {
+      background: #f8fbff;
+      border: 1px solid #e7eef7;
+      border-radius: 12px;
+      padding: 9px 10px;
+    }
+
+    .system-log-item-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .system-log-item-value {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .system-log-footer {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .system-log-footer-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f3f7fd;
+      border: 1px solid #dfe8f4;
+      color: #36506c;
+      font-size: 12px;
+      font-weight: 800;
     }
 
     @media (max-width: 720px) {
@@ -870,7 +978,8 @@
       .status-action-grid,
       .operation-tabs,
       .kpi-grid,
-      .user-status-grid {
+      .user-status-grid,
+      .system-log-grid {
         grid-template-columns: 1fr;
       }
 
@@ -881,6 +990,8 @@
       .nav-btn { font-size: 11px; }
       .nav-badge { left: 10px; }
       .confirm-actions { grid-template-columns: 1fr; }
+      .system-log-head { align-items: flex-start; flex-direction: column; }
+      .system-log-badge { align-self: flex-start; }
     }
   </style>
 </head>
@@ -1363,7 +1474,9 @@
             </svg>
             <h3>سجل العمليات الأخيرة</h3>
           </div>
-          <div id="recentOperations" class="info-item">لا توجد بيانات بعد</div>
+          <div id="recentSystemOperations" class="system-log-list">
+            <div class="info-item">لا توجد بيانات بعد</div>
+          </div>
         </div>
       </section>
     </div>
@@ -1434,7 +1547,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx1unVAkr6KPWvjaMNtu7yKaOTb1omRVae9mwNr9N_I4mrgVKMGteiwJLEcAHiue4GVvQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwBQPMyk0ZkSYqtRC-C25RC3E2SYF7OF4aWqVuXvY0koWEV21BkL1Fn8nzEQn7wS-4RXw/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1444,25 +1557,13 @@
     let statusHideTimer = null;
     let currentScreen = 'register';
 
-    let session = {
-      token: '',
-      userName: '',
-      role: '',
-      loginAt: ''
-    };
-
+    let session = { token: '', userName: '', role: '', loginAt: '' };
     let currentBusInfo = null;
     let confirmResolver = null;
     let busyKeys = new Set();
 
-    function isBusy(key) {
-      return busyKeys.has(key);
-    }
-
-    function setBusy(key, state) {
-      if (state) busyKeys.add(key);
-      else busyKeys.delete(key);
-    }
+    function isBusy(key) { return busyKeys.has(key); }
+    function setBusy(key, state) { state ? busyKeys.add(key) : busyKeys.delete(key); }
 
     function setButtonBusy(id, busy, busyText = 'جارٍ التنفيذ...') {
       const btn = document.getElementById(id);
@@ -1562,9 +1663,7 @@
 
     function showScreen(name, pushHistory = true) {
       activateScreen(name);
-      if (pushHistory) {
-        history.pushState({ screen: name }, '', '#' + name);
-      }
+      if (pushHistory) history.pushState({ screen: name }, '', '#' + name);
     }
 
     function initializeNavigation() {
@@ -1585,7 +1684,6 @@
       document.querySelectorAll('.op-tab-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.opTab === tabName);
       });
-
       document.querySelectorAll('.op-panel').forEach(panel => panel.classList.remove('active'));
       document.getElementById('op-panel-' + tabName).classList.add('active');
     }
@@ -1623,10 +1721,7 @@
       const toast = document.getElementById('welcomeToast');
       toast.textContent = message;
       toast.classList.add('show');
-
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 2400);
+      setTimeout(() => toast.classList.remove('show'), 2400);
     }
 
     function normalizeDigits(text) {
@@ -1691,7 +1786,6 @@
           changeBusStatus: true
         }
       };
-
       return !!(permissions[role] && permissions[role][action]);
     }
 
@@ -1823,24 +1917,16 @@
       let cls = 'state-default';
 
       if (!currentBusInfo) {
-        if (session.userName) {
-          text = `المستخدم الحالي: ${session.userName} | الصلاحية: ${session.role}`;
-        }
+        if (session.userName) text = `المستخدم الحالي: ${session.userName} | الصلاحية: ${session.role}`;
       } else {
         const status = String(currentBusInfo.busStatus || '').trim() || 'غير محددة';
         const remaining = Number(currentBusInfo.remainingSeats || 0);
 
-        if (status === 'مفتوحة') {
-          text = `الحافلة مفتوحة للتسجيل | المقاعد المتبقية: ${remaining}`;
-        } else if (status === 'ممتلئة') {
-          text = 'الحافلة ممتلئة ولا تقبل التسجيل';
-        } else if (status === 'انطلقت') {
-          text = 'الحافلة انطلقت ولا تقبل التسجيل';
-        } else if (status === 'وصلت') {
-          text = 'الحافلة وصلت ولا تقبل التسجيل';
-        } else {
-          text = `حالة الحافلة: ${status}`;
-        }
+        if (status === 'مفتوحة') text = `الحافلة مفتوحة للتسجيل | المقاعد المتبقية: ${remaining}`;
+        else if (status === 'ممتلئة') text = 'الحافلة ممتلئة ولا تقبل التسجيل';
+        else if (status === 'انطلقت') text = 'الحافلة انطلقت ولا تقبل التسجيل';
+        else if (status === 'وصلت') text = 'الحافلة وصلت ولا تقبل التسجيل';
+        else text = `حالة الحافلة: ${status}`;
 
         cls = getStateBannerClass(status);
 
@@ -1943,7 +2029,6 @@
 
     async function bootstrap() {
       await loadLoginUsers();
-
       setTimeout(() => {
         document.getElementById('splashScreen').classList.add('hidden');
         document.getElementById('loginScreen').classList.remove('hidden');
@@ -1973,6 +2058,129 @@
         const busNumber = document.getElementById('busNumber').value.trim();
         if (!busNumber) clearBusUI();
       }
+
+      renderRecentSystemOperations(snapshot.recentSystemOperations || []);
+    }
+
+    function formatDateTime(value) {
+      if (!value) return '-';
+      const date = new Date(value);
+      if (isNaN(date.getTime())) return String(value);
+      return new Intl.DateTimeFormat('ar-SA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: 'numeric',
+        minute: '2-digit'
+      }).format(date);
+    }
+
+    function getLogIconSvg(type) {
+      if (type === 'boarding_success') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>`;
+      }
+      if (type === 'boarding_cancelled') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>`;
+      }
+      if (type === 'boarding_duplicate') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.29 3.86l-7 12.14A2 2 0 0 0 5 19h14a2 2 0 0 0 1.71-3l-7-12.14a2 2 0 0 0-3.42 0z"></path></svg>`;
+      }
+      if (type === 'boarding_missing') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6"></path><path d="M9 9l6 6"></path></svg>`;
+      }
+      if (type === 'bus_status_change') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-6"></path></svg>`;
+      }
+      return `<svg class="log-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect></svg>`;
+    }
+
+    function renderRecentSystemOperations(operations) {
+      const wrap = document.getElementById('recentSystemOperations');
+
+      if (!operations || operations.length === 0) {
+        wrap.innerHTML = `<div class="info-item">لا توجد بيانات بعد</div>`;
+        return;
+      }
+
+      wrap.innerHTML = operations.map(op => {
+        const themeClass = `log-theme-${escapeHtml(op.theme || 'neutral')}`;
+        const title = escapeHtml(op.title || 'عملية');
+        const timeText = escapeHtml(formatDateTime(op.timestamp));
+        const icon = getLogIconSvg(op.type || '');
+
+        let subtitle = '';
+        let gridItems = '';
+        let footerChips = '';
+
+        if (op.type === 'bus_status_change') {
+          subtitle = `الحافلة ${escapeHtml(op.busNumber || '-')}`;
+          gridItems = `
+            <div class="system-log-item">
+              <div class="system-log-item-label">رقم الحافلة</div>
+              <div class="system-log-item-value">${escapeHtml(op.busNumber || '-')}</div>
+            </div>
+            <div class="system-log-item">
+              <div class="system-log-item-label">تغيير الحالة</div>
+              <div class="system-log-item-value">${escapeHtml(op.fromStatus || '-')} ← ${escapeHtml(op.toStatus || '-')}</div>
+            </div>
+          `;
+          footerChips = `
+            <div class="system-log-footer-chip">المنفذ: ${escapeHtml(op.userName || '-')}</div>
+            <div class="system-log-footer-chip">الوقت: ${timeText}</div>
+          `;
+        } else {
+          subtitle = op.pilgrimName ? `الحاج: ${escapeHtml(op.pilgrimName)}` : 'سجل عملية';
+          gridItems = `
+            <div class="system-log-item">
+              <div class="system-log-item-label">رقم الهوية</div>
+              <div class="system-log-item-value">${escapeHtml(op.idValue || '-')}</div>
+            </div>
+            <div class="system-log-item">
+              <div class="system-log-item-label">رقم الحافلة</div>
+              <div class="system-log-item-value">${escapeHtml(op.busNumber || '-')}</div>
+            </div>
+            <div class="system-log-item">
+              <div class="system-log-item-label">رقم اللوحة</div>
+              <div class="system-log-item-value">${escapeHtml(op.plateNumber || '-')}</div>
+            </div>
+            <div class="system-log-item">
+              <div class="system-log-item-label">نوع الإثبات</div>
+              <div class="system-log-item-value">${escapeHtml(op.proofType || '-')}</div>
+            </div>
+          `;
+          footerChips = `
+            <div class="system-log-footer-chip">المنفذ: ${escapeHtml(op.userName || '-')}</div>
+            <div class="system-log-footer-chip">الوقت: ${timeText}</div>
+          `;
+        }
+
+        if (op.notes) {
+          footerChips += `<div class="system-log-footer-chip">ملاحظات: ${escapeHtml(op.notes)}</div>`;
+        }
+
+        return `
+          <div class="system-log-card ${themeClass}">
+            <div class="system-log-head">
+              <div class="system-log-left">
+                <div class="system-log-icon-wrap">${icon}</div>
+                <div class="system-log-title-wrap">
+                  <div class="system-log-title">${title}</div>
+                  <div class="system-log-subtitle">${subtitle}</div>
+                </div>
+              </div>
+              <div class="system-log-badge">${title}</div>
+            </div>
+            <div class="system-log-body">
+              <div class="system-log-grid">
+                ${gridItems}
+              </div>
+              <div class="system-log-footer">
+                ${footerChips}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     async function refreshSnapshot() {
@@ -2023,19 +2231,6 @@
       document.getElementById('liveRemainingSeats').innerText = remainingSeats;
       document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(status);
 
-      const recentBox = document.getElementById('recentOperations');
-      if (!result.recentOperations || result.recentOperations.length === 0) {
-        recentBox.innerHTML = 'لا توجد بيانات بعد';
-      } else {
-        recentBox.innerHTML = result.recentOperations.map(op => `
-          <div class="log-item">
-            <div><strong>${escapeHtml(op.pilgrimName || '-')}</strong></div>
-            <div>رقم الهوية: ${escapeHtml(op.idValue || '-')}</div>
-            <div>الحالة: ${escapeHtml(op.status || '-')}</div>
-          </div>
-        `).join('');
-      }
-
       applyPermissionUI();
       updateStateBanner();
     }
@@ -2054,7 +2249,6 @@
       document.getElementById('liveCapacity').innerText = '-';
       document.getElementById('liveRemainingSeats').innerText = '-';
       document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml('');
-      document.getElementById('recentOperations').innerHTML = 'لا توجد بيانات بعد';
 
       applyPermissionUI();
       updateStateBanner();
@@ -2481,7 +2675,7 @@
           <div><strong>آخر حالة عملية:</strong> ${escapeHtml(result.latestOperationStatus || '-')}</div>
           <div><strong>رقم الحافلة:</strong> ${escapeHtml(result.busNumber || '-')}</div>
           <div><strong>رقم اللوحة:</strong> ${escapeHtml(result.plateNumber || '-')}</div>
-          <div><strong>وقت آخر عملية:</strong> ${escapeHtml(result.timestamp || '-')}</div>
+          <div><strong>وقت آخر عملية:</strong> ${escapeHtml(formatDateTime(result.timestamp) || '-')}</div>
         `;
       } catch (e) {
         playErrorSound();
