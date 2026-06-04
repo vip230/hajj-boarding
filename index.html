@@ -364,7 +364,7 @@
     textarea { resize: vertical; min-height: 82px; }
 
     .bus-pill {
-      min-width: 72px;
+      min-width: 92px;
       border-radius: 999px;
       padding: 8px 12px;
       font-size: 13px;
@@ -375,7 +375,7 @@
       transition: all .18s ease;
     }
 
-    .bus-number-pill { background: var(--primary-soft); color: var(--primary-dark); border-color: #d6e4fb; }
+    .plate-pill { background: var(--primary-soft); color: var(--primary-dark); border-color: #d6e4fb; }
     .status-pill { background: #eef3fd; color: #355070; border-color: #dbe6f2; }
     .status-open { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
     .status-full { background: var(--red-soft); color: #a50e0e; border-color: #efc4c1; }
@@ -1073,18 +1073,13 @@
             <div class="bus-toolbar">
               <select id="busNumber" class="bus-select" onchange="onBusChanged()">
                 <option value="">اختر رقم الحافلة</option>
-                <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-                <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-                <option value="7">7</option><option value="8">8</option><option value="9">9</option>
-                <option value="10">10</option><option value="11">11</option><option value="12">12</option>
-                <option value="13">13</option><option value="14">14</option>
               </select>
 
-              <div class="bus-pill bus-number-pill" id="currentBusPill">—</div>
+              <div class="bus-pill plate-pill" id="currentPlatePill">لوحة: —</div>
               <div class="bus-pill status-pill" id="currentStatusPill">غير محددة</div>
             </div>
 
-            <div class="hint-line">اختر الحافلة أولًا قبل التسجيل أو تنفيذ العمليات.</div>
+            <div class="hint-line">يتم تحميل جميع الحافلات تلقائيًا من الشيت.</div>
           </div>
 
           <div class="topbar-box" id="sessionCard">
@@ -1547,7 +1542,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxMQYcRlsdIPKly_3aILhBfgI_PwK8xs7jmZo8A_S-jZD9x06saevANQ8uLRPzkJhmk6A/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwW2MrltZJdVbIp2qmADI3yTz0CVYihKtr2jXnC-EgmfVLOWM8hSz0GRZDnC1BIUYox9g/exec';
     const REQUIRED_ID_LENGTH = 10;
 
     let html5QrCode = null;
@@ -1561,6 +1556,7 @@
     let currentBusInfo = null;
     let confirmResolver = null;
     let busyKeys = new Set();
+    let availableBuses = [];
 
     function isBusy(key) { return busyKeys.has(key); }
     function setBusy(key, state) { state ? busyKeys.add(key) : busyKeys.delete(key); }
@@ -1610,6 +1606,12 @@
       else if (text === 'مغلقة') el.classList.add('status-closed');
 
       el.textContent = text;
+    }
+
+    function setTopPlatePill(plate) {
+      const el = document.getElementById('currentPlatePill');
+      const value = String(plate || '').trim() || '—';
+      el.textContent = 'لوحة: ' + value;
     }
 
     function getStatusChipHtml(status) {
@@ -1858,6 +1860,42 @@
       select.innerHTML = html;
     }
 
+    async function loadBusOptions(selectedValue = '') {
+      const select = document.getElementById('busNumber');
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getBusList', ...authPayload() })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          select.innerHTML = '<option value="">تعذر تحميل الحافلات</option>';
+          return;
+        }
+
+        availableBuses = result.buses || [];
+
+        let html = '<option value="">اختر رقم الحافلة</option>';
+        availableBuses.forEach(bus => {
+          const busNumber = escapeHtml(bus.busNumber || '');
+          const plateNumber = escapeHtml(bus.plateNumber || 'بدون لوحة');
+          html += `<option value="${busNumber}">حافلة ${busNumber} - ${plateNumber}</option>`;
+        });
+
+        select.innerHTML = html;
+
+        if (selectedValue && availableBuses.some(bus => String(bus.busNumber) === String(selectedValue))) {
+          select.value = selectedValue;
+        }
+      } catch (e) {
+        select.innerHTML = '<option value="">تعذر تحميل الحافلات</option>';
+      }
+    }
+
     function renderSessionInfo() {
       document.getElementById('currentUserName').innerText = session.userName || '-';
       document.getElementById('currentUserRole').innerText = session.role || '-';
@@ -1985,7 +2023,7 @@
 
         playSuccessSound();
         clearPinError();
-        enterApp();
+        await enterApp();
         showWelcomeToast(`أهلاً ${session.userName} — الصلاحية: ${session.role}`);
       } catch (e) {
         playErrorSound();
@@ -2009,6 +2047,7 @@
 
       session = { token: '', userName: '', role: '', loginAt: '' };
       currentBusInfo = null;
+      availableBuses = [];
       stopScanner();
       document.getElementById('appRoot').classList.add('hidden');
       document.getElementById('loginScreen').classList.remove('hidden');
@@ -2019,12 +2058,13 @@
       renderSessionInfo();
     }
 
-    function enterApp() {
+    async function enterApp() {
       document.getElementById('loginScreen').classList.add('hidden');
       document.getElementById('appRoot').classList.remove('hidden');
       renderSessionInfo();
       initializeNavigation();
-      refreshSnapshot();
+      await loadBusOptions();
+      await refreshSnapshot();
     }
 
     async function bootstrap() {
@@ -2036,8 +2076,8 @@
       }, 420);
     }
 
-    function onBusChanged() {
-      refreshSnapshot();
+    async function onBusChanged() {
+      await refreshSnapshot();
     }
 
     function applySnapshot(snapshot) {
@@ -2216,14 +2256,15 @@
       currentBusInfo = result;
 
       const busNumber = result.busNumber || '-';
+      const plateNumber = result.plateNumber || '-';
       const status = result.busStatus || '';
       const remainingSeats = result.remainingSeats ?? '-';
 
-      document.getElementById('currentBusPill').textContent = busNumber;
+      setTopPlatePill(plateNumber);
       setTopStatusPill(status);
 
       document.getElementById('liveBusNumber').innerText = busNumber;
-      document.getElementById('livePlateNumber').innerText = result.plateNumber || '-';
+      document.getElementById('livePlateNumber').innerText = plateNumber;
       document.getElementById('liveDriverName').innerText = result.driverName || '-';
       document.getElementById('liveModel').innerText = result.model || '-';
       document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
@@ -2238,7 +2279,7 @@
     function clearBusUI() {
       currentBusInfo = null;
 
-      document.getElementById('currentBusPill').textContent = '—';
+      setTopPlatePill('');
       setTopStatusPill('');
 
       document.getElementById('liveBusNumber').innerText = '-';
