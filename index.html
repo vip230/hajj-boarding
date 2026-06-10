@@ -1,935 +1,2741 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover" />
+  <title>تفويج الحجاج - شركة مشاعل النور</title>
 
-  <title>بحث تسكين الحجاج</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#0b57d0">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
+    :root {
+      --primary: #0b57d0;
+      --primary-dark: #0a4db8;
+      --primary-soft: #eef4ff;
+      --green: #0f9d58;
+      --green-soft: #e7f6ee;
+      --red: #d93025;
+      --red-soft: #fce8e6;
+      --purple: #7b1fa2;
+      --purple-soft: #f4ebfb;
+      --orange: #ef6c00;
+      --orange-soft: #fff1e6;
+      --gray: #5f6368;
+      --bg: #eef4fa;
+      --card: #ffffff;
+      --card-soft: #f8fbff;
+      --border: #dbe6f2;
+      --text: #17324b;
+      --muted: #6b7b8c;
+      --shadow-xs: 0 2px 8px rgba(10, 77, 184, 0.05);
+      --shadow-sm: 0 6px 18px rgba(10, 77, 184, 0.08);
+      --radius: 18px;
+      --nav-height: 82px;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
       margin: 0;
-      padding: 16px;
-      color: #222;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Cairo", Arial, sans-serif;
     }
+    body { padding-bottom: calc(var(--nav-height) + 26px); }
+    .hidden { display: none !important; }
 
-.app-cover {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 16px auto;
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-  background: #fff;
-}
-
-.app-cover img {
-  width: 100%;
-  display: block;
-  height: auto;
-}
-    .container {
-      max-width: 1100px;
-      margin: auto;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 16px;
-    }
-
-    .tabs {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
-    .tab-btn {
-      border: 0;
-      background: #fff;
-      padding: 12px;
-      border-radius: 12px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-
-    .tab-btn.active {
-      background: #0b6bcb;
-      color: #fff;
-    }
-
-    .box {
-      background: #fff;
-      padding: 16px;
-      border-radius: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      margin-bottom: 16px;
-    }
-
-    input,
-    select {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 14px;
-      font-size: 17px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      outline: none;
-      background: #fff;
-    }
-
-    input:focus,
-    select:focus {
-      border-color: #0b6bcb;
-    }
-
-    .hint {
-      font-size: 13px;
-      color: #666;
-      margin-top: 8px;
-    }
-
-    .status {
-      text-align: center;
-      color: #666;
-      margin: 12px 0;
-    }
-
-    .card {
-      background: #fff;
-      padding: 16px;
-      border-radius: 14px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      margin-bottom: 12px;
-    }
-
-    .name {
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: #0b6bcb;
-    }
-
-    .row {
+    #splashScreen,
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      z-index: 4000;
       display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      border-bottom: 1px solid #eee;
-      padding: 8px 0;
-    }
-
-    .label {
-      color: #666;
-      min-width: 120px;
-    }
-
-    .value {
-      font-weight: bold;
-      text-align: left;
-      direction: ltr;
-    }
-
-    .actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 14px;
-      flex-wrap: wrap;
-    }
-
-    .btn {
-      border: 0;
-      cursor: pointer;
-      text-align: center;
-      text-decoration: none;
-      padding: 12px;
-      border-radius: 10px;
-      color: #fff;
-      font-weight: bold;
-      display: inline-block;
-      min-width: 130px;
-      font-size: 14px;
-    }
-
-    .blue {
-      background: #0b6bcb;
-    }
-
-    .green {
-      background: #128c7e;
-    }
-
-    .gray {
-      background: #555;
-    }
-
-    .orange {
-      background: #d98200;
-    }
-
-    .empty {
-      text-align: center;
-      color: #777;
-      background: #fff;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #e8f3ff 0%, #eef4fa 48%, #e7eef7 100%);
       padding: 20px;
-      border-radius: 14px;
     }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .stat-card {
-      background: #fff;
-      padding: 18px;
-      border-radius: 14px;
-      text-align: center;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .stat-number {
-      font-size: 28px;
-      font-weight: bold;
-      color: #0b6bcb;
-    }
-
-    .stat-label {
-      margin-top: 8px;
-      color: #666;
-    }
-
-    table {
+    .splash-card,
+    .login-card {
       width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      border-radius: 12px;
+      max-width: 430px;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: 0 18px 50px rgba(11, 87, 208, 0.12);
       overflow: hidden;
-      margin-top: 12px;
+      animation: floatIn .28s ease;
     }
 
-    th,
-    td {
-      border: 1px solid #ddd;
-      padding: 9px;
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(8px) scale(.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .brand-top {
+      background: linear-gradient(180deg, #d8eefc 0%, #ecf7ff 100%);
+      padding: 18px;
       text-align: center;
-      font-size: 14px;
+      border-bottom: 1px solid #dce9f6;
     }
 
-    th {
-      background: #0b6bcb;
-      color: #fff;
-    }
-
-    .section {
-      display: none;
-    }
-
-    .section.active {
+    .brand-top img {
+      width: 100%;
+      max-height: 105px;
+      object-fit: contain;
       display: block;
     }
 
-    .report-title {
+    .splash-body,
+    .login-body {
+      padding: 22px 18px 20px;
       text-align: center;
-      margin: 6px 0;
     }
 
-    @media print {
-      body {
-        background: #fff;
-      }
-
-      .no-print,
-      .tabs,
-      h1 {
-        display: none !important;
-      }
-
-      .box,
-      .card {
-        box-shadow: none;
-        border: 0;
-      }
-
-      table {
-        font-size: 12px;
-      }
-
-      th {
-        background: #ddd !important;
-        color: #000 !important;
-      }
+    .app-name {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin: 0 0 6px;
     }
 
-    @media (max-width: 700px) {
-      body {
-        padding: 10px;
+    .app-sub {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0 0 16px;
+      line-height: 1.8;
+    }
+
+    .loader-bar {
+      height: 8px;
+      background: #e8eef7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .loader-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #0b57d0, #4a86e8);
+      animation: splashLoad 0.45s linear forwards;
+      transform-origin: right center;
+    }
+
+    @keyframes splashLoad {
+      from { transform: scaleX(0.1); }
+      to { transform: scaleX(1); }
+    }
+
+    .login-grid {
+      display: grid;
+      gap: 12px;
+      text-align: right;
+    }
+
+    .login-grid label {
+      margin: 0 0 6px;
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .login-grid select,
+    .login-grid input,
+    .login-grid button {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid #cfd8e3;
+      padding: 13px 14px;
+      font-size: 15px;
+      background: #fff;
+      font-family: inherit;
+      color: var(--text);
+    }
+
+    .login-grid button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--shadow-xs);
+      transition: transform .12s ease, opacity .12s ease;
+    }
+
+    .field-wrap { position: relative; }
+    .lock-head {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 8px;
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    .pin-row { position: relative; }
+
+    .pin-toggle {
+      position: absolute;
+      left: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: auto !important;
+      min-width: 42px;
+      padding: 8px 10px !important;
+      border-radius: 10px !important;
+      border: 1px solid #d4deea !important;
+      background: #f7faff !important;
+      color: var(--primary-dark) !important;
+      font-size: 12px !important;
+      font-weight: 800 !important;
+      box-shadow: none !important;
+      margin-top: 0 !important;
+    }
+
+    .error-text {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #b3261e;
+      font-weight: 800;
+      text-align: right;
+      min-height: 18px;
+    }
+
+    .input-error {
+      border-color: #d93025 !important;
+      box-shadow: 0 0 0 4px rgba(217,48,37,0.08);
+      background: #fff7f6 !important;
+    }
+
+    .shake { animation: shake .26s linear; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25% { transform: translateX(4px); }
+      50% { transform: translateX(-4px); }
+      75% { transform: translateX(3px); }
+    }
+
+    .login-note {
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+      text-align: center;
+    }
+
+    .welcome-toast {
+      position: fixed;
+      top: 14px;
+      left: 14px;
+      right: 14px;
+      z-index: 4500;
+      background: linear-gradient(180deg, #eef6ff 0%, #e4f0ff 100%);
+      border: 1px solid #cfe0fb;
+      color: var(--primary-dark);
+      border-radius: 16px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow-sm);
+      font-weight: 800;
+      display: none;
+    }
+
+    .welcome-toast.show {
+      display: block;
+      animation: welcomeIn .22s ease;
+    }
+
+    @keyframes welcomeIn {
+      from { opacity: 0; transform: translateY(-6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .app-shell {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0 12px 24px;
+    }
+
+    .hero {
+      margin: 0 -12px 10px;
+      border-bottom-left-radius: 22px;
+      border-bottom-right-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      background: #d7eefb;
+    }
+
+    .hero img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      max-height: 105px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 8px;
+      z-index: 100;
+      background: rgba(255,255,255,0.96);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(8px);
+      padding: 10px;
+      margin-bottom: 12px;
+    }
+
+    .topbar-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .topbar-box {
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      padding: 10px 12px;
+      min-height: 62px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .topbar-title-row,
+    .card-title-row,
+    .user-head {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      margin-bottom: 8px;
+      color: var(--primary-dark);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .mini-icon,
+    .btn-icon,
+    .card-title-icon,
+    .nav-icon,
+    .op-tab-icon,
+    .kpi-icon,
+    .confirm-icon,
+    .log-icon {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .mini-icon { width: 16px; height: 16px; }
+    .btn-icon, .card-title-icon, .kpi-icon, .log-icon { width: 18px; height: 18px; }
+    .nav-icon { width: 22px; height: 22px; }
+    .op-tab-icon { width: 16px; height: 16px; }
+    .confirm-icon { width: 26px; height: 26px; }
+
+    .bus-toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .bus-select, select, input, textarea, button {
+      width: 100%;
+      border-radius: 12px;
+      border: 1px solid #cfd8e3;
+      padding: 12px 14px;
+      font-size: 15px;
+      background: #fff;
+      font-family: inherit;
+      color: var(--text);
+    }
+
+    textarea { resize: vertical; min-height: 82px; }
+
+    .bus-pill {
+      min-width: 92px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      text-align: center;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      transition: all .18s ease;
+    }
+
+    .plate-pill { background: var(--primary-soft); color: var(--primary-dark); border-color: #d6e4fb; }
+    .status-pill { background: #eef3fd; color: #355070; border-color: #dbe6f2; }
+    .status-open { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
+    .status-full { background: var(--red-soft); color: #a50e0e; border-color: #efc4c1; }
+    .status-departed { background: var(--purple-soft); color: #6a1b9a; border-color: #dec8f2; }
+    .status-arrived { background: var(--orange-soft); color: #b25a00; border-color: #ffd7a6; }
+    .status-closed { background: #eceff1; color: #455a64; border-color: #d7dfe4; }
+
+    .mini-kpi {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      padding: 8px 10px;
+      text-align: center;
+      min-height: 44px;
+    }
+
+    .mini-kpi-label { font-size: 11px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+    .mini-kpi-value { font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.2; }
+    .hint-line, .hint, .section-subtitle, .section-note { color: var(--muted); line-height: 1.7; }
+    .hint-line { margin-top: 6px; font-size: 12px; }
+
+    .screen { display: none; animation: screenFade 0.18s ease; }
+    .screen.active { display: block; }
+
+    @keyframes screenFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 14px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      animation: cardPop .18s ease;
+    }
+
+    @keyframes cardPop {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .soft { background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%); }
+
+    .theme-register .section-title { color: var(--primary-dark); }
+    .theme-operations .section-title { color: var(--orange); }
+    .theme-buses .section-title { color: var(--green); }
+    .theme-reports .section-title { color: var(--purple); }
+
+    .theme-register { background: linear-gradient(180deg, #ffffff 0%, #f5f9ff 100%); border-color: #d6e4fb; }
+    .theme-operations { background: linear-gradient(180deg, #ffffff 0%, #fff8f2 100%); border-color: #ffe0c2; }
+    .theme-buses { background: linear-gradient(180deg, #ffffff 0%, #f4fbf7 100%); border-color: #d5ebdd; }
+    .theme-reports { background: linear-gradient(180deg, #ffffff 0%, #faf6ff 100%); border-color: #e6d8f7; }
+
+    .section-title {
+      font-size: 21px;
+      font-weight: 800;
+      margin: 0 0 4px;
+    }
+
+    h3 {
+      margin: 0;
+      color: var(--primary-dark);
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    label {
+      display: block;
+      margin: 8px 0 6px;
+      font-weight: 700;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .row, .info-grid, .screen-action-grid, .status-action-grid, .kpi-grid, .user-status-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .row, .info-grid, .screen-action-grid, .user-status-grid { grid-template-columns: 1fr 1fr; }
+    .status-action-grid { grid-template-columns: repeat(2, 1fr); }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+
+    .info-item {
+      background: var(--card-soft);
+      border: 1px solid #e3ebf5;
+      border-radius: 14px;
+      padding: 12px;
+      transition: all .18s ease;
+    }
+
+    .info-title { font-size: 12px; color: var(--muted); margin-bottom: 5px; font-weight: 700; }
+    .info-value { font-size: 18px; font-weight: 800; color: var(--text); word-break: break-word; line-height: 1.4; }
+
+    .user-status-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+      margin-top: 10px;
+    }
+
+    .state-banner {
+      margin-top: 10px;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 800;
+      border: 1px solid;
+      transition: all .18s ease;
+    }
+
+    .state-open { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
+    .state-full { background: var(--red-soft); color: #a50e0e; border-color: #efc4c1; }
+    .state-departed { background: var(--purple-soft); color: #6a1b9a; border-color: #dec8f2; }
+    .state-arrived { background: var(--orange-soft); color: #b25a00; border-color: #ffd7a6; }
+    .state-default { background: #eef3fd; color: #355070; border-color: #dbe6f2; }
+
+    button {
+      border: none;
+      color: #fff;
+      background: var(--primary);
+      cursor: pointer;
+      font-weight: 700;
+      margin-top: 10px;
+      box-shadow: var(--shadow-xs);
+      transition: transform 0.12s ease, opacity 0.12s ease, filter 0.12s ease;
+    }
+
+    button:active { transform: scale(.99); }
+
+    .btn-secondary { background: var(--gray); }
+    .btn-green { background: var(--green); }
+    .btn-red { background: var(--red); }
+    .btn-purple { background: var(--purple); }
+    .btn-orange { background: var(--orange); }
+
+    .btn-with-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .screen-action-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 12px;
+    }
+
+    .camera-status {
+      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .camera-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: #c9d4df;
+      box-shadow: 0 0 0 3px rgba(201,212,223,0.25);
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .camera-dot.live {
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(15,157,88,0.20);
+    }
+
+    #reader {
+      width: 100%;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 16px;
+      background: #fff;
+      min-height: 48px;
+    }
+
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 90px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .chip-open { background: var(--green-soft); color: #137333; border: 1px solid #b7dfc2; }
+    .chip-full { background: var(--red-soft); color: #a50e0e; border: 1px solid #efc4c1; }
+    .chip-departed { background: var(--purple-soft); color: #6a1b9a; border: 1px solid #dec8f2; }
+    .chip-arrived { background: var(--orange-soft); color: #b25a00; border: 1px solid #ffd7a6; }
+    .chip-closed { background: #eceff1; color: #455a64; border: 1px solid #d7dfe4; }
+    .chip-unknown { background: #eef3fd; color: #355070; border: 1px solid #dbe6f2; }
+
+    .kpi-card {
+      border-radius: 16px;
+      padding: 14px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-xs);
+      background: #fff;
+      transition: all .18s ease;
+    }
+
+    .kpi-blue { background: linear-gradient(180deg, #ffffff 0%, #f3f8ff 100%); border-color: #d6e4fb; }
+    .kpi-green { background: linear-gradient(180deg, #ffffff 0%, #f2fbf6 100%); border-color: #d5ebdd; }
+    .kpi-orange { background: linear-gradient(180deg, #ffffff 0%, #fff7f0 100%); border-color: #ffe0c2; }
+    .kpi-purple { background: linear-gradient(180deg, #ffffff 0%, #faf6ff 100%); border-color: #e6d8f7; }
+    .kpi-red { background: linear-gradient(180deg, #ffffff 0%, #fff5f4 100%); border-color: #efc4c1; }
+
+    .kpi-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .kpi-label { font-size: 12px; color: var(--muted); font-weight: 700; line-height: 1.5; }
+    .kpi-number { font-size: 30px; line-height: 1.1; font-weight: 800; color: var(--text); }
+
+    .operation-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .op-tab-btn {
+      background: #f3f7fd;
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+      margin-top: 0;
+      padding: 10px 8px;
+      font-size: 14px;
+      border-radius: 12px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: none;
+    }
+
+    .op-tab-btn.active {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .op-panel { display: none; }
+    .op-panel.active { display: block; animation: screenFade 0.15s ease; }
+
+    .disabled-control,
+    button:disabled,
+    select:disabled,
+    input:disabled,
+    textarea:disabled {
+      opacity: 0.55;
+      filter: grayscale(0.15);
+      cursor: not-allowed !important;
+      pointer-events: none;
+    }
+
+    .disabled-note {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      height: var(--nav-height);
+      background: rgba(255,255,255,0.98);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+      border-radius: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      z-index: 1500;
+      backdrop-filter: blur(8px);
+      overflow: hidden;
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0;
+      border-radius: 0;
+      padding: 8px 4px;
+      position: relative;
+      box-shadow: none;
+    }
+
+    .nav-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 18%;
+      left: 18%;
+      height: 3px;
+      border-bottom-left-radius: 999px;
+      border-bottom-right-radius: 999px;
+      background: transparent;
+      transition: background 0.18s ease;
+    }
+
+    .nav-btn.active .nav-icon { transform: translateY(-1px) scale(1.06); }
+    .nav-btn[data-screen="register"].active { background: linear-gradient(180deg, #eef4ff 0%, #e7f0ff 100%); color: var(--primary-dark); }
+    .nav-btn[data-screen="register"].active::before { background: var(--primary-dark); }
+    .nav-btn[data-screen="operations"].active { background: linear-gradient(180deg, #fff4ea 0%, #ffe9d2 100%); color: #b85b00; }
+    .nav-btn[data-screen="operations"].active::before { background: #b85b00; }
+    .nav-btn[data-screen="buses"].active { background: linear-gradient(180deg, #eefaf2 0%, #dff3e6 100%); color: #0d7e46; }
+    .nav-btn[data-screen="buses"].active::before { background: #0d7e46; }
+    .nav-btn[data-screen="reports"].active { background: linear-gradient(180deg, #f5edff 0%, #ebdcff 100%); color: #6d28a8; }
+    .nav-btn[data-screen="reports"].active::before { background: #6d28a8; }
+
+    .nav-badge {
+      position: absolute;
+      top: 7px;
+      left: 18px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      border-radius: 10px;
+      background: var(--green);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+
+    .nav-badge.show { display: inline-flex; }
+    .nav-badge.reports { background: var(--orange); }
+
+    #status {
+      position: fixed;
+      left: 12px;
+      right: 12px;
+      bottom: calc(var(--nav-height) + 14px);
+      z-index: 3000;
+      padding: 9px 12px 8px;
+      border-radius: 12px;
+      white-space: pre-line;
+      line-height: 1.5;
+      font-weight: 700;
+      font-size: 14px;
+      border: 1px solid transparent;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.14);
+      overflow: hidden;
+    }
+
+    .status-progress {
+      position: absolute;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      height: 2px;
+      background: rgba(255,255,255,0.22);
+      overflow: hidden;
+    }
+
+    .status-progress-bar {
+      height: 100%;
+      width: 100%;
+      transform-origin: right center;
+      animation: statusCountdown 2.2s linear forwards;
+      background: currentColor;
+      opacity: 0.28;
+    }
+
+    @keyframes statusCountdown {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+
+    .status-success { background: #e6f4ea; border-color: #34a853; color: #137333; }
+    .status-error { background: #fce8e6; border-color: #d93025; color: #a50e0e; }
+    .status-warning { background: #fef7e0; border-color: #f9ab00; color: #8d6500; }
+    .status-info { background: #e8f0fe; border-color: #1a73e8; color: #174ea6; }
+
+    #confirmModal {
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      background: rgba(23, 50, 75, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    .confirm-box {
+      width: 100%;
+      max-width: 420px;
+      background: #fff;
+      border-radius: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 50px rgba(0,0,0,0.16);
+      overflow: hidden;
+      animation: floatIn .18s ease;
+    }
+
+    .confirm-head {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(180deg, #f7fbff 0%, #eef5ff 100%);
+      border-bottom: 1px solid var(--border);
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 17px;
+    }
+
+    .confirm-body {
+      padding: 18px;
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--text);
+    }
+
+    .confirm-actions {
+      padding: 0 18px 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .confirm-actions button { margin-top: 0; }
+
+    .system-log-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .system-log-card {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .system-log-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid #eef3f8;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .system-log-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .system-log-icon-wrap {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .system-log-title-wrap { min-width: 0; }
+
+    .system-log-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .system-log-subtitle {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .system-log-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+
+    .log-theme-success .system-log-icon-wrap { background: var(--green-soft); color: #137333; }
+    .log-theme-success .system-log-badge { background: var(--green-soft); color: #137333; border-color: #b7dfc2; }
+
+    .log-theme-warning .system-log-icon-wrap { background: var(--orange-soft); color: #b25a00; }
+    .log-theme-warning .system-log-badge { background: var(--orange-soft); color: #b25a00; border-color: #ffd7a6; }
+
+    .log-theme-duplicate .system-log-icon-wrap { background: #fef7e0; color: #8d6500; }
+    .log-theme-duplicate .system-log-badge { background: #fef7e0; color: #8d6500; border-color: #f1d68a; }
+
+    .log-theme-danger .system-log-icon-wrap { background: var(--red-soft); color: #a50e0e; }
+    .log-theme-danger .system-log-badge { background: var(--red-soft); color: #a50e0e; border-color: #efc4c1; }
+
+    .log-theme-bus .system-log-icon-wrap { background: var(--purple-soft); color: #6a1b9a; }
+    .log-theme-bus .system-log-badge { background: var(--purple-soft); color: #6a1b9a; border-color: #dec8f2; }
+
+    .log-theme-neutral .system-log-icon-wrap { background: #eef3fd; color: #355070; }
+    .log-theme-neutral .system-log-badge { background: #eef3fd; color: #355070; border-color: #dbe6f2; }
+
+    .system-log-body { padding: 12px 14px 14px; }
+
+    .system-log-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .system-log-item {
+      background: #f8fbff;
+      border: 1px solid #e7eef7;
+      border-radius: 12px;
+      padding: 9px 10px;
+    }
+
+    .system-log-item-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .system-log-item-value {
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .system-log-footer {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .system-log-footer-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f3f7fd;
+      border: 1px solid #dfe8f4;
+      color: #36506c;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    @media (max-width: 720px) {
+      .topbar-grid,
+      .row,
+      .info-grid,
+      .screen-action-grid,
+      .status-action-grid,
+      .operation-tabs,
+      .kpi-grid,
+      .user-status-grid,
+      .system-log-grid {
+        grid-template-columns: 1fr;
       }
 
-      .tabs {
-        grid-template-columns: repeat(1, 1fr);
-      }
-
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .row {
-        display: block;
-      }
-
-      .value {
-        text-align: right;
-        margin-top: 4px;
-      }
-
-      .btn {
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      table {
-        font-size: 12px;
-      }
-
-      th,
-      td {
-        padding: 6px;
-      }
+      .topbar { position: static; }
+      .bus-toolbar { grid-template-columns: 1fr; }
+      .bottom-nav { left: 8px; right: 8px; bottom: 8px; }
+      .nav-icon { width: 21px; height: 21px; }
+      .nav-btn { font-size: 11px; }
+      .nav-badge { left: 10px; }
+      .confirm-actions { grid-template-columns: 1fr; }
+      .system-log-head { align-items: flex-start; flex-direction: column; }
+      .system-log-badge { align-self: flex-start; }
     }
   </style>
 </head>
-
 <body>
- <div class="app-cover">
-  <img src="cover.png" alt="غلاف شركة مشاعل النور">
-</div>
+  <div class="welcome-toast" id="welcomeToast"></div>
 
-<div class="container">
-  <h1>بحث تسكين الحجاج</h1>
-
-    <div class="tabs no-print">
-      <button class="tab-btn active" onclick="showSection('searchSection', this)">
-        بحث الحجاج
-      </button>
-
-      <button class="tab-btn" onclick="showSection('reportsSection', this); loadSupervisors();">
-        كشف حسب المشرف
-      </button>
-
-      <button class="tab-btn" onclick="showSection('statsSection', this); loadStats();">
-        الإحصائيات
-      </button>
+  <div id="splashScreen">
+    <div class="splash-card">
+      <div class="brand-top">
+        <img src="1447.png" alt="شركة مشاعل النور" />
+      </div>
+      <div class="splash-body">
+        <h1 class="app-name">نظام تفويج الحجاج</h1>
+        <p class="app-sub">شركة مشاعل النور لخدمات حجاج الداخل</p>
+        <div class="loader-bar"><div class="loader-fill"></div></div>
+      </div>
     </div>
+  </div>
 
-    <section id="searchSection" class="section active">
-      <div class="box no-print">
-        <input
-          id="searchInput"
-          type="text"
-          placeholder="اكتب اسم الحاج أو رقم الهوية"
-          oninput="handleSearch()"
-        >
-        <div class="hint">مثال: محمد، أحمد علي، أو رقم الهوية</div>
+  <div id="loginScreen" class="hidden">
+    <div class="login-card">
+      <div class="brand-top">
+        <img src="1447.png" alt="شركة مشاعل النور" />
+      </div>
+      <div class="login-body">
+        <div class="lock-head">
+          <svg class="mini-icon" viewBox="0 0 24 24">
+            <rect x="5" y="11" width="14" height="10" rx="2"></rect>
+            <path d="M8 11V8a4 4 0 1 1 8 0v3"></path>
+          </svg>
+          <span>تسجيل الدخول</span>
+        </div>
+
+        <p class="app-sub">اختر المستخدم ثم أدخل الرقم السري لتفعيل الصلاحيات</p>
+
+        <div class="login-grid">
+          <div class="field-wrap">
+            <label for="loginUser">المستخدم</label>
+            <select id="loginUser"></select>
+          </div>
+
+          <div class="field-wrap">
+            <label for="loginPin">الرقم السري</label>
+            <div class="pin-row">
+              <input type="password" id="loginPin" inputmode="numeric" placeholder="أدخل الرقم السري" />
+              <button type="button" class="pin-toggle" onclick="togglePinVisibility()">إظهار</button>
+            </div>
+            <div class="error-text" id="pinErrorText"></div>
+          </div>
+
+          <button id="loginBtn" onclick="login()">دخول</button>
+        </div>
+
+        <div class="login-note">كل مرة يتم فتح الرابط ستبدأ من شاشة الدخول حفاظًا على الأمان.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="appRoot" class="hidden">
+    <div class="app-shell">
+      <div class="hero">
+        <img src="1447.png" alt="شركة مشاعل النور" />
       </div>
 
-      <div id="searchStatus" class="status"></div>
+      <div class="topbar">
+        <div class="topbar-grid">
+          <div class="topbar-box">
+            <div class="topbar-title-row">
+              <svg class="mini-icon" viewBox="0 0 24 24">
+                <path d="M8 6V4h8v2"></path>
+                <rect x="4" y="6" width="16" height="11" rx="2"></rect>
+                <path d="M4 11h16"></path>
+                <circle cx="8" cy="18" r="1.5"></circle>
+                <circle cx="16" cy="18" r="1.5"></circle>
+              </svg>
+              <span>اختيار الحافلة الحالية</span>
+            </div>
 
-      <div id="searchResults">
-        <div class="empty">ابدأ بكتابة اسم الحاج أو رقم الهوية للبحث</div>
-      </div>
-    </section>
+            <div class="bus-toolbar">
+              <select id="busNumber" class="bus-select" onchange="onBusChanged()">
+                <option value="">اختر رقم الحافلة</option>
+              </select>
 
-    <section id="reportsSection" class="section">
-      <div class="box no-print">
-        <select id="supervisorSelect" onchange="loadSupervisorReport()">
-          <option value="">اختر المشرف</option>
-        </select>
+              <div class="bus-pill plate-pill" id="currentPlatePill">لوحة: —</div>
+              <div class="bus-pill status-pill" id="currentStatusPill">غير محددة</div>
+            </div>
 
-        <div class="actions">
-          <button class="btn blue" onclick="window.print()">طباعة / PDF</button>
-          <button class="btn green" onclick="exportReportToExcel()">تصدير Excel</button>
-          <button class="btn orange" onclick="createReportInSheet()">تحديث كشف المشرف في الشيت</button>
+            <div class="hint-line">يتم تحميل جميع الحافلات تلقائيًا من الشيت.</div>
+          </div>
+
+          <div class="topbar-box" id="sessionCard">
+            <div class="user-head">
+              <svg class="mini-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="7" r="4"></circle>
+                <path d="M20 21a8 8 0 0 0-16 0"></path>
+              </svg>
+              <span>الجلسة الحالية</span>
+            </div>
+
+            <div class="mini-kpi">
+              <div class="mini-kpi-label">المستخدم / الصلاحية</div>
+              <div class="mini-kpi-value" id="sessionUserInfo">-</div>
+            </div>
+
+            <button class="btn-secondary" style="margin-top:10px;" onclick="logout()">تسجيل الخروج</button>
+          </div>
         </div>
       </div>
 
-      <div id="reportArea">
-        <div class="empty">اختر مشرفًا لعرض الكشف</div>
-      </div>
-    </section>
+      <section id="screen-register" class="screen active">
+        <div class="card theme-register">
+          <div class="section-header">
+            <h2 class="section-title">التسجيل</h2>
+            <p class="section-subtitle">بيانات التشغيل وتشغيل الكاميرا وتسجيل صعود الحجاج</p>
+          </div>
+        </div>
 
-    <section id="statsSection" class="section">
-      <div id="statsArea">
-        <div class="empty">جاري تحميل الإحصائيات...</div>
+        <div class="card" id="registerFormCard">
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
+              <path d="M19 21H8a2 2 0 0 1-2-2V5"></path>
+              <path d="M16 3H8a2 2 0 0 0-2 2v14"></path>
+              <path d="M9 7h6"></path>
+              <path d="M9 11h6"></path>
+            </svg>
+            <h3>بيانات التشغيل</h3>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="proofType">نوع الإثبات</label>
+              <select id="proofType">
+                <option value="">اختر نوع الإثبات</option>
+                <option value="بطاقة الحملة">بطاقة الحملة</option>
+                <option value="بطاقة نسك">بطاقة نسك</option>
+                <option value="تصريح الحاج">تصريح الحاج</option>
+                <option value="إدخال يدوي">إدخال يدوي</option>
+              </select>
+            </div>
+
+            <div class="user-status-card">
+              <div class="user-head">
+                <svg class="mini-icon" viewBox="0 0 24 24">
+                  <circle cx="12" cy="7" r="4"></circle>
+                  <path d="M20 21a8 8 0 0 0-16 0"></path>
+                </svg>
+                <span>بيانات المستخدم الحالي</span>
+              </div>
+              <div class="user-status-grid">
+                <div class="info-item">
+                  <div class="info-title">اسم المستخدم</div>
+                  <div class="info-value" id="currentUserName">-</div>
+                </div>
+                <div class="info-item">
+                  <div class="info-title">الصلاحية</div>
+                  <div class="info-value" id="currentUserRole">-</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="notes">ملاحظات</label>
+            <textarea id="notes" placeholder="ملاحظات اختيارية"></textarea>
+          </div>
+
+          <div id="registerStateBanner" class="state-banner state-default">اختر الحافلة لبدء العمل</div>
+        </div>
+
+        <div class="card soft" id="scannerCard">
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
+              <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
+              <rect x="3" y="6" width="12" height="12" rx="2"></rect>
+            </svg>
+            <h3>المسح بالكاميرا</h3>
+          </div>
+
+          <div class="screen-action-grid">
+            <div class="screen-action-card">
+              <button class="btn-with-icon" id="startScannerBtn" onclick="startScanner()">
+                <svg class="btn-icon" viewBox="0 0 24 24">
+                  <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
+                  <rect x="3" y="6" width="12" height="12" rx="2"></rect>
+                </svg>
+                <span>تشغيل الكاميرا</span>
+              </button>
+            </div>
+
+            <div class="screen-action-card">
+              <button class="btn-secondary btn-with-icon" onclick="stopScanner()">
+                <svg class="btn-icon" viewBox="0 0 24 24">
+                  <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+                </svg>
+                <span>إيقاف الكاميرا</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="camera-status">
+            <span class="camera-dot" id="cameraDot"></span>
+            <span id="cameraStatusText">الكاميرا متوقفة</span>
+          </div>
+
+          <div class="hint">اختر رقم الحافلة من الأعلى ثم ابدأ توجيه الكاميرا نحو الباركود.</div>
+          <div id="reader"></div>
+        </div>
+      </section>
+
+      <section id="screen-operations" class="screen">
+        <div class="card theme-operations">
+          <div class="section-header">
+            <h2 class="section-title">العمليات</h2>
+            <p class="section-subtitle">إدخال يدوي وإلغاء الصعود والبحث السريع</p>
+          </div>
+        </div>
+
+        <div class="card" id="operationsDataCard">
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"></path>
+            </svg>
+            <h3>بيانات العمليات</h3>
+          </div>
+
+          <div class="row">
+            <div>
+              <label for="operationProofType">نوع الإثبات</label>
+              <select id="operationProofType">
+                <option value="">اختر نوع الإثبات</option>
+                <option value="بطاقة الحملة">بطاقة الحملة</option>
+                <option value="بطاقة نسك">بطاقة نسك</option>
+                <option value="تصريح الحاج">تصريح الحاج</option>
+                <option value="إدخال يدوي">إدخال يدوي</option>
+              </select>
+            </div>
+
+            <div>
+              <label>المستخدم الحالي</label>
+              <input type="text" id="operationUserPreview" disabled value="-" />
+            </div>
+          </div>
+
+          <div>
+            <label for="operationNotes">ملاحظات</label>
+            <textarea id="operationNotes" placeholder="ملاحظات اختيارية"></textarea>
+          </div>
+        </div>
+
+        <div class="card" id="operationsTabsCard">
+          <div class="operation-tabs">
+            <button class="op-tab-btn active" data-op-tab="manual" onclick="showOperationTab('manual')">
+              <svg class="op-tab-icon" viewBox="0 0 24 24">
+                <path d="M12 5v14"></path>
+                <path d="M5 12h14"></path>
+              </svg>
+              <span>إدخال يدوي</span>
+            </button>
+
+            <button class="op-tab-btn" data-op-tab="cancel" onclick="showOperationTab('cancel')">
+              <svg class="op-tab-icon" viewBox="0 0 24 24">
+                <path d="M18 6L6 18"></path>
+                <path d="M6 6l12 12"></path>
+              </svg>
+              <span>إلغاء الصعود</span>
+            </button>
+
+            <button class="op-tab-btn" data-op-tab="search" onclick="showOperationTab('search')">
+              <svg class="op-tab-icon" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+              </svg>
+              <span>البحث السريع</span>
+            </button>
+          </div>
+
+          <div class="op-panel active" id="op-panel-manual">
+            <div class="card-title-row">
+              <svg class="card-title-icon" viewBox="0 0 24 24">
+                <path d="M12 5v14"></path>
+                <path d="M5 12h14"></path>
+              </svg>
+              <h3>إدخال يدوي</h3>
+            </div>
+
+            <label for="manualId">رقم الهوية</label>
+            <input type="text" id="manualId" placeholder="اكتب رقم الهوية" />
+            <button class="btn-with-icon" id="manualBoardBtn" onclick="submitManualId()">
+              <svg class="btn-icon" viewBox="0 0 24 24">
+                <path d="M12 5v14"></path>
+                <path d="M5 12h14"></path>
+              </svg>
+              <span>تسجيل يدوي</span>
+            </button>
+            <div class="disabled-note" id="manualBoardNote"></div>
+          </div>
+
+          <div class="op-panel" id="op-panel-cancel">
+            <div class="card-title-row">
+              <svg class="card-title-icon" viewBox="0 0 24 24">
+                <path d="M18 6L6 18"></path>
+                <path d="M6 6l12 12"></path>
+              </svg>
+              <h3>إلغاء الصعود</h3>
+            </div>
+
+            <label for="cancelId">رقم الهوية</label>
+            <input type="text" id="cancelId" placeholder="اكتب رقم الهوية المراد إلغاء صعوده" />
+            <button class="btn-red btn-with-icon" id="cancelBoardingBtn" onclick="cancelBoarding()">
+              <svg class="btn-icon" viewBox="0 0 24 24">
+                <path d="M18 6L6 18"></path>
+                <path d="M6 6l12 12"></path>
+              </svg>
+              <span>إلغاء الصعود</span>
+            </button>
+            <div class="disabled-note" id="cancelBoardingNote"></div>
+          </div>
+
+          <div class="op-panel" id="op-panel-search">
+            <div class="card-title-row">
+              <svg class="card-title-icon" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+              </svg>
+              <h3>البحث السريع</h3>
+            </div>
+
+            <label for="searchId">رقم الهوية</label>
+            <input type="text" id="searchId" placeholder="اكتب رقم الهوية للبحث" />
+            <button class="btn-with-icon" id="searchPilgrimBtn" onclick="searchPilgrim()">
+              <svg class="btn-icon" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M21 21l-4.35-4.35"></path>
+              </svg>
+              <span>بحث</span>
+            </button>
+            <div class="disabled-note" id="searchPilgrimNote"></div>
+            <div id="searchResult" class="info-item" style="margin-top:12px;">لا توجد نتيجة بعد</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="screen-buses" class="screen">
+        <div class="card theme-buses">
+          <div class="section-header">
+            <h2 class="section-title">الحافلات</h2>
+            <p class="section-subtitle">معلومات الحافلة الحالية وتغيير الحالة وتجهيز المنفست</p>
+          </div>
+        </div>
+
+        <div class="card" id="busInfoCard">
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
+              <path d="M8 6V4h8v2"></path>
+              <rect x="4" y="6" width="16" height="11" rx="2"></rect>
+              <path d="M4 11h16"></path>
+              <circle cx="8" cy="18" r="1.5"></circle>
+              <circle cx="16" cy="18" r="1.5"></circle>
+            </svg>
+            <h3>معلومات الحافلة الحالية</h3>
+          </div>
+
+          <div class="info-grid">
+            <div class="info-item"><div class="info-title">رقم الحافلة</div><div class="info-value" id="liveBusNumber">-</div></div>
+            <div class="info-item"><div class="info-title">رقم اللوحة</div><div class="info-value" id="livePlateNumber">-</div></div>
+            <div class="info-item"><div class="info-title">اسم السائق</div><div class="info-value" id="liveDriverName">-</div></div>
+            <div class="info-item"><div class="info-title">موديل الحافلة</div><div class="info-value" id="liveModel">-</div></div>
+            <div class="info-item"><div class="info-title">العدد الحالي</div><div class="info-value" id="liveCurrentCount">-</div></div>
+            <div class="info-item"><div class="info-title">السعة</div><div class="info-value" id="liveCapacity">-</div></div>
+            <div class="info-item"><div class="info-title">المقاعد المتبقية</div><div class="info-value" id="liveRemainingSeats">-</div></div>
+            <div class="info-item"><div class="info-title">حالة الحافلة</div><div class="info-value" id="liveBusStatusColored"><span class="status-chip chip-unknown">غير محددة</span></div></div>
+          </div>
+        </div>
+
+        <div class="card" id="busStatusCard">
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
+              <path d="M12 20V10"></path>
+              <path d="M18 20V4"></path>
+              <path d="M6 20v-6"></path>
+            </svg>
+            <h3>تغيير حالة الحافلة</h3>
+          </div>
+
+          <div class="status-action-grid">
+            <button class="btn-green btn-with-icon" id="openBusBtn" onclick="requestBusStatusChange('مفتوحة')">
+              <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>فتح الحافلة</span>
+            </button>
+
+            <button class="btn-red btn-with-icon" id="fullBusBtn" onclick="requestBusStatusChange('ممتلئة')">
+              <svg class="btn-icon" viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
+              <span>تعيين ممتلئة</span>
+            </button>
+
+            <button class="btn-purple btn-with-icon" id="departedBusBtn" onclick="requestBusStatusChange('انطلقت')">
+              <svg class="btn-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg>
+              <span>إعلان انطلقت</span>
+            </button>
+
+            <button class="btn-orange btn-with-icon" id="arrivedBusBtn" onclick="requestBusStatusChange('وصلت')">
+              <svg class="btn-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+              <span>إعلان وصلت</span>
+            </button>
+          </div>
+
+          <div class="disabled-note" id="busStatusPermissionNote"></div>
+          <div class="disabled-note" id="openBusCapacityNote"></div>
+        </div>
+
+        <div class="card" id="busActionsCard">
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
+              <path d="M8 6h8"></path>
+              <path d="M8 10h8"></path>
+              <path d="M8 14h5"></path>
+              <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+            </svg>
+            <h3>إجراءات الحافلة</h3>
+          </div>
+
+          <div class="screen-action-grid">
+            <div class="screen-action-card" style="grid-column: 1 / -1;">
+              <button class="btn-green btn-with-icon" id="manifestBtn" onclick="requestGenerateManifest()">
+                <svg class="btn-icon" viewBox="0 0 24 24">
+                  <path d="M8 6h8"></path>
+                  <path d="M8 10h8"></path>
+                  <path d="M8 14h5"></path>
+                  <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+                </svg>
+                <span>تجهيز المنفست</span>
+              </button>
+            </div>
+          </div>
+          <div class="disabled-note" id="manifestPermissionNote"></div>
+        </div>
+      </section>
+
+      <section id="screen-reports" class="screen">
+        <div class="card theme-reports">
+          <div class="section-header">
+            <h2 class="section-title">التقارير</h2>
+            <p class="section-subtitle">المؤشرات المباشرة وسجل العمليات الأخيرة</p>
+          </div>
+        </div>
+
+        <div class="card" id="reportsStatsCard">
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
+              <path d="M4 20V10"></path>
+              <path d="M10 20V4"></path>
+              <path d="M16 20v-7"></path>
+              <path d="M22 20V8"></path>
+            </svg>
+            <h3>لوحة التقارير المباشرة</h3>
+          </div>
+
+          <div class="kpi-grid">
+            <div class="kpi-card kpi-green"><div class="kpi-top"><div class="kpi-label">الحافلات المفتوحة للصعود</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M8 6V4h8v2"></path><rect x="4" y="6" width="16" height="11" rx="2"></rect></svg></div><div class="kpi-number" id="statsOpenBuses">-</div></div>
+            <div class="kpi-card kpi-purple"><div class="kpi-top"><div class="kpi-label">الحافلات التي انطلقت</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M5 12h12"></path><path d="M13 6l6 6-6 6"></path></svg></div><div class="kpi-number" id="statsDepartedBuses">-</div></div>
+            <div class="kpi-card kpi-orange"><div class="kpi-top"><div class="kpi-label">الحافلات الباقية</div><svg class="kpi-icon" viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="11" rx="2"></rect><path d="M4 11h16"></path></svg></div><div class="kpi-number" id="statsRemainingBuses">-</div></div>
+            <div class="kpi-card kpi-blue"><div class="kpi-top"><div class="kpi-label">الحجاج الذين صعدوا</div><svg class="kpi-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg></div><div class="kpi-number" id="statsBoardedCount">-</div></div>
+            <div class="kpi-card kpi-red" style="grid-column:1 / -1;"><div class="kpi-top"><div class="kpi-label">الحجاج المتبقين</div><svg class="kpi-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6"></path><path d="M9 9l6 6"></path></svg></div><div class="kpi-number" id="statsRemainingCount">-</div></div>
+          </div>
+        </div>
+
+        <div class="card" id="reportsLogCard">
+          <div class="card-title-row">
+            <svg class="card-title-icon" viewBox="0 0 24 24">
+              <path d="M8 6h8"></path>
+              <path d="M8 10h8"></path>
+              <path d="M8 14h5"></path>
+              <rect x="5" y="3" width="14" height="18" rx="2"></rect>
+            </svg>
+            <h3>سجل العمليات الأخيرة</h3>
+          </div>
+          <div id="recentSystemOperations" class="system-log-list">
+            <div class="info-item">لا توجد بيانات بعد</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" data-screen="register" onclick="showScreen('register')">
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"></path>
+          <rect x="3" y="6" width="12" height="12" rx="2"></rect>
+        </svg>
+        <span>التسجيل</span>
+      </button>
+
+      <button class="nav-btn" data-screen="operations" onclick="showScreen('operations')">
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"></path>
+        </svg>
+        <span>العمليات</span>
+      </button>
+
+      <button class="nav-btn" data-screen="buses" onclick="showScreen('buses')">
+        <span class="nav-badge" id="busesBadge">0</span>
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <path d="M8 6V4h8v2"></path>
+          <rect x="4" y="6" width="16" height="11" rx="2"></rect>
+          <path d="M4 11h16"></path>
+          <circle cx="8" cy="18" r="1.5"></circle>
+          <circle cx="16" cy="18" r="1.5"></circle>
+        </svg>
+        <span>الحافلات</span>
+      </button>
+
+      <button class="nav-btn" data-screen="reports" onclick="showScreen('reports')">
+        <span class="nav-badge reports" id="reportsBadge">0</span>
+        <svg class="nav-icon" viewBox="0 0 24 24">
+          <path d="M4 20V10"></path>
+          <path d="M10 20V4"></path>
+          <path d="M16 20v-7"></path>
+          <path d="M22 20V8"></path>
+        </svg>
+        <span>التقارير</span>
+      </button>
+    </nav>
+  </div>
+
+  <div id="status" class="status-info hidden">
+    <div id="statusText">الحالة: جاهز</div>
+    <div class="status-progress"><div class="status-progress-bar" id="statusProgressBar"></div></div>
+  </div>
+
+  <div id="confirmModal" class="hidden">
+    <div class="confirm-box">
+      <div class="confirm-head">
+        <svg class="confirm-icon" viewBox="0 0 24 24">
+          <path d="M12 9v4"></path>
+          <path d="M12 17h.01"></path>
+          <path d="M10.29 3.86l-7 12.14A2 2 0 0 0 5 19h14a2 2 0 0 0 1.71-3l-7-12.14a2 2 0 0 0-3.42 0z"></path>
+        </svg>
+        <span id="confirmTitle">تأكيد العملية</span>
       </div>
-    </section>
+      <div class="confirm-body" id="confirmMessage">هل تريد المتابعة؟</div>
+      <div class="confirm-actions">
+        <button class="btn-secondary" onclick="closeConfirm(false)">إلغاء</button>
+        <button onclick="closeConfirm(true)">تأكيد</button>
+      </div>
+    </div>
   </div>
 
   <script>
-    const API_URL = 'https://script.google.com/macros/s/AKfycbyZXm6W0192M3fekyc6U6lO_iU9sBYz86V8mCYfaPCWC8xVitLtT25ILpXAb0rGvQ3neQ/exec';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwbST8U468DGcX8xfmcplZ-FcyhROiN-obDYyfU1AwT359M3r5TZ4NWifvXLpLGTWXwdg/exec';
+    const REQUIRED_ID_LENGTH = 10;
 
-    let searchTimer = null;
-    let currentReportRows = [];
-    let currentReportSupervisor = '';
+    let html5QrCode = null;
+    let isSaving = false;
+    let lastScannedValue = '';
+    let lastScannedAt = 0;
+    let statusHideTimer = null;
+    let currentScreen = 'register';
 
-    function jsonp(params, successHandler, errorHandler) {
-      const callbackName =
-        'callback_' + Date.now() + '_' + Math.floor(Math.random() * 100000);
+    let session = { token: '', userName: '', role: '', loginAt: '' };
+    let currentBusInfo = null;
+    let confirmResolver = null;
+    let busyKeys = new Set();
+    let availableBuses = [];
 
-      const script = document.createElement('script');
+    function isBusy(key) { return busyKeys.has(key); }
+    function setBusy(key, state) { state ? busyKeys.add(key) : busyKeys.delete(key); }
 
-      window[callbackName] = function(response) {
-        successHandler(response);
-        delete window[callbackName];
-
-        if (script && script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-      };
-
-      const query = Object.keys(params)
-        .map(function(key) {
-          return encodeURIComponent(key) + '=' + encodeURIComponent(params[key]);
-        })
-        .join('&');
-
-      script.src = API_URL + '?' + query + '&callback=' + callbackName;
-
-      script.onerror = function() {
-        delete window[callbackName];
-
-        if (script && script.parentNode) {
-          script.parentNode.removeChild(script);
-        }
-
-        if (errorHandler) {
-          errorHandler();
-        }
-      };
-
-      document.body.appendChild(script);
+    function setButtonBusy(id, busy, busyText = 'جارٍ التنفيذ...') {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      if (busy) {
+        btn.dataset.originalText = btn.innerHTML;
+        btn.innerHTML = `<span>${busyText}</span>`;
+        btn.disabled = true;
+        btn.classList.add('disabled-control');
+      } else {
+        if (btn.dataset.originalText) btn.innerHTML = btn.dataset.originalText;
+        btn.disabled = false;
+        btn.classList.remove('disabled-control');
+      }
     }
 
-    function showSection(sectionId, button) {
-      document.querySelectorAll('.section').forEach(function(section) {
-        section.classList.remove('active');
-      });
-
-      document.getElementById(sectionId).classList.add('active');
-
-      document.querySelectorAll('.tab-btn').forEach(function(btn) {
-        btn.classList.remove('active');
-      });
-
-      button.classList.add('active');
+    function hideAllScreens() {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
     }
 
-    function handleSearch() {
-      clearTimeout(searchTimer);
+    function updateBottomNav(name) {
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.screen === name);
+      });
+    }
 
-      const query = document.getElementById('searchInput').value.trim();
-      const status = document.getElementById('searchStatus');
-      const results = document.getElementById('searchResults');
+    function updateCameraUI(isLive) {
+      const dot = document.getElementById('cameraDot');
+      const text = document.getElementById('cameraStatusText');
+      dot.classList.toggle('live', !!isLive);
+      text.textContent = isLive ? 'الكاميرا تعمل الآن' : 'الكاميرا متوقفة';
+    }
 
-      if (query.length < 2) {
-        status.textContent = '';
-        results.innerHTML =
-          '<div class="empty">اكتب حرفين على الأقل أو رقم الهوية للبحث</div>';
+    function setTopStatusPill(statusText) {
+      const el = document.getElementById('currentStatusPill');
+      const text = String(statusText || '').trim() || 'غير محددة';
+
+      el.className = 'bus-pill status-pill';
+
+      if (text === 'مفتوحة') el.classList.add('status-open');
+      else if (text === 'ممتلئة') el.classList.add('status-full');
+      else if (text === 'انطلقت') el.classList.add('status-departed');
+      else if (text === 'وصلت') el.classList.add('status-arrived');
+      else if (text === 'مغلقة') el.classList.add('status-closed');
+
+      el.textContent = text;
+    }
+
+    function setTopPlatePill(plate) {
+      const el = document.getElementById('currentPlatePill');
+      const value = String(plate || '').trim() || '—';
+      el.textContent = 'لوحة: ' + value;
+    }
+
+    function getStatusChipHtml(status) {
+      const text = String(status || '').trim();
+      if (text === 'مفتوحة') return '<span class="status-chip chip-open">مفتوحة</span>';
+      if (text === 'ممتلئة') return '<span class="status-chip chip-full">ممتلئة</span>';
+      if (text === 'انطلقت') return '<span class="status-chip chip-departed">انطلقت</span>';
+      if (text === 'وصلت') return '<span class="status-chip chip-arrived">وصلت</span>';
+      if (text === 'مغلقة') return '<span class="status-chip chip-closed">مغلقة</span>';
+      return '<span class="status-chip chip-unknown">' + (text || 'غير محددة') + '</span>';
+    }
+
+    function getStateBannerClass(status) {
+      const s = String(status || '').trim();
+      if (s === 'مفتوحة') return 'state-open';
+      if (s === 'ممتلئة') return 'state-full';
+      if (s === 'انطلقت') return 'state-departed';
+      if (s === 'وصلت') return 'state-arrived';
+      return 'state-default';
+    }
+
+    function escapeHtml(text) {
+      return String(text || '')
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function updateNavBadgesFromStats(result) {
+      const busesBadge = document.getElementById('busesBadge');
+      const reportsBadge = document.getElementById('reportsBadge');
+
+      const openBuses = Number(result.openBusesCount || 0);
+      const departedBuses = Number(result.departedBusesCount || 0);
+
+      busesBadge.textContent = openBuses;
+      reportsBadge.textContent = departedBuses;
+
+      busesBadge.classList.toggle('show', openBuses > 0);
+      reportsBadge.classList.toggle('show', departedBuses > 0);
+    }
+
+    function activateScreen(name) {
+      hideAllScreens();
+      document.getElementById(`screen-${name}`).classList.add('active');
+      currentScreen = name;
+      updateBottomNav(name);
+    }
+
+    function showScreen(name, pushHistory = true) {
+      activateScreen(name);
+      if (pushHistory) history.pushState({ screen: name }, '', '#' + name);
+    }
+
+    function initializeNavigation() {
+      const initialHash = (location.hash || '').replace('#', '').trim();
+      const validScreens = ['register', 'operations', 'buses', 'reports'];
+      const startScreen = validScreens.includes(initialHash) ? initialHash : 'register';
+
+      history.replaceState({ screen: startScreen }, '', '#' + startScreen);
+      activateScreen(startScreen);
+
+      window.addEventListener('popstate', (event) => {
+        const stateScreen = event.state && event.state.screen ? event.state.screen : 'register';
+        activateScreen(stateScreen);
+      });
+    }
+
+    function showOperationTab(tabName) {
+      document.querySelectorAll('.op-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.opTab === tabName);
+      });
+      document.querySelectorAll('.op-panel').forEach(panel => panel.classList.remove('active'));
+      document.getElementById('op-panel-' + tabName).classList.add('active');
+    }
+
+    function resetStatusProgressBar() {
+      const oldBar = document.getElementById('statusProgressBar');
+      if (!oldBar) return;
+      const newBar = oldBar.cloneNode(true);
+      oldBar.parentNode.replaceChild(newBar, oldBar);
+    }
+
+    function setStatus(msg, type = 'info') {
+      const box = document.getElementById('status');
+      const text = document.getElementById('statusText');
+
+      if (statusHideTimer) clearTimeout(statusHideTimer);
+
+      box.classList.remove('hidden');
+      text.innerText = 'الحالة: ' + msg;
+      box.classList.remove('status-success', 'status-error', 'status-warning', 'status-info');
+
+      if (type === 'success') box.classList.add('status-success');
+      else if (type === 'error') box.classList.add('status-error');
+      else if (type === 'warning') box.classList.add('status-warning');
+      else box.classList.add('status-info');
+
+      resetStatusProgressBar();
+
+      statusHideTimer = setTimeout(() => {
+        box.classList.add('hidden');
+      }, 2200);
+    }
+
+    function showWelcomeToast(message) {
+      const toast = document.getElementById('welcomeToast');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2400);
+    }
+
+    function normalizeDigits(text) {
+      const arabicNums = '٠١٢٣٤٥٦٧٨٩';
+      return String(text || '').replace(/[٠-٩]/g, d => String(arabicNums.indexOf(d)));
+    }
+
+    function extractId(rawText) {
+      const text = normalizeDigits(String(rawText)).trim();
+      if (/^\d+$/.test(text)) return text;
+      const match = text.match(/\d{6,}/);
+      return match ? match[0] : text;
+    }
+
+    function playTone(freq, duration = 0.16) {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const audioContext = new AudioCtx();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.22, audioContext.currentTime);
+
+        oscillator.start();
+        oscillator.stop(audioContext.currentTime + duration);
+      } catch (e) {}
+    }
+
+    function playSuccessSound() { playTone(950, 0.16); }
+    function playErrorSound() { playTone(300, 0.20); }
+    function playWarningSound() { playTone(550, 0.18); }
+
+    function authPayload() {
+      return { sessionToken: session.token || '' };
+    }
+
+    function can(role, action) {
+      const permissions = {
+        'مسجل': {
+          boardPilgrim: true,
+          cancelBoarding: true,
+          searchPilgrim: true,
+          generateManifest: false,
+          changeBusStatus: false
+        },
+        'مشرف': {
+          boardPilgrim: true,
+          cancelBoarding: true,
+          searchPilgrim: true,
+          generateManifest: true,
+          changeBusStatus: true
+        },
+        'مدير': {
+          boardPilgrim: true,
+          cancelBoarding: true,
+          searchPilgrim: true,
+          generateManifest: true,
+          changeBusStatus: true
+        }
+      };
+      return !!(permissions[role] && permissions[role][action]);
+    }
+
+    function clearPinError() {
+      const pinInput = document.getElementById('loginPin');
+      const errorBox = document.getElementById('pinErrorText');
+      pinInput.classList.remove('input-error', 'shake');
+      errorBox.textContent = '';
+    }
+
+    function showPinError(message) {
+      const pinInput = document.getElementById('loginPin');
+      const errorBox = document.getElementById('pinErrorText');
+      errorBox.textContent = message;
+      pinInput.classList.remove('shake');
+      void pinInput.offsetWidth;
+      pinInput.classList.add('input-error', 'shake');
+      pinInput.value = '';
+      pinInput.focus();
+    }
+
+    function togglePinVisibility() {
+      const input = document.getElementById('loginPin');
+      const btn = document.querySelector('.pin-toggle');
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = 'إخفاء';
+      } else {
+        input.type = 'password';
+        btn.textContent = 'إظهار';
+      }
+    }
+
+    function openConfirm(message, title = 'تأكيد العملية') {
+      return new Promise((resolve) => {
+        confirmResolver = resolve;
+        document.getElementById('confirmTitle').textContent = title;
+        document.getElementById('confirmMessage').textContent = message;
+        document.getElementById('confirmModal').classList.remove('hidden');
+      });
+    }
+
+    function closeConfirm(result) {
+      document.getElementById('confirmModal').classList.add('hidden');
+      if (confirmResolver) {
+        confirmResolver(result);
+        confirmResolver = null;
+      }
+    }
+
+    async function loadLoginUsers() {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'getLoginUsers' })
+      });
+
+      const result = await response.json();
+      const select = document.getElementById('loginUser');
+
+      if (!result.success) {
+        select.innerHTML = '<option value="">تعذر تحميل المستخدمين</option>';
         return;
       }
 
-      status.textContent = 'جاري البحث...';
+      let html = '<option value="">اختر المستخدم</option>';
+      result.users.forEach(user => {
+        html += `<option value="${escapeHtml(user.name)}">${escapeHtml(user.name)} - ${escapeHtml(user.role)}</option>`;
+      });
+      select.innerHTML = html;
+    }
 
-      searchTimer = setTimeout(function() {
-        jsonp(
-          {
-            action: 'search',
-            q: query
-          },
-          showSearchResults,
-          function() {
-            status.textContent = '';
-            results.innerHTML =
-              '<div class="empty">تعذر الاتصال بخدمة البحث</div>';
+    async function loadBusOptions(selectedValue = '') {
+      const select = document.getElementById('busNumber');
+
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getBusList', ...authPayload() })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          select.innerHTML = '<option value="">تعذر تحميل الحافلات</option>';
+          return;
+        }
+
+        availableBuses = result.buses || [];
+
+        let html = '<option value="">اختر رقم الحافلة</option>';
+        availableBuses.forEach(bus => {
+          const busNumber = escapeHtml(bus.busNumber || '');
+          const plateNumber = escapeHtml(bus.plateNumber || 'بدون لوحة');
+          html += `<option value="${busNumber}">حافلة ${busNumber} - ${plateNumber}</option>`;
+        });
+
+        select.innerHTML = html;
+
+        if (selectedValue && availableBuses.some(bus => String(bus.busNumber) === String(selectedValue))) {
+          select.value = selectedValue;
+        }
+      } catch (e) {
+        select.innerHTML = '<option value="">تعذر تحميل الحافلات</option>';
+      }
+    }
+
+    function renderSessionInfo() {
+      document.getElementById('currentUserName').innerText = session.userName || '-';
+      document.getElementById('currentUserRole').innerText = session.role || '-';
+      document.getElementById('operationUserPreview').value = session.userName ? `${session.userName} - ${session.role}` : '-';
+      document.getElementById('sessionUserInfo').innerText = session.userName ? `${session.userName} / ${session.role}` : '-';
+      applyPermissionUI();
+    }
+
+    function setControlState(el, enabled, noteEl, noteText = '') {
+      if (!el) return;
+      el.disabled = !enabled;
+      el.classList.toggle('disabled-control', !enabled);
+      if (noteEl) noteEl.textContent = enabled ? '' : noteText;
+    }
+
+    function getCanOpenBus() {
+      if (!currentBusInfo) return true;
+      const status = String(currentBusInfo.busStatus || '').trim();
+      const remaining = Number(currentBusInfo.remainingSeats || 0);
+      if (status === 'ممتلئة' && remaining <= 0) return false;
+      return true;
+    }
+
+    function applyPermissionUI() {
+      const role = session.role || '';
+
+      setControlState(document.getElementById('startScannerBtn'), can(role, 'boardPilgrim'), null);
+      setControlState(document.getElementById('manualBoardBtn'), can(role, 'boardPilgrim'), document.getElementById('manualBoardNote'), 'هذه العملية غير متاحة لهذا المستخدم');
+      setControlState(document.getElementById('cancelBoardingBtn'), can(role, 'cancelBoarding'), document.getElementById('cancelBoardingNote'), 'هذه العملية غير متاحة لهذا المستخدم');
+      setControlState(document.getElementById('searchPilgrimBtn'), can(role, 'searchPilgrim'), document.getElementById('searchPilgrimNote'), 'هذه العملية غير متاحة لهذا المستخدم');
+
+      const statusAllowed = can(role, 'changeBusStatus');
+      const permNote = document.getElementById('busStatusPermissionNote');
+      const capacityNote = document.getElementById('openBusCapacityNote');
+
+      setControlState(document.getElementById('fullBusBtn'), statusAllowed, null);
+      setControlState(document.getElementById('departedBusBtn'), statusAllowed, null);
+      setControlState(document.getElementById('arrivedBusBtn'), statusAllowed, null);
+
+      if (!statusAllowed) {
+        setControlState(document.getElementById('openBusBtn'), false, null);
+        permNote.textContent = 'هذه العملية تتطلب صلاحية مشرف';
+        capacityNote.textContent = '';
+      } else {
+        permNote.textContent = '';
+        const canOpen = getCanOpenBus();
+        setControlState(document.getElementById('openBusBtn'), canOpen, null);
+        capacityNote.textContent = canOpen ? '' : 'لا يمكن فتح الحافلة حتى يتم إلغاء حاج ووجود مقعد شاغر';
+      }
+
+      setControlState(document.getElementById('manifestBtn'), can(role, 'generateManifest'), document.getElementById('manifestPermissionNote'), 'هذه العملية تتطلب صلاحية مشرف');
+    }
+
+    function updateStateBanner() {
+      const banner = document.getElementById('registerStateBanner');
+      let text = 'اختر الحافلة لبدء العمل';
+      let cls = 'state-default';
+
+      if (!currentBusInfo) {
+        if (session.userName) text = `المستخدم الحالي: ${session.userName} | الصلاحية: ${session.role}`;
+      } else {
+        const status = String(currentBusInfo.busStatus || '').trim() || 'غير محددة';
+        const remaining = Number(currentBusInfo.remainingSeats || 0);
+
+        if (status === 'مفتوحة') text = `الحافلة مفتوحة للتسجيل | المقاعد المتبقية: ${remaining}`;
+        else if (status === 'ممتلئة') text = 'الحافلة ممتلئة ولا تقبل التسجيل';
+        else if (status === 'انطلقت') text = 'الحافلة انطلقت ولا تقبل التسجيل';
+        else if (status === 'وصلت') text = 'الحافلة وصلت ولا تقبل التسجيل';
+        else text = `حالة الحافلة: ${status}`;
+
+        cls = getStateBannerClass(status);
+
+        if (remaining > 0 && remaining <= 5 && status === 'مفتوحة') {
+          text += ` | تنبيه: تبقى ${remaining} مقاعد فقط`;
+        }
+      }
+
+      banner.className = 'state-banner ' + cls;
+      banner.textContent = text;
+    }
+
+    async function login() {
+      if (isBusy('login')) return;
+      clearPinError();
+
+      const userName = document.getElementById('loginUser').value.trim();
+      const pin = document.getElementById('loginPin').value.trim();
+
+      if (!userName) {
+        setStatus('اختر المستخدم أولًا', 'warning');
+        return;
+      }
+
+      if (!pin) {
+        showPinError('أدخل الرقم السري');
+        return;
+      }
+
+      try {
+        setBusy('login', true);
+        setButtonBusy('loginBtn', true, 'جارٍ الدخول...');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'login', userName, pin })
+        });
+
+        const result = await response.json();
+
+        if (!result.success) {
+          playErrorSound();
+          if ((result.message || '').includes('الرقم السري')) {
+            showPinError(result.message || 'الرقم السري المدخل غير صحيح');
+          } else {
+            setStatus(result.message || 'فشل تسجيل الدخول', 'error');
           }
-        );
-      }, 300);
+          return;
+        }
+
+        session.token = result.sessionToken;
+        session.userName = result.user.userName;
+        session.role = result.user.role;
+        session.loginAt = result.user.loginAt;
+
+        playSuccessSound();
+        clearPinError();
+        await enterApp();
+        showWelcomeToast(`أهلاً ${session.userName} — الصلاحية: ${session.role}`);
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تسجيل الدخول', 'error');
+      } finally {
+        setBusy('login', false);
+        setButtonBusy('loginBtn', false);
+      }
     }
 
-    function showSearchResults(response) {
-      const status = document.getElementById('searchStatus');
-      const results = document.getElementById('searchResults');
+    async function logout() {
+      try {
+        if (session.token) {
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'logout', sessionToken: session.token })
+          });
+        }
+      } catch (e) {}
 
-      if (!response || !response.success) {
-        status.textContent = '';
-        results.innerHTML =
-          '<div class="empty">حدث خطأ: ' +
-          escapeHtml(response && response.message ? response.message : 'خطأ غير معروف') +
-          '</div>';
+      session = { token: '', userName: '', role: '', loginAt: '' };
+      currentBusInfo = null;
+      availableBuses = [];
+      stopScanner();
+      document.getElementById('appRoot').classList.add('hidden');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('loginPin').value = '';
+      document.getElementById('loginUser').value = '';
+      clearPinError();
+      clearBusUI();
+      renderSessionInfo();
+    }
+
+    async function enterApp() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('appRoot').classList.remove('hidden');
+      renderSessionInfo();
+      initializeNavigation();
+      await loadBusOptions();
+      await refreshSnapshot();
+    }
+
+    async function bootstrap() {
+      await loadLoginUsers();
+      setTimeout(() => {
+        document.getElementById('splashScreen').classList.add('hidden');
+        document.getElementById('loginScreen').classList.remove('hidden');
+        document.getElementById('loginPin').focus();
+      }, 420);
+    }
+
+    async function onBusChanged() {
+      await refreshSnapshot();
+    }
+
+    function applySnapshot(snapshot) {
+      if (!snapshot || !snapshot.success) return;
+
+      if (snapshot.stats && snapshot.stats.success) {
+        document.getElementById('statsOpenBuses').innerText = snapshot.stats.openBusesCount ?? '-';
+        document.getElementById('statsDepartedBuses').innerText = snapshot.stats.departedBusesCount ?? '-';
+        document.getElementById('statsRemainingBuses').innerText = snapshot.stats.remainingBusesCount ?? '-';
+        document.getElementById('statsBoardedCount').innerText = snapshot.stats.boardedCount ?? '-';
+        document.getElementById('statsRemainingCount').innerText = snapshot.stats.remainingCount ?? '-';
+        updateNavBadgesFromStats(snapshot.stats);
+      }
+
+      if (snapshot.busInfo && snapshot.busInfo.success) {
+        updateBusUI(snapshot.busInfo);
+      } else {
+        const busNumber = document.getElementById('busNumber').value.trim();
+        if (!busNumber) clearBusUI();
+      }
+
+      renderRecentSystemOperations(snapshot.recentSystemOperations || []);
+    }
+
+    function formatDateTime(value) {
+      if (!value) return '-';
+      const date = new Date(value);
+      if (isNaN(date.getTime())) return String(value);
+      return new Intl.DateTimeFormat('ar-SA', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: 'numeric',
+        minute: '2-digit'
+      }).format(date);
+    }
+
+    function getLogIconSvg(type) {
+      if (type === 'boarding_success') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>`;
+      }
+      if (type === 'boarding_cancelled') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>`;
+      }
+      if (type === 'boarding_duplicate') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.29 3.86l-7 12.14A2 2 0 0 0 5 19h14a2 2 0 0 0 1.71-3l-7-12.14a2 2 0 0 0-3.42 0z"></path></svg>`;
+      }
+      if (type === 'boarding_missing') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M15 9l-6 6"></path><path d="M9 9l6 6"></path></svg>`;
+      }
+      if (type === 'bus_status_change') {
+        return `<svg class="log-icon" viewBox="0 0 24 24"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-6"></path></svg>`;
+      }
+      return `<svg class="log-icon" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect></svg>`;
+    }
+
+    function renderRecentSystemOperations(operations) {
+      const wrap = document.getElementById('recentSystemOperations');
+
+      if (!operations || operations.length === 0) {
+        wrap.innerHTML = `<div class="info-item">لا توجد بيانات بعد</div>`;
         return;
       }
 
-      const data = response.data || [];
+      wrap.innerHTML = operations.map(op => {
+        const themeClass = `log-theme-${escapeHtml(op.theme || 'neutral')}`;
+        const title = escapeHtml(op.title || 'عملية');
+        const timeText = escapeHtml(formatDateTime(op.timestamp));
+        const icon = getLogIconSvg(op.type || '');
 
-      status.textContent = 'عدد النتائج: ' + data.length;
+        let subtitle = '';
+        let gridItems = '';
+        let footerChips = '';
 
-      if (data.length === 0) {
-        results.innerHTML = '<div class="empty">لا توجد نتائج مطابقة</div>';
-        return;
-      }
+        if (op.type === 'bus_status_change') {
+          subtitle = `الحافلة ${escapeHtml(op.busNumber || '-')}`;
+          gridItems = `
+            <div class="system-log-item">
+              <div class="system-log-item-label">رقم الحافلة</div>
+              <div class="system-log-item-value">${escapeHtml(op.busNumber || '-')}</div>
+            </div>
+            <div class="system-log-item">
+              <div class="system-log-item-label">تغيير الحالة</div>
+              <div class="system-log-item-value">${escapeHtml(op.fromStatus || '-')} ← ${escapeHtml(op.toStatus || '-')}</div>
+            </div>
+          `;
+          footerChips = `
+            <div class="system-log-footer-chip">المنفذ: ${escapeHtml(op.userName || '-')}</div>
+            <div class="system-log-footer-chip">الوقت: ${timeText}</div>
+          `;
+        } else {
+          subtitle = op.pilgrimName ? `الحاج: ${escapeHtml(op.pilgrimName)}` : 'سجل عملية';
+          gridItems = `
+            <div class="system-log-item">
+              <div class="system-log-item-label">رقم الهوية</div>
+              <div class="system-log-item-value">${escapeHtml(op.idValue || '-')}</div>
+            </div>
+            <div class="system-log-item">
+              <div class="system-log-item-label">رقم الحافلة</div>
+              <div class="system-log-item-value">${escapeHtml(op.busNumber || '-')}</div>
+            </div>
+            <div class="system-log-item">
+              <div class="system-log-item-label">رقم اللوحة</div>
+              <div class="system-log-item-value">${escapeHtml(op.plateNumber || '-')}</div>
+            </div>
+            <div class="system-log-item">
+              <div class="system-log-item-label">نوع الإثبات</div>
+              <div class="system-log-item-value">${escapeHtml(op.proofType || '-')}</div>
+            </div>
+          `;
+          footerChips = `
+            <div class="system-log-footer-chip">المنفذ: ${escapeHtml(op.userName || '-')}</div>
+            <div class="system-log-footer-chip">الوقت: ${timeText}</div>
+          `;
+        }
 
-      results.innerHTML = data.map(function(item) {
-        const supervisorPhone = cleanSaudiPhone(item['جوال المشرف']);
-        const pilgrimPhone = cleanSaudiPhone(item['رقم الجوال']);
-
-        const supervisorWhatsAppMessage = encodeURIComponent(
-          'السلام عليكم، أحتاج معلومات عن الحاج: ' +
-          (item['اسم الحاج'] || '') +
-          ' - رقم الهوية: ' +
-          (item['رقم الهوية'] || '') +
-          ' - الممر: ' +
-          (item['رقم الممر'] || '') +
-          ' - الصالة: ' +
-          (item['رقم الصالة'] || '') +
-          ' - السرير: ' +
-          (item['رقم السرير'] || '')
-        );
-
-        const pilgrimWhatsAppMessage = encodeURIComponent(
-          'السلام عليكم، موقع السكن الخاص بكم: الممر ' +
-          (item['رقم الممر'] || '') +
-          '، الصالة ' +
-          (item['رقم الصالة'] || '') +
-          '، السرير ' +
-          (item['رقم السرير'] || '')
-        );
+        if (op.notes) {
+          footerChips += `<div class="system-log-footer-chip">ملاحظات: ${escapeHtml(op.notes)}</div>`;
+        }
 
         return `
-          <div class="card">
-            <div class="name">${escapeHtml(item['اسم الحاج'] || '')}</div>
-
-            ${field('رقم الهوية', item['رقم الهوية'])}
-            ${field('الجنسية', item['الجنسية'])}
-            ${field('رقم جوال الحاج', pilgrimPhone || item['رقم الجوال'])}
-            ${field('رقم الممر', item['رقم الممر'])}
-            ${field('رقم الصالة', item['رقم الصالة'])}
-            ${field('رقم السرير', item['رقم السرير'])}
-            ${field('اسم المشرف', item['اسم المشرف'])}
-            ${field('جوال المشرف', supervisorPhone || item['جوال المشرف'])}
-
-            <div class="actions">
-              ${
-                pilgrimPhone
-                  ? `<a class="btn blue" href="tel:${pilgrimPhone}">اتصال بالحاج</a>`
-                  : ''
-              }
-
-              ${
-                pilgrimPhone
-                  ? `<a class="btn green" target="_blank" href="https://wa.me/${pilgrimPhone.replace('+', '')}?text=${pilgrimWhatsAppMessage}">واتساب الحاج</a>`
-                  : ''
-              }
-
-              ${
-                supervisorPhone
-                  ? `<a class="btn gray" href="tel:${supervisorPhone}">اتصال بالمشرف</a>`
-                  : ''
-              }
-
-              ${
-                supervisorPhone
-                  ? `<a class="btn orange" target="_blank" href="https://wa.me/${supervisorPhone.replace('+', '')}?text=${supervisorWhatsAppMessage}">واتساب المشرف</a>`
-                  : ''
-              }
+          <div class="system-log-card ${themeClass}">
+            <div class="system-log-head">
+              <div class="system-log-left">
+                <div class="system-log-icon-wrap">${icon}</div>
+                <div class="system-log-title-wrap">
+                  <div class="system-log-title">${title}</div>
+                  <div class="system-log-subtitle">${subtitle}</div>
+                </div>
+              </div>
+              <div class="system-log-badge">${title}</div>
+            </div>
+            <div class="system-log-body">
+              <div class="system-log-grid">
+                ${gridItems}
+              </div>
+              <div class="system-log-footer">
+                ${footerChips}
+              </div>
             </div>
           </div>
         `;
       }).join('');
     }
 
-    function loadSupervisors() {
-      const select = document.getElementById('supervisorSelect');
+    async function refreshSnapshot() {
+      const busNumber = document.getElementById('busNumber').value.trim();
 
-      if (select.dataset.loaded === 'yes') {
-        return;
-      }
+      try {
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'getAppSnapshot', busNumber, ...authPayload() })
+        });
 
-      jsonp(
-        {
-          action: 'supervisors'
-        },
-        function(response) {
-          if (!response || !response.success) {
-            select.innerHTML = '<option value="">تعذر تحميل المشرفين</option>';
-            return;
+        const result = await response.json();
+
+        if (!result.success) {
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            clearBusUI();
+            setStatus(result.message || 'تعذر تحميل البيانات', 'error');
           }
-
-          const supervisors = response.data || [];
-
-          select.innerHTML =
-            '<option value="">اختر المشرف</option>' +
-            supervisors.map(function(item) {
-              return `
-                <option value="${escapeHtml(item.name)}">
-                  ${escapeHtml(item.name)}
-                </option>
-              `;
-            }).join('');
-
-          select.dataset.loaded = 'yes';
-        },
-        function() {
-          select.innerHTML = '<option value="">تعذر الاتصال بخدمة المشرفين</option>';
+          return;
         }
-      );
+
+        applySnapshot(result);
+      } catch (e) {
+        clearBusUI();
+        setStatus('حدث خطأ أثناء تحميل البيانات', 'error');
+      }
     }
 
-    function loadSupervisorReport() {
-      const supervisor = document.getElementById('supervisorSelect').value;
-      const reportArea = document.getElementById('reportArea');
+    function updateBusUI(result) {
+      currentBusInfo = result;
 
-      currentReportRows = [];
-      currentReportSupervisor = supervisor;
+      const busNumber = result.busNumber || '-';
+      const plateNumber = result.plateNumber || '-';
+      const status = result.busStatus || '';
+      const remainingSeats = result.remainingSeats ?? '-';
 
-      if (!supervisor) {
-        reportArea.innerHTML = '<div class="empty">اختر مشرفًا لعرض الكشف</div>';
+      setTopPlatePill(plateNumber);
+      setTopStatusPill(status);
+
+      document.getElementById('liveBusNumber').innerText = busNumber;
+      document.getElementById('livePlateNumber').innerText = plateNumber;
+      document.getElementById('liveDriverName').innerText = result.driverName || '-';
+      document.getElementById('liveModel').innerText = result.model || '-';
+      document.getElementById('liveCurrentCount').innerText = result.currentCount ?? '-';
+      document.getElementById('liveCapacity').innerText = result.capacity ?? '-';
+      document.getElementById('liveRemainingSeats').innerText = remainingSeats;
+      document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml(status);
+
+      applyPermissionUI();
+      updateStateBanner();
+    }
+
+    function clearBusUI() {
+      currentBusInfo = null;
+
+      setTopPlatePill('');
+      setTopStatusPill('');
+
+      document.getElementById('liveBusNumber').innerText = '-';
+      document.getElementById('livePlateNumber').innerText = '-';
+      document.getElementById('liveDriverName').innerText = '-';
+      document.getElementById('liveModel').innerText = '-';
+      document.getElementById('liveCurrentCount').innerText = '-';
+      document.getElementById('liveCapacity').innerText = '-';
+      document.getElementById('liveRemainingSeats').innerText = '-';
+      document.getElementById('liveBusStatusColored').innerHTML = getStatusChipHtml('');
+
+      applyPermissionUI();
+      updateStateBanner();
+    }
+
+    function validateRegisterForm() {
+      const busNumber = document.getElementById('busNumber').value.trim();
+      const proofType = document.getElementById('proofType').value.trim();
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
+        return false;
+      }
+
+      if (!proofType) {
+        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
+        return false;
+      }
+
+      if (!session.userName) {
+        setStatus('انتهت الجلسة. سجل الدخول مرة أخرى', 'warning');
+        return false;
+      }
+
+      if (!can(session.role, 'boardPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return false;
+      }
+
+      return true;
+    }
+
+    async function startScanner() {
+      if (!validateRegisterForm()) return;
+      if (html5QrCode || isBusy('scanner-start')) return;
+
+      try {
+        setBusy('scanner-start', true);
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          setStatus('المتصفح أو الصفحة الحالية لا تدعم تشغيل الكاميرا هنا.', 'error');
+          playErrorSound();
+          return;
+        }
+
+        html5QrCode = new Html5Qrcode("reader");
+        await html5QrCode.start(
+          { facingMode: "environment" },
+          { fps: 15, qrbox: { width: 240, height: 240 }, aspectRatio: 1.0 },
+          onScanSuccess,
+          function () {}
+        );
+
+        updateCameraUI(true);
+        setStatus('تم تشغيل الكاميرا.', 'info');
+      } catch (err) {
+        updateCameraUI(false);
+        playErrorSound();
+        setStatus('فشل تشغيل الكاميرا', 'error');
+      } finally {
+        setBusy('scanner-start', false);
+      }
+    }
+
+    async function stopScanner() {
+      if (!html5QrCode) {
+        updateCameraUI(false);
         return;
       }
 
-      reportArea.innerHTML = '<div class="empty">جاري تحميل الكشف...</div>';
+      try {
+        await html5QrCode.stop();
+        await html5QrCode.clear();
+      } catch (e) {}
 
-      jsonp(
-        {
-          action: 'supervisorReport',
-          supervisor: supervisor
-        },
-        function(response) {
-          if (!response || !response.success) {
-            reportArea.innerHTML =
-              '<div class="empty">حدث خطأ أثناء تحميل الكشف</div>';
-            return;
+      html5QrCode = null;
+      updateCameraUI(false);
+    }
+
+    async function sendBoardingData(idValue, sourceScreen = 'register') {
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      let proofType = '';
+      let notes = '';
+      let busyKey = sourceScreen === 'operations' ? 'manualBoard' : 'scanBoard';
+      let buttonId = sourceScreen === 'operations' ? 'manualBoardBtn' : 'startScannerBtn';
+
+      if (sourceScreen === 'operations') {
+        proofType = document.getElementById('operationProofType')?.value.trim() || '';
+        notes = document.getElementById('operationNotes')?.value.trim() || '';
+      } else {
+        proofType = document.getElementById('proofType')?.value.trim() || '';
+        notes = document.getElementById('notes')?.value.trim() || '';
+      }
+
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة', 'warning');
+        return;
+      }
+
+      if (!proofType) {
+        setStatus('الرجاء اختيار نوع الإثبات', 'warning');
+        return;
+      }
+
+      const normalizedId = normalizeDigits(idValue).trim();
+
+      if (!/^\d+$/.test(normalizedId)) {
+        playErrorSound();
+        setStatus('رقم الهوية غير صالح', 'error');
+        return;
+      }
+
+      if (normalizedId.length !== REQUIRED_ID_LENGTH) {
+        playErrorSound();
+        setStatus('رقم الهوية يجب أن يكون 10 أرقام', 'error');
+        return;
+      }
+
+      const now = Date.now();
+      if (normalizedId === lastScannedValue && (now - lastScannedAt) < 2000) return;
+      if (isSaving || isBusy(busyKey)) return;
+
+      isSaving = true;
+      setBusy(busyKey, true);
+      if (sourceScreen === 'operations') setButtonBusy(buttonId, true, 'جارٍ التسجيل...');
+
+      lastScannedValue = normalizedId;
+      lastScannedAt = now;
+
+      try {
+        setStatus('جارٍ تسجيل الصعود...', 'info');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            id: normalizedId,
+            busNumber,
+            proofType,
+            notes,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus('تم التسجيل: ' + (result.name || '-') + ' | الحافلة ' + (result.busNumber || '-'), 'success');
+          if (result.snapshot) applySnapshot(result.snapshot);
+        } else {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'فشل العملية', 'error');
           }
-
-          const rows = response.data.pilgrims || [];
-          currentReportRows = rows;
-
-          renderSupervisorReport(supervisor, rows);
-        },
-        function() {
-          reportArea.innerHTML =
-            '<div class="empty">تعذر الاتصال بخدمة الكشف</div>';
         }
-      );
+      } catch (e) {
+        playErrorSound();
+        setStatus('خطأ أثناء الإرسال', 'error');
+      } finally {
+        isSaving = false;
+        setBusy(busyKey, false);
+        if (sourceScreen === 'operations') setButtonBusy(buttonId, false);
+      }
     }
 
-    function createReportInSheet() {
-      const supervisor = document.getElementById('supervisorSelect').value;
+    async function onScanSuccess(decodedText) {
+      const extractedId = extractId(decodedText).trim();
+      await sendBoardingData(extractedId, 'register');
+    }
 
-      if (!supervisor) {
-        alert('اختر المشرف أولًا');
+    async function submitManualId() {
+      if (!can(session.role, 'boardPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
         return;
       }
 
-      const reportArea = document.getElementById('reportArea');
+      const manualId = document.getElementById('manualId').value.trim();
+      await sendBoardingData(manualId, 'operations');
+    }
 
-      reportArea.innerHTML =
-        '<div class="empty">جاري تحديث شيت كشف المشرف...</div>';
+    async function cancelBoarding() {
+      if (!can(session.role, 'cancelBoarding')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return;
+      }
 
-      jsonp(
-        {
-          action: 'createSupervisorSheetReport',
-          supervisor: supervisor
-        },
-        function(response) {
-          if (!response || !response.success) {
-            reportArea.innerHTML =
-              '<div class="empty">حدث خطأ أثناء تحديث كشف المشرف في الشيت</div>';
-            return;
+      const cancelId = document.getElementById('cancelId').value.trim();
+      if (!cancelId) {
+        setStatus('الرجاء إدخال رقم الهوية لإلغاء الصعود', 'warning');
+        return;
+      }
+
+      if (isBusy('cancelBoarding')) return;
+
+      try {
+        setBusy('cancelBoarding', true);
+        setButtonBusy('cancelBoardingBtn', true, 'جارٍ الإلغاء...');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'cancelBoarding',
+            id: cancelId,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playWarningSound();
+          setStatus(result.message || 'تم إلغاء الصعود بنجاح', 'warning');
+          if (result.snapshot) applySnapshot(result.snapshot);
+          else await refreshSnapshot();
+        } else {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'فشل إلغاء الصعود', 'error');
           }
-
-          const data = response.data;
-
-          reportArea.innerHTML = `
-            <div class="empty">
-              تم تحديث شيت: <b>${escapeHtml(data.sheetName)}</b>
-              <br>
-              المشرف: <b>${escapeHtml(data.supervisor)}</b>
-              <br>
-              عدد الحجاج: <b>${escapeHtml(data.count)}</b>
-              <br><br>
-              <a class="btn blue" target="_blank" href="${escapeHtml(data.spreadsheetUrl)}">
-                فتح Google Sheets
-              </a>
-            </div>
-          `;
-
-          loadSupervisorReport();
-        },
-        function() {
-          reportArea.innerHTML =
-            '<div class="empty">تعذر الاتصال بخدمة تحديث كشف المشرف</div>';
         }
-      );
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء الإلغاء', 'error');
+      } finally {
+        setBusy('cancelBoarding', false);
+        setButtonBusy('cancelBoardingBtn', false);
+      }
     }
 
-    function renderSupervisorReport(supervisor, rows) {
-      const reportArea = document.getElementById('reportArea');
-
-      if (rows.length === 0) {
-        reportArea.innerHTML =
-          '<div class="empty">لا يوجد حجاج لهذا المشرف</div>';
+    async function requestGenerateManifest() {
+      if (!can(session.role, 'generateManifest')) {
+        setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
         return;
       }
 
-      reportArea.innerHTML = `
-        <div class="box">
-          <h2 class="report-title">كشف الحجاج حسب المشرف</h2>
-          <h3 class="report-title">المشرف: ${escapeHtml(supervisor)}</h3>
-          <p class="report-title">عدد الحجاج: ${rows.length}</p>
-
-          <table id="reportTable">
-            <thead>
-              <tr>
-                <th>م</th>
-                <th>رقم الهوية</th>
-                <th>اسم الحاج</th>
-                <th>الجنسية</th>
-                <th>رقم الجوال</th>
-                <th>رقم الممر</th>
-                <th>رقم الصالة</th>
-                <th>رقم السرير</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              ${rows.map(function(item, index) {
-                return `
-                  <tr>
-                    <td>${index + 1}</td>
-                    <td>${escapeHtml(item['رقم الهوية'])}</td>
-                    <td>${escapeHtml(item['اسم الحاج'])}</td>
-                    <td>${escapeHtml(item['الجنسية'])}</td>
-                    <td>${escapeHtml(item['رقم الجوال'])}</td>
-                    <td>${escapeHtml(item['رقم الممر'])}</td>
-                    <td>${escapeHtml(item['رقم الصالة'])}</td>
-                    <td>${escapeHtml(item['رقم السرير'])}</td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    }
-
-    function exportReportToExcel() {
-      if (!currentReportRows || currentReportRows.length === 0) {
-        alert('لا يوجد كشف لتصديره');
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
         return;
       }
 
-      let html = `
-        <html dir="rtl">
-          <head>
-            <meta charset="UTF-8">
-          </head>
+      const confirmed = await openConfirm('هل أنت متأكد من تجهيز المنفست لهذه الحافلة؟', 'تأكيد تجهيز المنفست');
+      if (!confirmed) return;
 
-          <body>
-            <h2>كشف الحجاج حسب المشرف</h2>
-            <h3>المشرف: ${escapeHtml(currentReportSupervisor)}</h3>
-            <p>عدد الحجاج: ${currentReportRows.length}</p>
-
-            <table border="1">
-              <tr>
-                <th>م</th>
-                <th>رقم الهوية</th>
-                <th>اسم الحاج</th>
-                <th>الجنسية</th>
-                <th>رقم الجوال</th>
-                <th>رقم الممر</th>
-                <th>رقم الصالة</th>
-                <th>رقم السرير</th>
-              </tr>
-
-              ${currentReportRows.map(function(item, index) {
-                return `
-                  <tr>
-                    <td>${index + 1}</td>
-                    <td>${escapeHtml(item['رقم الهوية'])}</td>
-                    <td>${escapeHtml(item['اسم الحاج'])}</td>
-                    <td>${escapeHtml(item['الجنسية'])}</td>
-                    <td>${escapeHtml(item['رقم الجوال'])}</td>
-                    <td>${escapeHtml(item['رقم الممر'])}</td>
-                    <td>${escapeHtml(item['رقم الصالة'])}</td>
-                    <td>${escapeHtml(item['رقم السرير'])}</td>
-                  </tr>
-                `;
-              }).join('')}
-            </table>
-          </body>
-        </html>
-      `;
-
-      const blob = new Blob(
-        [html],
-        {
-          type: 'application/vnd.ms-excel;charset=utf-8;'
-        }
-      );
-
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-
-      a.href = url;
-      a.download = 'كشف_' + currentReportSupervisor + '.xls';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-
-      URL.revokeObjectURL(url);
+      await generateManifest();
     }
 
-    function loadStats() {
-      const area = document.getElementById('statsArea');
+    async function generateManifest() {
+      if (isBusy('manifest')) return;
+      const busNumber = document.getElementById('busNumber').value.trim();
 
-      area.innerHTML = '<div class="empty">جاري تحميل الإحصائيات...</div>';
+      try {
+        setBusy('manifest', true);
+        setButtonBusy('manifestBtn', true, 'جارٍ التجهيز...');
 
-      jsonp(
-        {
-          action: 'stats'
-        },
-        function(response) {
-          if (!response || !response.success) {
-            area.innerHTML =
-              '<div class="empty">تعذر تحميل الإحصائيات</div>';
-            return;
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'generateManifest',
+            busNumber,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus(result.message || 'تم تجهيز المنفست بنجاح', 'success');
+          if (result.snapshot) applySnapshot(result.snapshot);
+        } else {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'فشل تجهيز المنفست', 'error');
           }
-
-          const stats = response.data;
-
-          area.innerHTML = `
-            <div class="stats-grid">
-              <div class="stat-card">
-                <div class="stat-number">${escapeHtml(stats.totalPilgrims)}</div>
-                <div class="stat-label">إجمالي الحجاج</div>
-              </div>
-
-              <div class="stat-card">
-                <div class="stat-number">${escapeHtml(stats.totalSupervisors)}</div>
-                <div class="stat-label">إجمالي المشرفين</div>
-              </div>
-
-              <div class="stat-card">
-                <div class="stat-number">${escapeHtml(stats.hallCounts.length)}</div>
-                <div class="stat-label">عدد الصالات</div>
-              </div>
-
-              <div class="stat-card">
-                <div class="stat-number">${escapeHtml(stats.corridorCounts.length)}</div>
-                <div class="stat-label">عدد الممرات</div>
-              </div>
-            </div>
-
-            <div class="box">
-              <h3>عدد الحجاج حسب المشرف</h3>
-              ${simpleCountTable(stats.supervisorCounts)}
-            </div>
-
-            <div class="box">
-              <h3>عدد الحجاج حسب الصالة</h3>
-              ${simpleCountTable(stats.hallCounts)}
-            </div>
-
-            <div class="box">
-              <h3>عدد الحجاج حسب الممر</h3>
-              ${simpleCountTable(stats.corridorCounts)}
-            </div>
-          `;
-        },
-        function() {
-          area.innerHTML =
-            '<div class="empty">تعذر الاتصال بخدمة الإحصائيات</div>';
         }
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تجهيز المنفست', 'error');
+      } finally {
+        setBusy('manifest', false);
+        setButtonBusy('manifestBtn', false);
+      }
+    }
+
+    async function requestBusStatusChange(newStatus) {
+      if (!can(session.role, 'changeBusStatus')) {
+        setStatus('هذه العملية تتطلب صلاحية مشرف', 'warning');
+        return;
+      }
+
+      const busNumber = document.getElementById('busNumber').value.trim();
+      if (!busNumber) {
+        setStatus('الرجاء اختيار رقم الحافلة أولًا', 'warning');
+        return;
+      }
+
+      if (newStatus === 'مفتوحة' && !getCanOpenBus()) {
+        setStatus('لا يمكن فتح الحافلة حتى يتم إلغاء حاج ووجود مقعد شاغر', 'warning');
+        return;
+      }
+
+      const confirmed = await openConfirm(
+        'هل أنت متأكد من تغيير حالة الحافلة إلى "' + newStatus + '"؟',
+        'تأكيد تغيير الحالة'
       );
+
+      if (!confirmed) return;
+
+      await changeBusStatus(newStatus);
     }
 
-    function simpleCountTable(rows) {
-      if (!rows || rows.length === 0) {
-        return '<div class="empty">لا توجد بيانات</div>';
+    async function changeBusStatus(newStatus) {
+      if (isBusy('busStatus')) return;
+      const busNumber = document.getElementById('busNumber').value.trim();
+
+      try {
+        setBusy('busStatus', true);
+
+        const activeBtn =
+          newStatus === 'مفتوحة' ? 'openBusBtn' :
+          newStatus === 'ممتلئة' ? 'fullBusBtn' :
+          newStatus === 'انطلقت' ? 'departedBusBtn' :
+          'arrivedBusBtn';
+
+        setButtonBusy(activeBtn, true, 'جارٍ التحديث...');
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'changeBusStatus',
+            busNumber,
+            newStatus,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          playSuccessSound();
+          setStatus(result.message || ('تم تغيير حالة الحافلة إلى ' + newStatus), 'success');
+          if (result.snapshot) applySnapshot(result.snapshot);
+        } else {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'فشل تغيير حالة الحافلة', 'error');
+          }
+        }
+
+        setButtonBusy(activeBtn, false);
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء تغيير حالة الحافلة', 'error');
+        ['openBusBtn','fullBusBtn','departedBusBtn','arrivedBusBtn'].forEach(id => setButtonBusy(id, false));
+      } finally {
+        setBusy('busStatus', false);
       }
-
-      return `
-        <table>
-          <thead>
-            <tr>
-              <th>البيان</th>
-              <th>العدد</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            ${rows.map(function(item) {
-              return `
-                <tr>
-                  <td>${escapeHtml(item.name)}</td>
-                  <td>${escapeHtml(item.count)}</td>
-                </tr>
-              `;
-            }).join('')}
-          </tbody>
-        </table>
-      `;
     }
 
-    function field(label, value) {
-      return `
-        <div class="row">
-          <div class="label">${escapeHtml(label)}</div>
-          <div class="value">${escapeHtml(value || '-')}</div>
-        </div>
-      `;
+    async function searchPilgrim() {
+      if (!can(session.role, 'searchPilgrim')) {
+        setStatus('هذه العملية غير متاحة لهذا المستخدم', 'warning');
+        return;
+      }
+
+      const searchId = document.getElementById('searchId').value.trim();
+      const resultBox = document.getElementById('searchResult');
+
+      if (!searchId) {
+        setStatus('الرجاء إدخال رقم الهوية للبحث', 'warning');
+        return;
+      }
+
+      if (isBusy('searchPilgrim')) return;
+
+      try {
+        setBusy('searchPilgrim', true);
+        setButtonBusy('searchPilgrimBtn', true, 'جارٍ البحث...');
+
+        resultBox.innerHTML = 'جارٍ البحث...';
+
+        const response = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'searchPilgrimStatus',
+            id: searchId,
+            ...authPayload()
+          })
+        });
+
+        const result = await response.json();
+        if (!result.success) {
+          playErrorSound();
+          if ((result.message || '').includes('الجلسة')) {
+            await logout();
+          } else {
+            setStatus(result.message || 'لا توجد نتيجة', 'error');
+            resultBox.innerHTML = result.message || 'لا توجد نتيجة';
+          }
+          return;
+        }
+
+        playSuccessSound();
+        setStatus('تم العثور على نتيجة', 'success');
+        resultBox.innerHTML = `
+          <div><strong>الاسم:</strong> ${escapeHtml(result.name || '-')}</div>
+          <div><strong>رقم الهوية:</strong> ${escapeHtml(result.id || '-')}</div>
+          <div><strong>الحالة الحالية:</strong> ${escapeHtml(result.pilgrimStatus || '-')}</div>
+          <div><strong>آخر حالة عملية:</strong> ${escapeHtml(result.latestOperationStatus || '-')}</div>
+          <div><strong>رقم الحافلة:</strong> ${escapeHtml(result.busNumber || '-')}</div>
+          <div><strong>رقم اللوحة:</strong> ${escapeHtml(result.plateNumber || '-')}</div>
+          <div><strong>وقت آخر عملية:</strong> ${escapeHtml(formatDateTime(result.timestamp) || '-')}</div>
+        `;
+      } catch (e) {
+        playErrorSound();
+        setStatus('حدث خطأ أثناء البحث', 'error');
+        resultBox.innerHTML = 'حدث خطأ أثناء البحث';
+      } finally {
+        setBusy('searchPilgrim', false);
+        setButtonBusy('searchPilgrimBtn', false);
+      }
     }
 
-    function cleanSaudiPhone(phone) {
-      if (!phone) {
-        return '';
-      }
-
-      let number = String(phone).replace(/\D/g, '');
-
-      if (!number) {
-        return '';
-      }
-
-      if (number.startsWith('966')) {
-        return '+' + number;
-      }
-
-      if (number.startsWith('05')) {
-        return '+966' + number.substring(1);
-      }
-
-      if (number.startsWith('5') && number.length === 9) {
-        return '+966' + number;
-      }
-
-      return '+' + number;
-    }
-
-    function escapeHtml(value) {
-      return String(value || '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-    }
+    window.addEventListener('load', async () => {
+      updateCameraUI(false);
+      showOperationTab('manual');
+      renderSessionInfo();
+      clearBusUI();
+      document.getElementById('loginPin').addEventListener('input', clearPinError);
+      await bootstrap();
+    });
   </script>
 </body>
 </html>
